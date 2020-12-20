@@ -1,10 +1,10 @@
 -- Merging decision tree log ---
 manifest
-ADDED from /home/techbrickftc/vslamcam/TeamCode/src/main/AndroidManifest.xml:8:1-12:12
-INJECTED from /home/techbrickftc/vslamcam/TeamCode/src/main/AndroidManifest.xml:8:1-12:12
-INJECTED from /home/techbrickftc/vslamcam/TeamCode/src/main/AndroidManifest.xml:8:1-12:12
-INJECTED from /home/techbrickftc/vslamcam/TeamCode/src/main/AndroidManifest.xml:8:1-12:12
-MERGED from [:FtcRobotController] /home/techbrickftc/vslamcam/FtcRobotController/build/intermediates/library_manifest/debug/AndroidManifest.xml:2:1-66:12
+ADDED from /home/techbrickftc/testdupe/TeamCode/src/main/AndroidManifest.xml:8:1-12:12
+INJECTED from /home/techbrickftc/testdupe/TeamCode/src/main/AndroidManifest.xml:8:1-12:12
+INJECTED from /home/techbrickftc/testdupe/TeamCode/src/main/AndroidManifest.xml:8:1-12:12
+INJECTED from /home/techbrickftc/testdupe/TeamCode/src/main/AndroidManifest.xml:8:1-12:12
+MERGED from [:FtcRobotController] /home/techbrickftc/testdupe/FtcRobotController/build/intermediates/library_manifest/debug/AndroidManifest.xml:2:1-66:12
 MERGED from [com.acmerobotics.dashboard:dashboard:0.3.10] /home/techbrickftc/.gradle/caches/transforms-2/files-2.1/799548ee3bc353b6e46ed37362b997a8/jetified-dashboard-0.3.10/AndroidManifest.xml:2:1-9:12
 MERGED from [org.firstinspires.ftc:RobotCore:6.0.1] /home/techbrickftc/.gradle/caches/transforms-2/files-2.1/0482513baccc32f6fbd2547409ec7d7a/jetified-RobotCore-6.0.1/AndroidManifest.xml:2:1-130:12
 MERGED from [org.firstinspires.ftc:Hardware:6.0.1] /home/techbrickftc/.gradle/caches/transforms-2/files-2.1/1c2bb4cd9a47953818955c9c59042121/jetified-Hardware-6.0.1/AndroidManifest.xml:2:1-11:12
@@ -40,27 +40,27 @@ MERGED from [androidx.lifecycle:lifecycle-livedata-core:2.0.0] /home/techbrickft
 MERGED from [androidx.arch.core:core-runtime:2.0.0] /home/techbrickftc/.gradle/caches/transforms-2/files-2.1/73114719268a97e9fd391905563b2ee9/core-runtime-2.0.0/AndroidManifest.xml:17:1-22:12
 MERGED from [org.openftc:opencv-repackaged:4.1.0-C] /home/techbrickftc/.gradle/caches/transforms-2/files-2.1/4ca56832e41750fce91d30defb0292a3/jetified-opencv-repackaged-4.1.0-C/AndroidManifest.xml:2:1-11:12
 MERGED from [com.intel.realsense:librealsense:2.34.0-ftc265] /home/techbrickftc/.gradle/caches/transforms-2/files-2.1/15bffc86b01a6ae7289e62b7e76e5590/jetified-librealsense-2.34.0-ftc265/AndroidManifest.xml:2:1-28:12
-INJECTED from /home/techbrickftc/vslamcam/TeamCode/src/main/AndroidManifest.xml:8:1-12:12
-INJECTED from /home/techbrickftc/vslamcam/TeamCode/src/main/AndroidManifest.xml:8:1-12:12
-INJECTED from /home/techbrickftc/vslamcam/TeamCode/src/main/AndroidManifest.xml:8:1-12:12
+INJECTED from /home/techbrickftc/testdupe/TeamCode/src/main/AndroidManifest.xml:8:1-12:12
+INJECTED from /home/techbrickftc/testdupe/TeamCode/src/main/AndroidManifest.xml:8:1-12:12
+INJECTED from /home/techbrickftc/testdupe/TeamCode/src/main/AndroidManifest.xml:8:1-12:12
 	package
-		ADDED from /home/techbrickftc/vslamcam/TeamCode/src/main/AndroidManifest.xml:9:5-45
-		INJECTED from /home/techbrickftc/vslamcam/TeamCode/src/main/AndroidManifest.xml
-		INJECTED from /home/techbrickftc/vslamcam/TeamCode/src/main/AndroidManifest.xml
+		ADDED from /home/techbrickftc/testdupe/TeamCode/src/main/AndroidManifest.xml:9:5-45
+		INJECTED from /home/techbrickftc/testdupe/TeamCode/src/main/AndroidManifest.xml
+		INJECTED from /home/techbrickftc/testdupe/TeamCode/src/main/AndroidManifest.xml
 	android:versionName
-		INJECTED from /home/techbrickftc/vslamcam/TeamCode/src/main/AndroidManifest.xml
-		ADDED from /home/techbrickftc/vslamcam/TeamCode/src/main/AndroidManifest.xml:8:1-12:12
-		INJECTED from /home/techbrickftc/vslamcam/TeamCode/src/main/AndroidManifest.xml
+		INJECTED from /home/techbrickftc/testdupe/TeamCode/src/main/AndroidManifest.xml
+		ADDED from /home/techbrickftc/testdupe/TeamCode/src/main/AndroidManifest.xml:8:1-12:12
+		INJECTED from /home/techbrickftc/testdupe/TeamCode/src/main/AndroidManifest.xml
 	android:versionCode
-		INJECTED from /home/techbrickftc/vslamcam/TeamCode/src/main/AndroidManifest.xml
-		ADDED from /home/techbrickftc/vslamcam/TeamCode/src/main/AndroidManifest.xml:8:1-12:12
-		INJECTED from /home/techbrickftc/vslamcam/TeamCode/src/main/AndroidManifest.xml
+		INJECTED from /home/techbrickftc/testdupe/TeamCode/src/main/AndroidManifest.xml
+		ADDED from /home/techbrickftc/testdupe/TeamCode/src/main/AndroidManifest.xml:8:1-12:12
+		INJECTED from /home/techbrickftc/testdupe/TeamCode/src/main/AndroidManifest.xml
 	xmlns:android
-		ADDED from /home/techbrickftc/vslamcam/TeamCode/src/main/AndroidManifest.xml:10:5-63
+		ADDED from /home/techbrickftc/testdupe/TeamCode/src/main/AndroidManifest.xml:10:5-63
 application
-ADDED from /home/techbrickftc/vslamcam/TeamCode/src/main/AndroidManifest.xml:11:5-19
-MERGED from [:FtcRobotController] /home/techbrickftc/vslamcam/FtcRobotController/build/intermediates/library_manifest/debug/AndroidManifest.xml:14:5-64:19
-MERGED from [:FtcRobotController] /home/techbrickftc/vslamcam/FtcRobotController/build/intermediates/library_manifest/debug/AndroidManifest.xml:14:5-64:19
+ADDED from /home/techbrickftc/testdupe/TeamCode/src/main/AndroidManifest.xml:11:5-19
+MERGED from [:FtcRobotController] /home/techbrickftc/testdupe/FtcRobotController/build/intermediates/library_manifest/debug/AndroidManifest.xml:14:5-64:19
+MERGED from [:FtcRobotController] /home/techbrickftc/testdupe/FtcRobotController/build/intermediates/library_manifest/debug/AndroidManifest.xml:14:5-64:19
 MERGED from [org.firstinspires.ftc:RobotCore:6.0.1] /home/techbrickftc/.gradle/caches/transforms-2/files-2.1/0482513baccc32f6fbd2547409ec7d7a/jetified-RobotCore-6.0.1/AndroidManifest.xml:86:5-128:19
 MERGED from [org.firstinspires.ftc:RobotCore:6.0.1] /home/techbrickftc/.gradle/caches/transforms-2/files-2.1/0482513baccc32f6fbd2547409ec7d7a/jetified-RobotCore-6.0.1/AndroidManifest.xml:86:5-128:19
 MERGED from [org.firstinspires.ftc:FtcCommon:6.0.1] /home/techbrickftc/.gradle/caches/transforms-2/files-2.1/1af8e4560487e7249d99e5156a77e036/jetified-FtcCommon-6.0.1/AndroidManifest.xml:23:5-233:19
@@ -78,29 +78,29 @@ MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.0] /home/techb
 MERGED from [com.intel.realsense:librealsense:2.34.0-ftc265] /home/techbrickftc/.gradle/caches/transforms-2/files-2.1/15bffc86b01a6ae7289e62b7e76e5590/jetified-librealsense-2.34.0-ftc265/AndroidManifest.xml:11:5-26:19
 MERGED from [com.intel.realsense:librealsense:2.34.0-ftc265] /home/techbrickftc/.gradle/caches/transforms-2/files-2.1/15bffc86b01a6ae7289e62b7e76e5590/jetified-librealsense-2.34.0-ftc265/AndroidManifest.xml:11:5-26:19
 	android:extractNativeLibs
-		ADDED from [:FtcRobotController] /home/techbrickftc/vslamcam/FtcRobotController/build/intermediates/library_manifest/debug/AndroidManifest.xml:16:9-41
+		ADDED from [:FtcRobotController] /home/techbrickftc/testdupe/FtcRobotController/build/intermediates/library_manifest/debug/AndroidManifest.xml:16:9-41
 	android:supportsRtl
 		ADDED from [com.intel.realsense:librealsense:2.34.0-ftc265] /home/techbrickftc/.gradle/caches/transforms-2/files-2.1/15bffc86b01a6ae7289e62b7e76e5590/jetified-librealsense-2.34.0-ftc265/AndroidManifest.xml:13:9-35
 	android:appComponentFactory
 		ADDED from [androidx.core:core:1.3.0] /home/techbrickftc/.gradle/caches/transforms-2/files-2.1/429fb715fcc7711d4ab133e350b6f531/core-1.3.0/AndroidManifest.xml:24:18-86
 	android:label
-		ADDED from [:FtcRobotController] /home/techbrickftc/vslamcam/FtcRobotController/build/intermediates/library_manifest/debug/AndroidManifest.xml:18:9-41
+		ADDED from [:FtcRobotController] /home/techbrickftc/testdupe/FtcRobotController/build/intermediates/library_manifest/debug/AndroidManifest.xml:18:9-41
 	android:largeHeap
-		ADDED from [:FtcRobotController] /home/techbrickftc/vslamcam/FtcRobotController/build/intermediates/library_manifest/debug/AndroidManifest.xml:19:9-33
+		ADDED from [:FtcRobotController] /home/techbrickftc/testdupe/FtcRobotController/build/intermediates/library_manifest/debug/AndroidManifest.xml:19:9-33
 	android:icon
-		ADDED from [:FtcRobotController] /home/techbrickftc/vslamcam/FtcRobotController/build/intermediates/library_manifest/debug/AndroidManifest.xml:17:9-45
+		ADDED from [:FtcRobotController] /home/techbrickftc/testdupe/FtcRobotController/build/intermediates/library_manifest/debug/AndroidManifest.xml:17:9-45
 	android:allowBackup
-		ADDED from [:FtcRobotController] /home/techbrickftc/vslamcam/FtcRobotController/build/intermediates/library_manifest/debug/AndroidManifest.xml:15:9-35
+		ADDED from [:FtcRobotController] /home/techbrickftc/testdupe/FtcRobotController/build/intermediates/library_manifest/debug/AndroidManifest.xml:15:9-35
 	android:theme
-		ADDED from [:FtcRobotController] /home/techbrickftc/vslamcam/FtcRobotController/build/intermediates/library_manifest/debug/AndroidManifest.xml:20:9-45
+		ADDED from [:FtcRobotController] /home/techbrickftc/testdupe/FtcRobotController/build/intermediates/library_manifest/debug/AndroidManifest.xml:20:9-45
 	android:name
 		ADDED from [org.firstinspires.ftc:RobotCore:6.0.1] /home/techbrickftc/.gradle/caches/transforms-2/files-2.1/0482513baccc32f6fbd2547409ec7d7a/jetified-RobotCore-6.0.1/AndroidManifest.xml:86:18-97
 uses-sdk
-INJECTED from /home/techbrickftc/vslamcam/TeamCode/src/main/AndroidManifest.xml reason: use-sdk injection requested
-INJECTED from /home/techbrickftc/vslamcam/TeamCode/src/main/AndroidManifest.xml
-INJECTED from /home/techbrickftc/vslamcam/TeamCode/src/main/AndroidManifest.xml
-MERGED from [:FtcRobotController] /home/techbrickftc/vslamcam/FtcRobotController/build/intermediates/library_manifest/debug/AndroidManifest.xml:8:5-10:41
-MERGED from [:FtcRobotController] /home/techbrickftc/vslamcam/FtcRobotController/build/intermediates/library_manifest/debug/AndroidManifest.xml:8:5-10:41
+INJECTED from /home/techbrickftc/testdupe/TeamCode/src/main/AndroidManifest.xml reason: use-sdk injection requested
+INJECTED from /home/techbrickftc/testdupe/TeamCode/src/main/AndroidManifest.xml
+INJECTED from /home/techbrickftc/testdupe/TeamCode/src/main/AndroidManifest.xml
+MERGED from [:FtcRobotController] /home/techbrickftc/testdupe/FtcRobotController/build/intermediates/library_manifest/debug/AndroidManifest.xml:8:5-10:41
+MERGED from [:FtcRobotController] /home/techbrickftc/testdupe/FtcRobotController/build/intermediates/library_manifest/debug/AndroidManifest.xml:8:5-10:41
 MERGED from [com.acmerobotics.dashboard:dashboard:0.3.10] /home/techbrickftc/.gradle/caches/transforms-2/files-2.1/799548ee3bc353b6e46ed37362b997a8/jetified-dashboard-0.3.10/AndroidManifest.xml:5:5-7:41
 MERGED from [com.acmerobotics.dashboard:dashboard:0.3.10] /home/techbrickftc/.gradle/caches/transforms-2/files-2.1/799548ee3bc353b6e46ed37362b997a8/jetified-dashboard-0.3.10/AndroidManifest.xml:5:5-7:41
 MERGED from [org.firstinspires.ftc:RobotCore:6.0.1] /home/techbrickftc/.gradle/caches/transforms-2/files-2.1/0482513baccc32f6fbd2547409ec7d7a/jetified-RobotCore-6.0.1/AndroidManifest.xml:7:5-9:41
@@ -169,84 +169,84 @@ MERGED from [org.openftc:opencv-repackaged:4.1.0-C] /home/techbrickftc/.gradle/c
 MERGED from [org.openftc:opencv-repackaged:4.1.0-C] /home/techbrickftc/.gradle/caches/transforms-2/files-2.1/4ca56832e41750fce91d30defb0292a3/jetified-opencv-repackaged-4.1.0-C/AndroidManifest.xml:7:5-9:41
 MERGED from [com.intel.realsense:librealsense:2.34.0-ftc265] /home/techbrickftc/.gradle/caches/transforms-2/files-2.1/15bffc86b01a6ae7289e62b7e76e5590/jetified-librealsense-2.34.0-ftc265/AndroidManifest.xml:7:5-9:41
 MERGED from [com.intel.realsense:librealsense:2.34.0-ftc265] /home/techbrickftc/.gradle/caches/transforms-2/files-2.1/15bffc86b01a6ae7289e62b7e76e5590/jetified-librealsense-2.34.0-ftc265/AndroidManifest.xml:7:5-9:41
-INJECTED from /home/techbrickftc/vslamcam/TeamCode/src/main/AndroidManifest.xml
-INJECTED from /home/techbrickftc/vslamcam/TeamCode/src/main/AndroidManifest.xml
+INJECTED from /home/techbrickftc/testdupe/TeamCode/src/main/AndroidManifest.xml
+INJECTED from /home/techbrickftc/testdupe/TeamCode/src/main/AndroidManifest.xml
 	android:targetSdkVersion
-		INJECTED from /home/techbrickftc/vslamcam/TeamCode/src/main/AndroidManifest.xml
-		ADDED from /home/techbrickftc/vslamcam/TeamCode/src/main/AndroidManifest.xml
-		INJECTED from /home/techbrickftc/vslamcam/TeamCode/src/main/AndroidManifest.xml
+		INJECTED from /home/techbrickftc/testdupe/TeamCode/src/main/AndroidManifest.xml
+		ADDED from /home/techbrickftc/testdupe/TeamCode/src/main/AndroidManifest.xml
+		INJECTED from /home/techbrickftc/testdupe/TeamCode/src/main/AndroidManifest.xml
 	android:minSdkVersion
-		INJECTED from /home/techbrickftc/vslamcam/TeamCode/src/main/AndroidManifest.xml
-		ADDED from /home/techbrickftc/vslamcam/TeamCode/src/main/AndroidManifest.xml
-		INJECTED from /home/techbrickftc/vslamcam/TeamCode/src/main/AndroidManifest.xml
+		INJECTED from /home/techbrickftc/testdupe/TeamCode/src/main/AndroidManifest.xml
+		ADDED from /home/techbrickftc/testdupe/TeamCode/src/main/AndroidManifest.xml
+		INJECTED from /home/techbrickftc/testdupe/TeamCode/src/main/AndroidManifest.xml
 uses-permission#android.permission.RECEIVE_BOOT_COMPLETED
-ADDED from [:FtcRobotController] /home/techbrickftc/vslamcam/FtcRobotController/build/intermediates/library_manifest/debug/AndroidManifest.xml:12:5-81
+ADDED from [:FtcRobotController] /home/techbrickftc/testdupe/FtcRobotController/build/intermediates/library_manifest/debug/AndroidManifest.xml:12:5-81
 	android:name
-		ADDED from [:FtcRobotController] /home/techbrickftc/vslamcam/FtcRobotController/build/intermediates/library_manifest/debug/AndroidManifest.xml:12:22-78
+		ADDED from [:FtcRobotController] /home/techbrickftc/testdupe/FtcRobotController/build/intermediates/library_manifest/debug/AndroidManifest.xml:12:22-78
 meta-data#org.firstinspires.latestSupportedControlHubVersion
-ADDED from [:FtcRobotController] /home/techbrickftc/vslamcam/FtcRobotController/build/intermediates/library_manifest/debug/AndroidManifest.xml:23:9-25:33
+ADDED from [:FtcRobotController] /home/techbrickftc/testdupe/FtcRobotController/build/intermediates/library_manifest/debug/AndroidManifest.xml:23:9-25:33
 	android:value
-		ADDED from [:FtcRobotController] /home/techbrickftc/vslamcam/FtcRobotController/build/intermediates/library_manifest/debug/AndroidManifest.xml:25:13-30
+		ADDED from [:FtcRobotController] /home/techbrickftc/testdupe/FtcRobotController/build/intermediates/library_manifest/debug/AndroidManifest.xml:25:13-30
 	android:name
-		ADDED from [:FtcRobotController] /home/techbrickftc/vslamcam/FtcRobotController/build/intermediates/library_manifest/debug/AndroidManifest.xml:24:13-78
+		ADDED from [:FtcRobotController] /home/techbrickftc/testdupe/FtcRobotController/build/intermediates/library_manifest/debug/AndroidManifest.xml:24:13-78
 activity#org.firstinspires.ftc.robotcontroller.internal.PermissionValidatorWrapper
-ADDED from [:FtcRobotController] /home/techbrickftc/vslamcam/FtcRobotController/build/intermediates/library_manifest/debug/AndroidManifest.xml:28:9-39:20
+ADDED from [:FtcRobotController] /home/techbrickftc/testdupe/FtcRobotController/build/intermediates/library_manifest/debug/AndroidManifest.xml:28:9-39:20
 	android:screenOrientation
-		ADDED from [:FtcRobotController] /home/techbrickftc/vslamcam/FtcRobotController/build/intermediates/library_manifest/debug/AndroidManifest.xml:33:13-49
+		ADDED from [:FtcRobotController] /home/techbrickftc/testdupe/FtcRobotController/build/intermediates/library_manifest/debug/AndroidManifest.xml:33:13-49
 	android:label
-		ADDED from [:FtcRobotController] /home/techbrickftc/vslamcam/FtcRobotController/build/intermediates/library_manifest/debug/AndroidManifest.xml:31:13-45
+		ADDED from [:FtcRobotController] /home/techbrickftc/testdupe/FtcRobotController/build/intermediates/library_manifest/debug/AndroidManifest.xml:31:13-45
 	android:launchMode
-		ADDED from [:FtcRobotController] /home/techbrickftc/vslamcam/FtcRobotController/build/intermediates/library_manifest/debug/AndroidManifest.xml:32:13-44
+		ADDED from [:FtcRobotController] /home/techbrickftc/testdupe/FtcRobotController/build/intermediates/library_manifest/debug/AndroidManifest.xml:32:13-44
 	android:configChanges
-		ADDED from [:FtcRobotController] /home/techbrickftc/vslamcam/FtcRobotController/build/intermediates/library_manifest/debug/AndroidManifest.xml:30:13-59
+		ADDED from [:FtcRobotController] /home/techbrickftc/testdupe/FtcRobotController/build/intermediates/library_manifest/debug/AndroidManifest.xml:30:13-59
 	android:name
-		ADDED from [:FtcRobotController] /home/techbrickftc/vslamcam/FtcRobotController/build/intermediates/library_manifest/debug/AndroidManifest.xml:29:13-101
+		ADDED from [:FtcRobotController] /home/techbrickftc/testdupe/FtcRobotController/build/intermediates/library_manifest/debug/AndroidManifest.xml:29:13-101
 intent-filter#action:name:android.intent.action.MAIN+category:name:android.intent.category.LAUNCHER
-ADDED from [:FtcRobotController] /home/techbrickftc/vslamcam/FtcRobotController/build/intermediates/library_manifest/debug/AndroidManifest.xml:34:13-38:29
+ADDED from [:FtcRobotController] /home/techbrickftc/testdupe/FtcRobotController/build/intermediates/library_manifest/debug/AndroidManifest.xml:34:13-38:29
 category#android.intent.category.LAUNCHER
-ADDED from [:FtcRobotController] /home/techbrickftc/vslamcam/FtcRobotController/build/intermediates/library_manifest/debug/AndroidManifest.xml:35:17-77
+ADDED from [:FtcRobotController] /home/techbrickftc/testdupe/FtcRobotController/build/intermediates/library_manifest/debug/AndroidManifest.xml:35:17-77
 	android:name
-		ADDED from [:FtcRobotController] /home/techbrickftc/vslamcam/FtcRobotController/build/intermediates/library_manifest/debug/AndroidManifest.xml:35:27-74
+		ADDED from [:FtcRobotController] /home/techbrickftc/testdupe/FtcRobotController/build/intermediates/library_manifest/debug/AndroidManifest.xml:35:27-74
 action#android.intent.action.MAIN
-ADDED from [:FtcRobotController] /home/techbrickftc/vslamcam/FtcRobotController/build/intermediates/library_manifest/debug/AndroidManifest.xml:37:17-69
+ADDED from [:FtcRobotController] /home/techbrickftc/testdupe/FtcRobotController/build/intermediates/library_manifest/debug/AndroidManifest.xml:37:17-69
 	android:name
-		ADDED from [:FtcRobotController] /home/techbrickftc/vslamcam/FtcRobotController/build/intermediates/library_manifest/debug/AndroidManifest.xml:37:25-66
+		ADDED from [:FtcRobotController] /home/techbrickftc/testdupe/FtcRobotController/build/intermediates/library_manifest/debug/AndroidManifest.xml:37:25-66
 activity#org.firstinspires.ftc.robotcontroller.internal.FtcRobotControllerActivity
-ADDED from [:FtcRobotController] /home/techbrickftc/vslamcam/FtcRobotController/build/intermediates/library_manifest/debug/AndroidManifest.xml:40:9-58:20
+ADDED from [:FtcRobotController] /home/techbrickftc/testdupe/FtcRobotController/build/intermediates/library_manifest/debug/AndroidManifest.xml:40:9-58:20
 	android:screenOrientation
-		ADDED from [:FtcRobotController] /home/techbrickftc/vslamcam/FtcRobotController/build/intermediates/library_manifest/debug/AndroidManifest.xml:45:13-49
+		ADDED from [:FtcRobotController] /home/techbrickftc/testdupe/FtcRobotController/build/intermediates/library_manifest/debug/AndroidManifest.xml:45:13-49
 	android:label
-		ADDED from [:FtcRobotController] /home/techbrickftc/vslamcam/FtcRobotController/build/intermediates/library_manifest/debug/AndroidManifest.xml:43:13-45
+		ADDED from [:FtcRobotController] /home/techbrickftc/testdupe/FtcRobotController/build/intermediates/library_manifest/debug/AndroidManifest.xml:43:13-45
 	android:launchMode
-		ADDED from [:FtcRobotController] /home/techbrickftc/vslamcam/FtcRobotController/build/intermediates/library_manifest/debug/AndroidManifest.xml:44:13-44
+		ADDED from [:FtcRobotController] /home/techbrickftc/testdupe/FtcRobotController/build/intermediates/library_manifest/debug/AndroidManifest.xml:44:13-44
 	android:configChanges
-		ADDED from [:FtcRobotController] /home/techbrickftc/vslamcam/FtcRobotController/build/intermediates/library_manifest/debug/AndroidManifest.xml:42:13-59
+		ADDED from [:FtcRobotController] /home/techbrickftc/testdupe/FtcRobotController/build/intermediates/library_manifest/debug/AndroidManifest.xml:42:13-59
 	android:name
-		ADDED from [:FtcRobotController] /home/techbrickftc/vslamcam/FtcRobotController/build/intermediates/library_manifest/debug/AndroidManifest.xml:41:13-101
+		ADDED from [:FtcRobotController] /home/techbrickftc/testdupe/FtcRobotController/build/intermediates/library_manifest/debug/AndroidManifest.xml:41:13-101
 intent-filter#action:name:android.hardware.usb.action.USB_DEVICE_ATTACHED
-ADDED from [:FtcRobotController] /home/techbrickftc/vslamcam/FtcRobotController/build/intermediates/library_manifest/debug/AndroidManifest.xml:46:13-48:29
+ADDED from [:FtcRobotController] /home/techbrickftc/testdupe/FtcRobotController/build/intermediates/library_manifest/debug/AndroidManifest.xml:46:13-48:29
 action#android.hardware.usb.action.USB_DEVICE_ATTACHED
-ADDED from [:FtcRobotController] /home/techbrickftc/vslamcam/FtcRobotController/build/intermediates/library_manifest/debug/AndroidManifest.xml:47:17-90
+ADDED from [:FtcRobotController] /home/techbrickftc/testdupe/FtcRobotController/build/intermediates/library_manifest/debug/AndroidManifest.xml:47:17-90
 	android:name
-		ADDED from [:FtcRobotController] /home/techbrickftc/vslamcam/FtcRobotController/build/intermediates/library_manifest/debug/AndroidManifest.xml:47:25-87
+		ADDED from [:FtcRobotController] /home/techbrickftc/testdupe/FtcRobotController/build/intermediates/library_manifest/debug/AndroidManifest.xml:47:25-87
 meta-data#android.hardware.usb.action.USB_DEVICE_ATTACHED
-ADDED from [:FtcRobotController] /home/techbrickftc/vslamcam/FtcRobotController/build/intermediates/library_manifest/debug/AndroidManifest.xml:50:13-52:57
+ADDED from [:FtcRobotController] /home/techbrickftc/testdupe/FtcRobotController/build/intermediates/library_manifest/debug/AndroidManifest.xml:50:13-52:57
 	android:resource
-		ADDED from [:FtcRobotController] /home/techbrickftc/vslamcam/FtcRobotController/build/intermediates/library_manifest/debug/AndroidManifest.xml:52:17-54
+		ADDED from [:FtcRobotController] /home/techbrickftc/testdupe/FtcRobotController/build/intermediates/library_manifest/debug/AndroidManifest.xml:52:17-54
 	android:name
-		ADDED from [:FtcRobotController] /home/techbrickftc/vslamcam/FtcRobotController/build/intermediates/library_manifest/debug/AndroidManifest.xml:51:17-79
+		ADDED from [:FtcRobotController] /home/techbrickftc/testdupe/FtcRobotController/build/intermediates/library_manifest/debug/AndroidManifest.xml:51:17-79
 meta-data#org.firstinspires.main.entry
-ADDED from [:FtcRobotController] /home/techbrickftc/vslamcam/FtcRobotController/build/intermediates/library_manifest/debug/AndroidManifest.xml:55:13-57:40
+ADDED from [:FtcRobotController] /home/techbrickftc/testdupe/FtcRobotController/build/intermediates/library_manifest/debug/AndroidManifest.xml:55:13-57:40
 	android:value
-		ADDED from [:FtcRobotController] /home/techbrickftc/vslamcam/FtcRobotController/build/intermediates/library_manifest/debug/AndroidManifest.xml:57:17-37
+		ADDED from [:FtcRobotController] /home/techbrickftc/testdupe/FtcRobotController/build/intermediates/library_manifest/debug/AndroidManifest.xml:57:17-37
 	android:name
-		ADDED from [:FtcRobotController] /home/techbrickftc/vslamcam/FtcRobotController/build/intermediates/library_manifest/debug/AndroidManifest.xml:56:17-60
+		ADDED from [:FtcRobotController] /home/techbrickftc/testdupe/FtcRobotController/build/intermediates/library_manifest/debug/AndroidManifest.xml:56:17-60
 service#com.qualcomm.ftccommon.FtcRobotControllerService
-ADDED from [:FtcRobotController] /home/techbrickftc/vslamcam/FtcRobotController/build/intermediates/library_manifest/debug/AndroidManifest.xml:61:9-63:38
+ADDED from [:FtcRobotController] /home/techbrickftc/testdupe/FtcRobotController/build/intermediates/library_manifest/debug/AndroidManifest.xml:61:9-63:38
 	android:enabled
-		ADDED from [:FtcRobotController] /home/techbrickftc/vslamcam/FtcRobotController/build/intermediates/library_manifest/debug/AndroidManifest.xml:63:13-35
+		ADDED from [:FtcRobotController] /home/techbrickftc/testdupe/FtcRobotController/build/intermediates/library_manifest/debug/AndroidManifest.xml:63:13-35
 	android:name
-		ADDED from [:FtcRobotController] /home/techbrickftc/vslamcam/FtcRobotController/build/intermediates/library_manifest/debug/AndroidManifest.xml:62:13-76
+		ADDED from [:FtcRobotController] /home/techbrickftc/testdupe/FtcRobotController/build/intermediates/library_manifest/debug/AndroidManifest.xml:62:13-76
 uses-permission#android.permission.ACCESS_WIFI_STATE
 ADDED from [org.firstinspires.ftc:RobotCore:6.0.1] /home/techbrickftc/.gradle/caches/transforms-2/files-2.1/0482513baccc32f6fbd2547409ec7d7a/jetified-RobotCore-6.0.1/AndroidManifest.xml:11:5-13:35
 MERGED from [org.firstinspires.ftc:FtcCommon:6.0.1] /home/techbrickftc/.gradle/caches/transforms-2/files-2.1/1af8e4560487e7249d99e5156a77e036/jetified-FtcCommon-6.0.1/AndroidManifest.xml:12:5-76

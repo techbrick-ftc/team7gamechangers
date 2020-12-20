@@ -12,13 +12,13 @@
 12
 13    <uses-sdk
 14        android:minSdkVersion="24"
-14-->/home/techbrickftc/vslamcam/TeamCode/src/main/AndroidManifest.xml
+14-->/home/techbrickftc/testdupe/TeamCode/src/main/AndroidManifest.xml
 15        android:targetSdkVersion="28" />
-15-->/home/techbrickftc/vslamcam/TeamCode/src/main/AndroidManifest.xml
+15-->/home/techbrickftc/testdupe/TeamCode/src/main/AndroidManifest.xml
 16
 17    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
-17-->[:FtcRobotController] /home/techbrickftc/vslamcam/FtcRobotController/build/intermediates/library_manifest/debug/AndroidManifest.xml:12:5-81
-17-->[:FtcRobotController] /home/techbrickftc/vslamcam/FtcRobotController/build/intermediates/library_manifest/debug/AndroidManifest.xml:12:22-78
+17-->[:FtcRobotController] /home/techbrickftc/testdupe/FtcRobotController/build/intermediates/library_manifest/debug/AndroidManifest.xml:12:5-81
+17-->[:FtcRobotController] /home/techbrickftc/testdupe/FtcRobotController/build/intermediates/library_manifest/debug/AndroidManifest.xml:12:22-78
 18    <uses-permission
 18-->[org.firstinspires.ftc:RobotCore:6.0.1] /home/techbrickftc/.gradle/caches/transforms-2/files-2.1/0482513baccc32f6fbd2547409ec7d7a/jetified-RobotCore-6.0.1/AndroidManifest.xml:11:5-13:35
 19        android:name="android.permission.ACCESS_WIFI_STATE"
@@ -142,96 +142,96 @@
 84-->[org.firstinspires.ftc:Inspection:6.0.1] /home/techbrickftc/.gradle/caches/transforms-2/files-2.1/897e84df2ae5460309033705772e6fc5/jetified-Inspection-6.0.1/AndroidManifest.xml:12:22-71
 85
 86    <application
-86-->/home/techbrickftc/vslamcam/TeamCode/src/main/AndroidManifest.xml:11:5-19
+86-->/home/techbrickftc/testdupe/TeamCode/src/main/AndroidManifest.xml:11:5-19
 87        android:name="org.firstinspires.ftc.robotcore.internal.system.RobotApplication"
 87-->[org.firstinspires.ftc:RobotCore:6.0.1] /home/techbrickftc/.gradle/caches/transforms-2/files-2.1/0482513baccc32f6fbd2547409ec7d7a/jetified-RobotCore-6.0.1/AndroidManifest.xml:86:18-97
 88        android:allowBackup="true"
-88-->[:FtcRobotController] /home/techbrickftc/vslamcam/FtcRobotController/build/intermediates/library_manifest/debug/AndroidManifest.xml:15:9-35
+88-->[:FtcRobotController] /home/techbrickftc/testdupe/FtcRobotController/build/intermediates/library_manifest/debug/AndroidManifest.xml:15:9-35
 89        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
 89-->[androidx.core:core:1.3.0] /home/techbrickftc/.gradle/caches/transforms-2/files-2.1/429fb715fcc7711d4ab133e350b6f531/core-1.3.0/AndroidManifest.xml:24:18-86
 90        android:debuggable="true"
 91        android:extractNativeLibs="true"
-91-->[:FtcRobotController] /home/techbrickftc/vslamcam/FtcRobotController/build/intermediates/library_manifest/debug/AndroidManifest.xml:16:9-41
+91-->[:FtcRobotController] /home/techbrickftc/testdupe/FtcRobotController/build/intermediates/library_manifest/debug/AndroidManifest.xml:16:9-41
 92        android:icon="@drawable/ic_launcher"
-92-->[:FtcRobotController] /home/techbrickftc/vslamcam/FtcRobotController/build/intermediates/library_manifest/debug/AndroidManifest.xml:17:9-45
+92-->[:FtcRobotController] /home/techbrickftc/testdupe/FtcRobotController/build/intermediates/library_manifest/debug/AndroidManifest.xml:17:9-45
 93        android:label="@string/app_name"
-93-->[:FtcRobotController] /home/techbrickftc/vslamcam/FtcRobotController/build/intermediates/library_manifest/debug/AndroidManifest.xml:18:9-41
+93-->[:FtcRobotController] /home/techbrickftc/testdupe/FtcRobotController/build/intermediates/library_manifest/debug/AndroidManifest.xml:18:9-41
 94        android:largeHeap="true"
-94-->[:FtcRobotController] /home/techbrickftc/vslamcam/FtcRobotController/build/intermediates/library_manifest/debug/AndroidManifest.xml:19:9-33
+94-->[:FtcRobotController] /home/techbrickftc/testdupe/FtcRobotController/build/intermediates/library_manifest/debug/AndroidManifest.xml:19:9-33
 95        android:supportsRtl="true"
 95-->[com.intel.realsense:librealsense:2.34.0-ftc265] /home/techbrickftc/.gradle/caches/transforms-2/files-2.1/15bffc86b01a6ae7289e62b7e76e5590/jetified-librealsense-2.34.0-ftc265/AndroidManifest.xml:13:9-35
 96        android:testOnly="true"
 97        android:theme="@style/AppThemeRedRC" > <!-- Indicates to the ControlHubUpdater what the latest version of the Control Hub is that this app supports -->
-97-->[:FtcRobotController] /home/techbrickftc/vslamcam/FtcRobotController/build/intermediates/library_manifest/debug/AndroidManifest.xml:20:9-45
+97-->[:FtcRobotController] /home/techbrickftc/testdupe/FtcRobotController/build/intermediates/library_manifest/debug/AndroidManifest.xml:20:9-45
 98        <meta-data
-98-->[:FtcRobotController] /home/techbrickftc/vslamcam/FtcRobotController/build/intermediates/library_manifest/debug/AndroidManifest.xml:23:9-25:33
+98-->[:FtcRobotController] /home/techbrickftc/testdupe/FtcRobotController/build/intermediates/library_manifest/debug/AndroidManifest.xml:23:9-25:33
 99            android:name="org.firstinspires.latestSupportedControlHubVersion"
-99-->[:FtcRobotController] /home/techbrickftc/vslamcam/FtcRobotController/build/intermediates/library_manifest/debug/AndroidManifest.xml:24:13-78
+99-->[:FtcRobotController] /home/techbrickftc/testdupe/FtcRobotController/build/intermediates/library_manifest/debug/AndroidManifest.xml:24:13-78
 100            android:value="1" /> <!-- The main robot controller activity -->
-100-->[:FtcRobotController] /home/techbrickftc/vslamcam/FtcRobotController/build/intermediates/library_manifest/debug/AndroidManifest.xml:25:13-30
+100-->[:FtcRobotController] /home/techbrickftc/testdupe/FtcRobotController/build/intermediates/library_manifest/debug/AndroidManifest.xml:25:13-30
 101        <activity
-101-->[:FtcRobotController] /home/techbrickftc/vslamcam/FtcRobotController/build/intermediates/library_manifest/debug/AndroidManifest.xml:28:9-39:20
+101-->[:FtcRobotController] /home/techbrickftc/testdupe/FtcRobotController/build/intermediates/library_manifest/debug/AndroidManifest.xml:28:9-39:20
 102            android:name="org.firstinspires.ftc.robotcontroller.internal.PermissionValidatorWrapper"
-102-->[:FtcRobotController] /home/techbrickftc/vslamcam/FtcRobotController/build/intermediates/library_manifest/debug/AndroidManifest.xml:29:13-101
+102-->[:FtcRobotController] /home/techbrickftc/testdupe/FtcRobotController/build/intermediates/library_manifest/debug/AndroidManifest.xml:29:13-101
 103            android:configChanges="orientation|screenSize"
-103-->[:FtcRobotController] /home/techbrickftc/vslamcam/FtcRobotController/build/intermediates/library_manifest/debug/AndroidManifest.xml:30:13-59
+103-->[:FtcRobotController] /home/techbrickftc/testdupe/FtcRobotController/build/intermediates/library_manifest/debug/AndroidManifest.xml:30:13-59
 104            android:label="@string/app_name"
-104-->[:FtcRobotController] /home/techbrickftc/vslamcam/FtcRobotController/build/intermediates/library_manifest/debug/AndroidManifest.xml:31:13-45
+104-->[:FtcRobotController] /home/techbrickftc/testdupe/FtcRobotController/build/intermediates/library_manifest/debug/AndroidManifest.xml:31:13-45
 105            android:launchMode="singleTask"
-105-->[:FtcRobotController] /home/techbrickftc/vslamcam/FtcRobotController/build/intermediates/library_manifest/debug/AndroidManifest.xml:32:13-44
+105-->[:FtcRobotController] /home/techbrickftc/testdupe/FtcRobotController/build/intermediates/library_manifest/debug/AndroidManifest.xml:32:13-44
 106            android:screenOrientation="fullUser" >
-106-->[:FtcRobotController] /home/techbrickftc/vslamcam/FtcRobotController/build/intermediates/library_manifest/debug/AndroidManifest.xml:33:13-49
+106-->[:FtcRobotController] /home/techbrickftc/testdupe/FtcRobotController/build/intermediates/library_manifest/debug/AndroidManifest.xml:33:13-49
 107            <intent-filter>
-107-->[:FtcRobotController] /home/techbrickftc/vslamcam/FtcRobotController/build/intermediates/library_manifest/debug/AndroidManifest.xml:34:13-38:29
+107-->[:FtcRobotController] /home/techbrickftc/testdupe/FtcRobotController/build/intermediates/library_manifest/debug/AndroidManifest.xml:34:13-38:29
 108                <category android:name="android.intent.category.LAUNCHER" />
-108-->[:FtcRobotController] /home/techbrickftc/vslamcam/FtcRobotController/build/intermediates/library_manifest/debug/AndroidManifest.xml:35:17-77
-108-->[:FtcRobotController] /home/techbrickftc/vslamcam/FtcRobotController/build/intermediates/library_manifest/debug/AndroidManifest.xml:35:27-74
+108-->[:FtcRobotController] /home/techbrickftc/testdupe/FtcRobotController/build/intermediates/library_manifest/debug/AndroidManifest.xml:35:17-77
+108-->[:FtcRobotController] /home/techbrickftc/testdupe/FtcRobotController/build/intermediates/library_manifest/debug/AndroidManifest.xml:35:27-74
 109
 110                <action android:name="android.intent.action.MAIN" />
-110-->[:FtcRobotController] /home/techbrickftc/vslamcam/FtcRobotController/build/intermediates/library_manifest/debug/AndroidManifest.xml:37:17-69
-110-->[:FtcRobotController] /home/techbrickftc/vslamcam/FtcRobotController/build/intermediates/library_manifest/debug/AndroidManifest.xml:37:25-66
+110-->[:FtcRobotController] /home/techbrickftc/testdupe/FtcRobotController/build/intermediates/library_manifest/debug/AndroidManifest.xml:37:17-69
+110-->[:FtcRobotController] /home/techbrickftc/testdupe/FtcRobotController/build/intermediates/library_manifest/debug/AndroidManifest.xml:37:25-66
 111            </intent-filter>
 112        </activity>
 113        <activity
-113-->[:FtcRobotController] /home/techbrickftc/vslamcam/FtcRobotController/build/intermediates/library_manifest/debug/AndroidManifest.xml:40:9-58:20
+113-->[:FtcRobotController] /home/techbrickftc/testdupe/FtcRobotController/build/intermediates/library_manifest/debug/AndroidManifest.xml:40:9-58:20
 114            android:name="org.firstinspires.ftc.robotcontroller.internal.FtcRobotControllerActivity"
-114-->[:FtcRobotController] /home/techbrickftc/vslamcam/FtcRobotController/build/intermediates/library_manifest/debug/AndroidManifest.xml:41:13-101
+114-->[:FtcRobotController] /home/techbrickftc/testdupe/FtcRobotController/build/intermediates/library_manifest/debug/AndroidManifest.xml:41:13-101
 115            android:configChanges="orientation|screenSize"
-115-->[:FtcRobotController] /home/techbrickftc/vslamcam/FtcRobotController/build/intermediates/library_manifest/debug/AndroidManifest.xml:42:13-59
+115-->[:FtcRobotController] /home/techbrickftc/testdupe/FtcRobotController/build/intermediates/library_manifest/debug/AndroidManifest.xml:42:13-59
 116            android:label="@string/app_name"
-116-->[:FtcRobotController] /home/techbrickftc/vslamcam/FtcRobotController/build/intermediates/library_manifest/debug/AndroidManifest.xml:43:13-45
+116-->[:FtcRobotController] /home/techbrickftc/testdupe/FtcRobotController/build/intermediates/library_manifest/debug/AndroidManifest.xml:43:13-45
 117            android:launchMode="singleTask"
-117-->[:FtcRobotController] /home/techbrickftc/vslamcam/FtcRobotController/build/intermediates/library_manifest/debug/AndroidManifest.xml:44:13-44
+117-->[:FtcRobotController] /home/techbrickftc/testdupe/FtcRobotController/build/intermediates/library_manifest/debug/AndroidManifest.xml:44:13-44
 118            android:screenOrientation="fullUser" >
-118-->[:FtcRobotController] /home/techbrickftc/vslamcam/FtcRobotController/build/intermediates/library_manifest/debug/AndroidManifest.xml:45:13-49
+118-->[:FtcRobotController] /home/techbrickftc/testdupe/FtcRobotController/build/intermediates/library_manifest/debug/AndroidManifest.xml:45:13-49
 119            <intent-filter>
-119-->[:FtcRobotController] /home/techbrickftc/vslamcam/FtcRobotController/build/intermediates/library_manifest/debug/AndroidManifest.xml:46:13-48:29
+119-->[:FtcRobotController] /home/techbrickftc/testdupe/FtcRobotController/build/intermediates/library_manifest/debug/AndroidManifest.xml:46:13-48:29
 120                <action android:name="android.hardware.usb.action.USB_DEVICE_ATTACHED" />
-120-->[:FtcRobotController] /home/techbrickftc/vslamcam/FtcRobotController/build/intermediates/library_manifest/debug/AndroidManifest.xml:47:17-90
-120-->[:FtcRobotController] /home/techbrickftc/vslamcam/FtcRobotController/build/intermediates/library_manifest/debug/AndroidManifest.xml:47:25-87
+120-->[:FtcRobotController] /home/techbrickftc/testdupe/FtcRobotController/build/intermediates/library_manifest/debug/AndroidManifest.xml:47:17-90
+120-->[:FtcRobotController] /home/techbrickftc/testdupe/FtcRobotController/build/intermediates/library_manifest/debug/AndroidManifest.xml:47:25-87
 121            </intent-filter>
 122
 123            <meta-data
-123-->[:FtcRobotController] /home/techbrickftc/vslamcam/FtcRobotController/build/intermediates/library_manifest/debug/AndroidManifest.xml:50:13-52:57
+123-->[:FtcRobotController] /home/techbrickftc/testdupe/FtcRobotController/build/intermediates/library_manifest/debug/AndroidManifest.xml:50:13-52:57
 124                android:name="android.hardware.usb.action.USB_DEVICE_ATTACHED"
-124-->[:FtcRobotController] /home/techbrickftc/vslamcam/FtcRobotController/build/intermediates/library_manifest/debug/AndroidManifest.xml:51:17-79
+124-->[:FtcRobotController] /home/techbrickftc/testdupe/FtcRobotController/build/intermediates/library_manifest/debug/AndroidManifest.xml:51:17-79
 125                android:resource="@xml/device_filter" />
-125-->[:FtcRobotController] /home/techbrickftc/vslamcam/FtcRobotController/build/intermediates/library_manifest/debug/AndroidManifest.xml:52:17-54
+125-->[:FtcRobotController] /home/techbrickftc/testdupe/FtcRobotController/build/intermediates/library_manifest/debug/AndroidManifest.xml:52:17-54
 126
 127            <!-- org.firstinspires.main.entry indicates that this app is compatible with the Dragonboard Control Hub -->
 128            <meta-data
-128-->[:FtcRobotController] /home/techbrickftc/vslamcam/FtcRobotController/build/intermediates/library_manifest/debug/AndroidManifest.xml:55:13-57:40
+128-->[:FtcRobotController] /home/techbrickftc/testdupe/FtcRobotController/build/intermediates/library_manifest/debug/AndroidManifest.xml:55:13-57:40
 129                android:name="org.firstinspires.main.entry"
-129-->[:FtcRobotController] /home/techbrickftc/vslamcam/FtcRobotController/build/intermediates/library_manifest/debug/AndroidManifest.xml:56:17-60
+129-->[:FtcRobotController] /home/techbrickftc/testdupe/FtcRobotController/build/intermediates/library_manifest/debug/AndroidManifest.xml:56:17-60
 130                android:value="true" />
-130-->[:FtcRobotController] /home/techbrickftc/vslamcam/FtcRobotController/build/intermediates/library_manifest/debug/AndroidManifest.xml:57:17-37
+130-->[:FtcRobotController] /home/techbrickftc/testdupe/FtcRobotController/build/intermediates/library_manifest/debug/AndroidManifest.xml:57:17-37
 131        </activity> <!-- The robot controller service in which most of the robot functionality is managed -->
 132        <service
-132-->[:FtcRobotController] /home/techbrickftc/vslamcam/FtcRobotController/build/intermediates/library_manifest/debug/AndroidManifest.xml:61:9-63:38
+132-->[:FtcRobotController] /home/techbrickftc/testdupe/FtcRobotController/build/intermediates/library_manifest/debug/AndroidManifest.xml:61:9-63:38
 133            android:name="com.qualcomm.ftccommon.FtcRobotControllerService"
-133-->[:FtcRobotController] /home/techbrickftc/vslamcam/FtcRobotController/build/intermediates/library_manifest/debug/AndroidManifest.xml:62:13-76
+133-->[:FtcRobotController] /home/techbrickftc/testdupe/FtcRobotController/build/intermediates/library_manifest/debug/AndroidManifest.xml:62:13-76
 134            android:enabled="true" />
-134-->[:FtcRobotController] /home/techbrickftc/vslamcam/FtcRobotController/build/intermediates/library_manifest/debug/AndroidManifest.xml:63:13-35
+134-->[:FtcRobotController] /home/techbrickftc/testdupe/FtcRobotController/build/intermediates/library_manifest/debug/AndroidManifest.xml:63:13-35
 135        <!--
 136    Needed to support sending logs from log viewer on Nougat and later.
 137    Note: DON'T need to shift meta-data to 'androidx' from 'android.support.FILE_PROVIDER_PATHS'
@@ -706,18 +706,18 @@
 394            android:theme="@android:style/Theme.NoDisplay" >
 394-->[com.intel.realsense:librealsense:2.34.0-ftc265] /home/techbrickftc/.gradle/caches/transforms-2/files-2.1/15bffc86b01a6ae7289e62b7e76e5590/jetified-librealsense-2.34.0-ftc265/AndroidManifest.xml:17:13-59
 395            <intent-filter>
-395-->[:FtcRobotController] /home/techbrickftc/vslamcam/FtcRobotController/build/intermediates/library_manifest/debug/AndroidManifest.xml:46:13-48:29
+395-->[:FtcRobotController] /home/techbrickftc/testdupe/FtcRobotController/build/intermediates/library_manifest/debug/AndroidManifest.xml:46:13-48:29
 396                <action android:name="android.hardware.usb.action.USB_DEVICE_ATTACHED" />
-396-->[:FtcRobotController] /home/techbrickftc/vslamcam/FtcRobotController/build/intermediates/library_manifest/debug/AndroidManifest.xml:47:17-90
-396-->[:FtcRobotController] /home/techbrickftc/vslamcam/FtcRobotController/build/intermediates/library_manifest/debug/AndroidManifest.xml:47:25-87
+396-->[:FtcRobotController] /home/techbrickftc/testdupe/FtcRobotController/build/intermediates/library_manifest/debug/AndroidManifest.xml:47:17-90
+396-->[:FtcRobotController] /home/techbrickftc/testdupe/FtcRobotController/build/intermediates/library_manifest/debug/AndroidManifest.xml:47:25-87
 397            </intent-filter>
 398
 399            <meta-data
-399-->[:FtcRobotController] /home/techbrickftc/vslamcam/FtcRobotController/build/intermediates/library_manifest/debug/AndroidManifest.xml:50:13-52:57
+399-->[:FtcRobotController] /home/techbrickftc/testdupe/FtcRobotController/build/intermediates/library_manifest/debug/AndroidManifest.xml:50:13-52:57
 400                android:name="android.hardware.usb.action.USB_DEVICE_ATTACHED"
-400-->[:FtcRobotController] /home/techbrickftc/vslamcam/FtcRobotController/build/intermediates/library_manifest/debug/AndroidManifest.xml:51:17-79
+400-->[:FtcRobotController] /home/techbrickftc/testdupe/FtcRobotController/build/intermediates/library_manifest/debug/AndroidManifest.xml:51:17-79
 401                android:resource="@xml/usb_filter" />
-401-->[:FtcRobotController] /home/techbrickftc/vslamcam/FtcRobotController/build/intermediates/library_manifest/debug/AndroidManifest.xml:52:17-54
+401-->[:FtcRobotController] /home/techbrickftc/testdupe/FtcRobotController/build/intermediates/library_manifest/debug/AndroidManifest.xml:52:17-54
 402        </activity>
 403    </application>
 404
