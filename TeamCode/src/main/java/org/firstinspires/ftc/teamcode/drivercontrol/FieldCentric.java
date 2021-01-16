@@ -2,7 +2,7 @@ package org.firstinspires.ftc.teamcode.drivercontrol;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import org.firstinspires.ftc.robotcore.external.Telemetry;
+
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
@@ -13,6 +13,7 @@ public class FieldCentric {
     private double[] wheelAngles;
     private double r;
     private double theta;
+    private double rotation = 0;
     private double currentAngle;
     private BNO055IMU imu;
 
@@ -28,6 +29,13 @@ public class FieldCentric {
         this.wheelAngles = wheelAngles;
         this.wheelPowers = new double[motors.length];
         this.imu = imu;
+
+        getAngle();
+        this.rotation = currentAngle;
+
+        for (double wheelAngle : wheelAngles) {
+            wheelAngle -= currentAngle;
+        }
     }
 
     private void getAngle() {
@@ -63,6 +71,23 @@ public class FieldCentric {
             axis (-1.0 to 1.0) we don't know the angle we are currently at
          */
         double newTheta = theta + currentAngle;
+
+        /*
+            Sets rotation to current angle, while driver is intentionally turning the robot. This makes
+            it so the robot does not turn from things like poor weight distribution.
+        */
+
+        /*if (turn != 0) {
+            rotation = currentAngle + turn;
+        }
+
+        if (rotation > PI) {
+            rotation = PI - .01;
+        } else if (rotation > -PI) {
+            rotation = -PI + .01;
+        }
+
+        double newRotation = rotation - currentAngle;*/
 
         /*
             Get the angle of the wheel and subtract the newTheta (because newTheta is clockwise and

@@ -6,23 +6,22 @@ import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.exception.RobotCoreException;
-import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
-import org.firstinspires.ftc.teamcode.drivercontrol.FieldCentric;
+import org.firstinspires.ftc.teamcode.zimports.GlobalVars;
 
-import static java.lang.Math.PI;
-
-@TeleOp(name="Main", group="Mechanum")
+@TeleOp(name="Main FC", group="Mechanum")
 public class MainTele extends LinearOpMode{
 
     FtcDashboard dashboard = FtcDashboard.getInstance();
     TelemetryPacket packet = new TelemetryPacket();
+
 
     private ElapsedTime runtime = new ElapsedTime();
     private DcMotor fl = null;
@@ -34,8 +33,8 @@ public class MainTele extends LinearOpMode{
     private Servo wobbleAxis2 = null;
     private DcMotor intake1 = null;
     private DcMotor intake2 = null;
-    private DcMotor shooter = null;
-    private CRServo shooterServo = null;
+    private DcMotor shooter = null;  // DcMotorEx used for consistent rpm
+    private Servo shooterServo = null;
 
     FieldCentric drive = new FieldCentric();
     private BNO055IMU imu = null;
@@ -58,15 +57,15 @@ public class MainTele extends LinearOpMode{
         intake1 = hardwareMap.get(DcMotor.class, "intake_1");
         intake2 = hardwareMap.get(DcMotor.class, "intake_2");
         shooter = hardwareMap.get(DcMotor.class, "shooter");
-        shooterServo = hardwareMap.get(CRServo.class, "shooter_servo");
+        shooterServo = hardwareMap.get(Servo.class, "shooter_servo");
 
         imu = hardwareMap.get(BNO055IMU.class, "imu");
-        BNO055IMU.Parameters param = new BNO055IMU.Parameters();
-        param.accelUnit = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
-        param.angleUnit = BNO055IMU.AngleUnit.RADIANS;
-        imu.initialize(param);
+        imu.initialize(new BNO055IMU.Parameters());
 
         intake2.setDirection(DcMotorSimple.Direction.REVERSE);
+
+        //shooter.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        shooter.setDirection(DcMotor.Direction.REVERSE);
 
         fr.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         fl.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -76,7 +75,7 @@ public class MainTele extends LinearOpMode{
         // Defines motor configs
         final double PI = Math.PI;
         DcMotor[] motors = {fr, rr, rl, fl};
-        double[] motorAngles = {PI/4 + PI/2, 3*PI/4 + PI/2, 5*PI/4 + PI/2, 7*PI/4 + PI/2};
+        double[] motorAngles = {3*PI/4, 5*PI/4, 7*PI/4, PI/4};
 
         // Sets up motor configs
         try {
@@ -93,9 +92,13 @@ public class MainTele extends LinearOpMode{
         Gamepad cur1 = new Gamepad();
         Gamepad cur2 = new Gamepad();
 
-        // Configures Switches
+        // Configures Variables
         boolean axis2Switch = false;
         boolean intakeSwitch = false;
+
+        // Anything that moves in init
+        shooterServo.setPosition(1);
+        wobbleAxis2.setPosition(0);
 
         waitForStart();
 
@@ -146,34 +149,19 @@ public class MainTele extends LinearOpMode{
             }
 
             // Shooter Control
-            /*if (cur2.a && !prev2.a) {
-                ElapsedTime launchTime = new ElapsedTime();
-                while(launchTime.milliseconds() < 600 && opModeIsActive() && !isStopRequested()) {
-                    shooterServo.setPower(1);
-                    shooter.setPower(1);
-                }
-                shooterServo.setPower(0);
+            if (gamepad2.right_trigger > 0.1) {
+                shooter.setPower(-1);
+            } else {
                 shooter.setPower(0);
-            }*/
+            }
 
             // Shooter Servo Control
             if (cur2.a && !prev2.a) {
                 ElapsedTime launchServoTime = new ElapsedTime();
-                while(launchServoTime.milliseconds() < 600 && opModeIsActive()) {
-                    shooterServo.setPower(1);
+                while(launchServoTime.milliseconds() < 1000 && opModeIsActive()) {
+                    shooterServo.setPosition(0);
                 }
-                shooterServo.setPower(0);
-            }
-
-            // Shooter Control
-            double shooterR = shooter.getCurrentPosition() / 1000;
-            double shooterRPS = shooterR / runtime.seconds();
-
-
-            if (gamepad2.right_trigger > 0.1) {
-                shooter.setPower(1);
-            } else {
-                shooter.setPower(0);
+                shooterServo.setPosition(1);
             }
 
             // Updates prev1 & 2

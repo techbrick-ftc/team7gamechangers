@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.vslamcam;
+package org.firstinspires.ftc.teamcode.vslamcentric;
 
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.canvas.Canvas;
@@ -25,7 +25,7 @@ public class SlamraTest extends OpMode
         if (slamra == null) {
             telemetry.addLine("before t265 init");
             telemetry.update();
-            slamra = new T265Camera(new Transform2d(), 0.1, hardwareMap.appContext);
+            slamra = new T265Camera(new Transform2d(new Translation2d(), new Rotation2d(Math.PI / 2)), 0.1, hardwareMap.appContext);
             telemetry.addLine("after t265 init");
             telemetry.update();
         }
@@ -60,6 +60,9 @@ public class SlamraTest extends OpMode
         double x2 = translation.getX() + arrowX, y2 = translation.getY() + arrowY;
         field.strokeLine(x1, y1, x2, y2);
 
+
+        packet.put("x", translation.getX());
+        packet.put("y", translation.getY());
         dashboard.sendTelemetryPacket(packet);
     }
 

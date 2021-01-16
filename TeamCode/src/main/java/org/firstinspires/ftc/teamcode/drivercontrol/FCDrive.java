@@ -6,8 +6,6 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.firstinspires.ftc.teamcode.drivercontrol.FieldCentric;
-
 @TeleOp(name="FCDrive", group="Mechanum")
 public class FCDrive extends LinearOpMode{
 
@@ -31,10 +29,7 @@ public class FCDrive extends LinearOpMode{
         rl = hardwareMap.get(DcMotor.class, "rl");
         rr = hardwareMap.get(DcMotor.class, "rr");
         imu = hardwareMap.get(BNO055IMU.class, "imu");
-        BNO055IMU.Parameters param = new BNO055IMU.Parameters();
-        param.accelUnit = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
-        param.angleUnit = BNO055IMU.AngleUnit.RADIANS;
-        imu.initialize(param);
+        imu.initialize(new BNO055IMU.Parameters());
 
         final double PI = Math.PI;
         DcMotor[] motors = {fr, rr, rl, fl};
