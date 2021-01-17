@@ -15,14 +15,13 @@ import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 
-import static java.lang.Math.PI;
 import static java.lang.Math.abs;
 
 public class SimpleSlamra {
 
     // Defines globally used variables
     private DcMotor[] motors;
-    private double currentAngle;
+    private double currentRadian;
     private double currentDegree;
     private Telemetry telemetry;
     private BNO055IMU imu;
@@ -55,12 +54,12 @@ public class SimpleSlamra {
 
     // Function which is used to update the angle of the robot, used by the drive function
     private void getAngle() {
-        currentAngle = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.RADIANS).firstAngle - startingRadian;
+        currentRadian = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.RADIANS).firstAngle - startingRadian;
         currentDegree = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle - startingDegree;
     }
 
     // Main function, called to go to a target X and Y position, at a set speed and angle
-    public void drive(double targetX, double targetY, double targetAngle, double speed, TeleAuto callback) {
+    public void drive(double targetX, double targetY, double targetDegree, double speed, TeleAuto callback) {
 
         double flPower, frPower, rlPower, rrPower;
 
@@ -84,23 +83,23 @@ public class SimpleSlamra {
             // Calculates the current difference between the target and current positions (the distance between them)
             double diffX = targetX - currentX;
             double diffY = targetY - currentY;
-            double diffAngle = targetAngle - currentDegree;
+            double diffAngle = targetDegree - currentDegree;
 
-            double diffAvg = (abs(diffX) + abs(diffY)) / 2;
+            double diffAvg = (abs(diffX) + abs(diffY) + abs(diffAngle)) / 3;
 
             // Stops robot and ends the loop if the target positions and angle had been completed
-            if (abs(diffX) < 0.5 && abs(diffY) < 0.5) {
+            if (abs(diffX) < 0.5 && abs(diffY) < 0.5 && abs(diffAngle) < 4) {
                 halt();
                 break;
             }
 
-            double rotatedX = diffX * Math.cos(currentAngle) - diffY * Math.sin(currentAngle);
-            double rotatedY = diffY * Math.cos(currentAngle) - diffX * Math.sin(currentAngle);
+            double rotatedX = diffX * Math.cos(currentRadian) - diffY * Math.sin(currentRadian);
+            double rotatedY = diffY * Math.cos(currentRadian) - diffX * Math.sin(currentRadian);
 
             flPower = rotatedY + rotatedX + diffAngle;
             rlPower = rotatedY - rotatedX + diffAngle;
-            frPower = rotatedY - rotatedX - diffAngle;
-            rrPower = rotatedY + rotatedX - diffAngle;
+            frPower = rotatedY - rotatedX + diffAngle;
+            rrPower = rotatedY + rotatedX + diffAngle;
 
             double max = Math.max(Math.abs(flPower), Math.abs(rlPower));
             max = Math.max(Math.abs(frPower), max);
@@ -112,8 +111,8 @@ public class SimpleSlamra {
             rrPower /= max;
 
             double newSpeed = speed;
-            if (abs(diffX) < 5 && abs(diffY) < 5) {
-                newSpeed *= diffAvg / 10;
+            if (abs(diffX) < 5 && abs(diffY) < 5 && abs(diffAngle) < 10) {
+                newSpeed *= clamp(2, 10, diffAvg) / 10;
             }
 
             motors[0].setPower(flPower * newSpeed);
@@ -137,7 +136,7 @@ public class SimpleSlamra {
 
             dashboard.sendTelemetryPacket(robotPosition);
 
-            System.out.println("Current X: " + currentX + "\nCurrent Y: " + currentY + "\nDiff X: " + diffX + "\nDiff Y: " + diffY + "\nCurrent Angle: " + currentAngle + "\n Current Degree: " + currentDegree);
+            System.out.println("Current X: " + currentX + "\nCurrent Y: " + currentY + "\nDiff X: " + diffX + "\nDiff Y: " + diffY + "\nCurrent Radian: " + currentRadian + "\nCurrent Degree: " + currentDegree);
             System.out.print("");
         }
     }
@@ -174,7 +173,7 @@ public class SimpleSlamra {
         packet.put("diffX", diffX);
         packet.put("diffY", diffY);
         packet.put("angle (degrees)", currentDegree);
-        packet.put("angle (radians)", currentAngle);
+        packet.put("angle (radians)", currentRadian);
         for (int i = 0; i < wheelPowers.length; i++) {
             packet.put("Motor " + i + " Power", wheelPowers[i]);
         }

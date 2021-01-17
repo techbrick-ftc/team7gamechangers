@@ -63,7 +63,7 @@ public class SimpleSlamraDrive extends LinearOpMode implements TeleAuto {
 
         if (opModeIsActive()) {
             slamra.start();
-            slauto.drive(20, 0, -Math.PI / 2, 0.75, this);
+            slauto.drive(0, 0, 90, 0.4, this);
             slamra.stop();
         }
     }
