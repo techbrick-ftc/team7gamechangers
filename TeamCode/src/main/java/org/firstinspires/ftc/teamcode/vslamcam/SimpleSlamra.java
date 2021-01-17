@@ -54,8 +54,8 @@ public class SimpleSlamra {
 
     // Function which is used to update the angle of the robot, used by the drive function
     private void getAngle() {
-        currentRadian = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.RADIANS).firstAngle - startingRadian;
-        currentDegree = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle - startingDegree;
+        currentRadian = wrapRadians(imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.RADIANS).firstAngle - startingRadian);
+        currentDegree = wrap(imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle - startingDegree);
     }
 
     // Main function, called to go to a target X and Y position, at a set speed and angle
@@ -81,14 +81,14 @@ public class SimpleSlamra {
             double currentY = pose.getY();
 
             // Calculates the current difference between the target and current positions (the distance between them)
-            double diffX = targetX - currentX;
-            double diffY = targetY - currentY;
+            double diffX = targetX + currentY;
+            double diffY = targetY - currentX;
             double diffAngle = targetDegree - currentDegree;
 
-            double diffAvg = (abs(diffX) + abs(diffY) + abs(diffAngle)) / 3;
+            double diffAvg = (abs(diffX) + abs(diffY) + abs(diffAngle)) / 2;
 
             // Stops robot and ends the loop if the target positions and angle had been completed
-            if (abs(diffX) < 0.5 && abs(diffY) < 0.5 && abs(diffAngle) < 4) {
+            if (abs(diffX) < 1 && abs(diffY) < 1 && abs(diffAngle) < 4) {
                 halt();
                 break;
             }
@@ -98,8 +98,8 @@ public class SimpleSlamra {
 
             flPower = rotatedY + rotatedX + diffAngle;
             rlPower = rotatedY - rotatedX + diffAngle;
-            frPower = rotatedY - rotatedX + diffAngle;
-            rrPower = rotatedY + rotatedX + diffAngle;
+            frPower = rotatedY - rotatedX - diffAngle;
+            rrPower = rotatedY + rotatedX - diffAngle;
 
             double max = Math.max(Math.abs(flPower), Math.abs(rlPower));
             max = Math.max(Math.abs(frPower), max);
@@ -111,14 +111,14 @@ public class SimpleSlamra {
             rrPower /= max;
 
             double newSpeed = speed;
-            if (abs(diffX) < 5 && abs(diffY) < 5 && abs(diffAngle) < 10) {
-                newSpeed *= clamp(2, 10, diffAvg) / 10;
+            if (abs(diffX) < 10 && abs(diffY) < 10 && abs(diffAngle) < 10) {
+                newSpeed *= clamp(6, 30, diffAvg) / 30;
             }
 
-            motors[0].setPower(flPower * newSpeed);
-            motors[1].setPower(frPower * newSpeed);
-            motors[2].setPower(rrPower * newSpeed);
-            motors[3].setPower(rlPower * newSpeed);
+            motors[0].setPower(speedCap(flPower * newSpeed));
+            motors[1].setPower(speedCap(frPower * newSpeed));
+            motors[2].setPower(speedCap(rrPower * newSpeed));
+            motors[3].setPower(speedCap(rlPower * newSpeed));
 
             // Updates all telemetries
             telemetryUpdate(currentX, currentY, diffX, diffY, newSpeed);
@@ -136,8 +136,8 @@ public class SimpleSlamra {
 
             dashboard.sendTelemetryPacket(robotPosition);
 
-            System.out.println("Current X: " + currentX + "\nCurrent Y: " + currentY + "\nDiff X: " + diffX + "\nDiff Y: " + diffY + "\nCurrent Radian: " + currentRadian + "\nCurrent Degree: " + currentDegree);
-            System.out.print("");
+            System.out.println("Current X: " + currentX + "\nCurrent Y: " + currentY + "\nDiff X: " + diffX + "\nDiff Y: " + diffY + "\nCurrent Radian: " + currentRadian + "\nCurrent Degree: " + currentDegree + "\nConfidence: " + up.confidence + "\nNew Speed: " + newSpeed + "\nDiff Avg: " + diffAvg + "\nMotor 1 Power" + motors[0].getPower() + "\nMotor 2 Power" + motors[1].getPower() + "\nMotor 3 Power" + motors[2].getPower() + "\nMotor 4 Power" + motors[3].getPower());
+            System.out.println("-");
         }
     }
 
@@ -150,6 +150,13 @@ public class SimpleSlamra {
 
     private double clamp(double min, double max, double value) {
         return Math.max(min, Math.min(value, max));
+    }
+
+    private double speedCap(double motorSpeed) {
+        if (motorSpeed < 0.05 && motorSpeed > -0.05) { motorSpeed = 0; } else
+        if (motorSpeed >= 0.05 && motorSpeed < 0.2) { motorSpeed = 0.2; } else
+        if (motorSpeed <= -0.05 && motorSpeed > -0.2) { motorSpeed = -0.2; }
+        return motorSpeed;
     }
 
     // Function which updates all telemetry
@@ -187,6 +194,18 @@ public class SimpleSlamra {
                 newTheta += 360;
             } else {
                 newTheta -= 360;
+            }
+        }
+        return newTheta;
+    }
+
+    private double wrapRadians(double theta) {
+        double newTheta = theta;
+        while(abs(newTheta) > Math.PI / 2) {
+            if (newTheta < -Math.PI / 2) {
+                newTheta += Math.PI * 2;
+            } else {
+                newTheta -= Math.PI * 2;
             }
         }
         return newTheta;
