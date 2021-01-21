@@ -32,6 +32,8 @@ public class SimpleSlamra {
     private BNO055IMU imu;
     private double startingRadian;
     private double startingDegree;
+    private double startingX;
+    private double startingY;
 
     private double[] wheelPowers;
 
@@ -54,6 +56,12 @@ public class SimpleSlamra {
         this.telemetry = telemetry;
         startingDegree = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle;
         startingRadian = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.RADIANS).firstAngle;
+
+        T265Camera.CameraUpdate up = slamra.getLastReceivedCameraUpdate();
+        Translation2d pose = new Translation2d(up.pose.getTranslation().getX() / 0.0254, up.pose.getTranslation().getY() / 0.0254);
+
+        startingX = -pose.getY();
+        startingY = pose.getX();
 
     }
 
@@ -156,8 +164,8 @@ public class SimpleSlamra {
         Translation2d pose = new Translation2d(up.pose.getTranslation().getX() / 0.0254, up.pose.getTranslation().getY() / 0.0254);
 
         // Saves the robot's current position
-        currentX = -pose.getY();
-        currentY = pose.getX();
+        currentX = -pose.getY() - startingX;
+        currentY = pose.getX() - startingY;
         rotation = up.pose.getRotation();
         confidence = up.confidence;
         return true;
