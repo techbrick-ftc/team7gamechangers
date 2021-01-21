@@ -11,6 +11,8 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.spartronics4915.lib.T265Camera;
 
+import org.firstinspires.ftc.robotcore.external.navigation.Acceleration;
+
 import static java.lang.Math.PI;
 
 @TeleOp(name="SCAuto", group="Autonomous")
@@ -47,7 +49,15 @@ public class SimpleSlamraDrive extends LinearOpMode implements TeleAuto {
         param.angleUnit = BNO055IMU.AngleUnit.RADIANS;
         imu.initialize(param);
 
-        slamra = new T265Camera(new Transform2d(), 0.1, hardwareMap.appContext);
+        telemetry.addLine("IMU Done");
+        telemetry.update();
+
+        if (slamra == null) {
+            slamra = new T265Camera(new Transform2d(), 0.1, hardwareMap.appContext);
+        }
+
+        telemetry.addLine("Camera Done");
+        telemetry.update();
 
         DcMotor[] motors = {m1, m2, m3, m4};
 
@@ -67,7 +77,7 @@ public class SimpleSlamraDrive extends LinearOpMode implements TeleAuto {
 
         if (opModeIsActive()) {
             slamra.start();
-            slauto.drive(0, -30, 90, 0.8, this);
+            slauto.drive(30, 30, 0, 0.8, this);
             slamra.stop();
         }
     }

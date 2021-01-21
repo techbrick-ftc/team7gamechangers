@@ -14,6 +14,7 @@ import com.spartronics4915.lib.T265Camera;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
+import org.opencv.core.RotatedRect;
 
 import static java.lang.Math.abs;
 
@@ -21,8 +22,12 @@ public class SimpleSlamra {
 
     // Defines globally used variables
     private DcMotor[] motors;
+    private double currentX;
+    private double currentY;
+    private Rotation2d rotation;
     private double currentRadian;
     private double currentDegree;
+    private T265Camera.PoseConfidence confidence;
     private Telemetry telemetry;
     private BNO055IMU imu;
     private double startingRadian;
@@ -64,42 +69,35 @@ public class SimpleSlamra {
         double flPower, frPower, rlPower, rrPower;
 
         while (callback.opModeIsActive()) {
-
-            // Gathers data from the T265 camera, saving it as a translation2d used to get the current X and Y positions
-            T265Camera.CameraUpdate up = slamra.getLastReceivedCameraUpdate();
-            if (up.confidence == T265Camera.PoseConfidence.Failed) {
-                continue;
-            }
-            Translation2d pose = new Translation2d(up.pose.getTranslation().getX() / 0.0254, up.pose.getTranslation().getY() / 0.0254);
-            Rotation2d rotation = up.pose.getRotation();
+            System.out.println("Start of Loop");
 
             // Updates angle variables
             getAngle();
 
-            // Saves the robot's current position each time through the loop
-            double currentX = pose.getX();
-            double currentY = pose.getY();
+            // Updates position variables
+            if (!getPosition()) continue;
 
             // Calculates the current difference between the target and current positions (the distance between them)
-            double diffX = targetX + currentY;
-            double diffY = targetY - currentX;
+            double diffX = targetX - currentX;
+            double diffY = targetY - currentY;
             double diffAngle = targetDegree - currentDegree;
 
             double diffAvg = (abs(diffX) + abs(diffY) + abs(diffAngle)) / 2;
 
             // Stops robot and ends the loop if the target positions and angle had been completed
             if (abs(diffX) < 1 && abs(diffY) < 1 && abs(diffAngle) < 4) {
+                System.out.println("Breaking out of Loop");
                 halt();
                 break;
             }
 
-            double rotatedX = diffX * Math.cos(currentRadian) - diffY * Math.sin(currentRadian);
+            double rotatedX = diffX * Math.cos(-currentRadian) - diffY * Math.sin(-currentRadian);
             double rotatedY = diffY * Math.cos(currentRadian) - diffX * Math.sin(currentRadian);
 
-            flPower = rotatedY + rotatedX + diffAngle;
-            rlPower = rotatedY - rotatedX + diffAngle;
-            frPower = rotatedY - rotatedX - diffAngle;
-            rrPower = rotatedY + rotatedX - diffAngle;
+            flPower = rotatedY + rotatedX - diffAngle;
+            rlPower = rotatedY - rotatedX - diffAngle;
+            frPower = rotatedY - rotatedX + diffAngle;
+            rrPower = rotatedY + rotatedX + diffAngle;
 
             double max = Math.max(Math.abs(flPower), Math.abs(rlPower));
             max = Math.max(Math.abs(frPower), max);
@@ -128,15 +126,15 @@ public class SimpleSlamra {
             Canvas field = robotPosition.fieldOverlay();
             final int robotRadius = 9;
 
-            field.strokeCircle(pose.getX(), pose.getY(), robotRadius);
+            field.strokeCircle(-currentY, currentX, robotRadius);
             double arrowX = rotation.getCos() * robotRadius, arrowY = rotation.getSin() * robotRadius;
-            double x1 = pose.getX() + arrowX  / 2, y1 = pose.getY() + arrowY / 2;
-            double x2 = pose.getX() + arrowX, y2 = pose.getY() + arrowY;
+            double x1 = -currentY + arrowX  / 2, y1 = currentX + arrowY / 2;
+            double x2 = -currentY + arrowX, y2 = currentX + arrowY;
             field.strokeLine(x1, y1, x2, y2);
 
             dashboard.sendTelemetryPacket(robotPosition);
 
-            System.out.println("Current X: " + currentX + "\nCurrent Y: " + currentY + "\nDiff X: " + diffX + "\nDiff Y: " + diffY + "\nCurrent Radian: " + currentRadian + "\nCurrent Degree: " + currentDegree + "\nConfidence: " + up.confidence + "\nNew Speed: " + newSpeed + "\nDiff Avg: " + diffAvg + "\nMotor 1 Power" + motors[0].getPower() + "\nMotor 2 Power" + motors[1].getPower() + "\nMotor 3 Power" + motors[2].getPower() + "\nMotor 4 Power" + motors[3].getPower());
+            System.out.println("Current X: " + currentX + "\nCurrent Y: " + currentY + "\nDiff X: " + diffX + "\nDiff Y: " + diffY + "\nCurrent Radian: " + currentRadian + "\nCurrent Degree: " + currentDegree + "\nConfidence: " + confidence + "\nNew Speed: " + newSpeed + "\nDiff Avg: " + diffAvg + "\nMotor 1 Power: " + motors[0].getPower() + "\nMotor 2 Power: " + motors[1].getPower() + "\nMotor 3 Power: " + motors[2].getPower() + "\nMotor 4 Power: " + motors[3].getPower() + "\nflPower: " + flPower + "\nfrPower: " + frPower + "\nrlPower: " + rlPower + "\nrrPower" + rrPower);
             System.out.println("-");
         }
     }
@@ -146,6 +144,23 @@ public class SimpleSlamra {
         for (DcMotor motor : motors) {
             motor.setPower(0);
         }
+    }
+
+    private boolean getPosition() {
+        // Gathers data from the T265 camera, saving it as a translation2d used to get the current X and Y positions
+        T265Camera.CameraUpdate up = slamra.getLastReceivedCameraUpdate();
+        if (up.confidence == T265Camera.PoseConfidence.Failed) {
+            System.out.println("Skipping loop");
+            return false;
+        }
+        Translation2d pose = new Translation2d(up.pose.getTranslation().getX() / 0.0254, up.pose.getTranslation().getY() / 0.0254);
+
+        // Saves the robot's current position
+        currentX = -pose.getY();
+        currentY = pose.getX();
+        rotation = up.pose.getRotation();
+        confidence = up.confidence;
+        return true;
     }
 
     private double clamp(double min, double max, double value) {
@@ -201,8 +216,8 @@ public class SimpleSlamra {
 
     private double wrapRadians(double theta) {
         double newTheta = theta;
-        while(abs(newTheta) > Math.PI / 2) {
-            if (newTheta < -Math.PI / 2) {
+        while(abs(newTheta) > Math.PI) {
+            if (newTheta < -Math.PI) {
                 newTheta += Math.PI * 2;
             } else {
                 newTheta -= Math.PI * 2;
