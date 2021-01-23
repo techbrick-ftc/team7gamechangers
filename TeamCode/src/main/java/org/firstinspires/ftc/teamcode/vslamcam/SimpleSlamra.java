@@ -120,12 +120,10 @@ public class SimpleSlamra {
             double newSpeed = speed;
             newSpeed *= clamp(0.3, 1, diffAvg / 10);
 
-
-
-            motors[0].setPower(speedCap(flPower * newSpeed));
-            motors[1].setPower(speedCap(frPower * newSpeed));
-            motors[2].setPower(speedCap(rrPower * newSpeed));
-            motors[3].setPower(speedCap(rlPower * newSpeed));
+            speedClimb(motors[0], flPower, newSpeed);
+            speedClimb(motors[1], frPower, newSpeed);
+            speedClimb(motors[2], rrPower, newSpeed);
+            speedClimb(motors[3], rlPower, newSpeed);
 
             // Updates all telemetries
             telemetryUpdate(currentX, currentY, diffX, diffY, newSpeed);
@@ -143,7 +141,7 @@ public class SimpleSlamra {
 
             dashboard.sendTelemetryPacket(robotPosition);
 
-            System.out.println("Current X: " + currentX + "\nCurrent Y: " + currentY + "\nDiff X: " + diffX + "\nDiff Y: " + diffY + "\nCurrent Radian: " + currentRadian + "\nCurrent Degree: " + currentDegree + "\nDiff Angle: " + diffAngle + "\nConfidence: " + confidence + "\nSlamra Rotate: " + rotation + "\nNew Speed: " + newSpeed + "\nDiff Avg: " + diffAvg + "\nMotor 1 Power: " + motors[0].getPower() + "\nMotor 2 Power: " + motors[1].getPower() + "\nMotor 3 Power: " + motors[2].getPower() + "\nMotor 4 Power: " + motors[3].getPower() + "\nflPower: " + flPower + "\nfrPower: " + frPower + "\nrlPower: " + rlPower + "\nrrPower" + rrPower);
+            System.out.println("Current X: " + currentX + "\nCurrent Y: " + currentY + "\nDiff X: " + diffX + "\nDiff Y: " + diffY + "\nCurrent Radian: " + currentRadian + "\nCurrent Degree: " + currentDegree + "\nDiff Angle: " + diffAngle + "\nConfidence: " + confidence + "\nSlamra Rotate: " + rotation + "\nNew Speed: " + newSpeed + "\nDiff Avg: " + diffAvg + "\nMotor 1 Power: " + motors[0].getPower() + "\nMotor 2 Power: " + motors[1].getPower() + "\nMotor 3 Power: " + motors[2].getPower() + "\nMotor 4 Power: " + motors[3].getPower() + "\nflPower: " + flPower + "\nfrPower: " + frPower + "\nrlPower: " + rlPower + "\nrrPower: " + rrPower);
             System.out.println("-");
         }
     }
@@ -181,6 +179,22 @@ public class SimpleSlamra {
         if (motorSpeed >= 0.05 && motorSpeed < 0.2) { motorSpeed = 0.2; } else
         if (motorSpeed <= -0.05 && motorSpeed > -0.2) { motorSpeed = -0.2; }
         return motorSpeed;
+    }
+
+    private void speedClimb(DcMotor motor, double targetPower, double newSpeed) {
+        final double X = 0.03;
+        double currentPower = motor.getPower();
+        targetPower = speedCap(targetPower * newSpeed);
+        if ((abs(targetPower - currentPower) > X) && (abs(targetPower) - abs(currentPower) > 0)) {
+            System.out.println("Doing speedClimb");
+            if (targetPower - currentPower > 0) {
+                targetPower = currentPower + X;
+            } else {
+                targetPower = currentPower - X;
+            }
+        }
+
+        motor.setPower(targetPower);
     }
 
     // Function which updates all telemetry
