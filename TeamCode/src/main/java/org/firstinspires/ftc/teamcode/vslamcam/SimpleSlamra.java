@@ -14,7 +14,7 @@ import com.spartronics4915.lib.T265Camera;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
-import org.opencv.core.RotatedRect;
+import org.firstinspires.ftc.teamcode.zimportants.TeleAuto;
 
 import static java.lang.Math.abs;
 
@@ -32,8 +32,8 @@ public class SimpleSlamra {
     private BNO055IMU imu;
     private double startingRadian;
     private double startingDegree;
-    private double startingX;
-    private double startingY;
+    private double offsetX;
+    private double offsetY;
 
     private double[] wheelPowers;
 
@@ -42,13 +42,8 @@ public class SimpleSlamra {
 
     private final FtcDashboard dashboard = FtcDashboard.getInstance();
 
-    // Function which is called without telemetry, simply refers to the setUp function with telemetry set to null
-    public void setUp(DcMotor[] motors, T265Camera slamra, BNO055IMU imu) {
-        setUp(motors, slamra, imu, null);
-    }
-
     // Function which is called to pass variables and hardware to this class
-    public void setUp(DcMotor[] motors, T265Camera slamra, BNO055IMU imu, Telemetry telemetry) {
+    public void setUp(DcMotor[] motors, T265Camera slamra, BNO055IMU imu, Telemetry telemetry, double offsetX, double offsetY) {
         this.motors = motors;
         this.wheelPowers = new double[motors.length];
         this.imu = imu;
@@ -60,9 +55,8 @@ public class SimpleSlamra {
         T265Camera.CameraUpdate up = slamra.getLastReceivedCameraUpdate();
         Translation2d pose = new Translation2d(up.pose.getTranslation().getX() / 0.0254, up.pose.getTranslation().getY() / 0.0254);
 
-        startingX = -pose.getY();
-        startingY = pose.getX();
-
+        this.offsetX = -pose.getY() + offsetX;
+        this.offsetY = pose.getX() + offsetY;
     }
 
     // Function which is used to update the angle of the robot, used by the drive function
@@ -75,7 +69,7 @@ public class SimpleSlamra {
     public void drive(double targetX, double targetY, double targetDegree, double speed, TeleAuto callback) {
 
         double flPower, frPower, rlPower, rrPower;
-        System.out.println("Starting Angle: " + startingDegree + "\nStarting X: " + startingX + "\nStarting Y: " + startingY);
+        System.out.println("Starting Angle: " + startingDegree + "\nStarting X: " + offsetX + "\nStarting Y: " + offsetY);
 
         while (callback.opModeIsActive()) {
             System.out.println("Start of Loop");
@@ -163,8 +157,8 @@ public class SimpleSlamra {
         Translation2d pose = new Translation2d(up.pose.getTranslation().getX() / 0.0254, up.pose.getTranslation().getY() / 0.0254);
 
         // Saves the robot's current position
-        currentX = -pose.getY() - startingX;
-        currentY = pose.getX() - startingY;
+        currentX = -pose.getY() - offsetX;
+        currentY = pose.getX() - offsetY;
         rotation = up.pose.getRotation();
         confidence = up.confidence;
         return true;
@@ -250,7 +244,3 @@ public class SimpleSlamra {
     }
 }
 
-// Implements variables which are useful for operating an autonomous, such as opModeIsActive and stopIsRequested
-interface TeleAuto {
-    boolean opModeIsActive();
-}

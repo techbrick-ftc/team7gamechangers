@@ -12,11 +12,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
-/*
- * simple little drive
- * isn't it cute?
- */
-
+@Disabled
 @TeleOp(name="Shooter", group="Test")
 public class Shooter extends LinearOpMode{
 

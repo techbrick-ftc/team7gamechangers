@@ -2,10 +2,12 @@ package org.firstinspires.ftc.teamcode.drivercontrol;
 
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
+import com.arcrobotics.ftclib.geometry.Transform2d;
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.exception.RobotCoreException;
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
@@ -13,15 +15,20 @@ import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
+import com.spartronics4915.lib.T265Camera;
 
-import org.firstinspires.ftc.teamcode.zimports.GlobalVars;
+import org.firstinspires.ftc.teamcode.vslamcam.SimpleSlamra;
+import org.firstinspires.ftc.teamcode.zimportants.GlobalVars;
+import org.firstinspires.ftc.teamcode.zimportants.TeleAuto;
 
-@TeleOp(name="Main FC", group="Mechanum")
-public class MainTele extends LinearOpMode{
+@TeleOp(name="Main", group="Mechanum")
+public class MainTele extends LinearOpMode implements TeleAuto{
 
     FtcDashboard dashboard = FtcDashboard.getInstance();
     TelemetryPacket packet = new TelemetryPacket();
 
+    /*private static T265Camera slamra = null;
+    SimpleSlamra slauto = new SimpleSlamra();*/
 
     private ElapsedTime runtime = new ElapsedTime();
     private DcMotor fl = null;
@@ -33,8 +40,9 @@ public class MainTele extends LinearOpMode{
     private Servo wobbleAxis2 = null;
     private DcMotor intake1 = null;
     private DcMotor intake2 = null;
-    private DcMotor shooter = null;  // DcMotorEx used for consistent rpm
+    private DcMotorEx shooter = null;
     private Servo shooterServo = null;
+    private CRServo tapeMeasure = null;
 
     FieldCentric drive = new FieldCentric();
     private BNO055IMU imu = null;
@@ -43,7 +51,7 @@ public class MainTele extends LinearOpMode{
         int loops = 0;
 
         // adds start telemetry
-        telemetry.addData("status", "initialized");
+        telemetry.addLine("hardware ready");
         telemetry.update();
 
         // configures hardware
@@ -56,16 +64,17 @@ public class MainTele extends LinearOpMode{
         wobbleAxis2 = hardwareMap.get(Servo.class, "wobble_axis_2");
         intake1 = hardwareMap.get(DcMotor.class, "intake_1");
         intake2 = hardwareMap.get(DcMotor.class, "intake_2");
-        shooter = hardwareMap.get(DcMotor.class, "shooter");
+        shooter = hardwareMap.get(DcMotorEx.class, "shooter");
         shooterServo = hardwareMap.get(Servo.class, "shooter_servo");
+        tapeMeasure = hardwareMap.get(CRServo.class, "tape_measure");
 
         imu = hardwareMap.get(BNO055IMU.class, "imu");
         imu.initialize(new BNO055IMU.Parameters());
 
         intake2.setDirection(DcMotorSimple.Direction.REVERSE);
 
-        //shooter.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        shooter.setDirection(DcMotor.Direction.REVERSE);
+        shooter.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        shooter.setDirection(DcMotorSimple.Direction.REVERSE);
 
         fr.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         fl.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -100,6 +109,10 @@ public class MainTele extends LinearOpMode{
         shooterServo.setPosition(1);
         wobbleAxis2.setPosition(0);
 
+        /*if (slamra == null) {
+            slamra = new T265Camera(new Transform2d(), 0.1, hardwareMap.appContext);
+        }*/
+
         waitForStart();
 
         // Robot Control
@@ -113,6 +126,10 @@ public class MainTele extends LinearOpMode{
                 dashboard.sendTelemetryPacket(packet);
                 idle();
             }
+
+            packet.put("cur2", cur2.x);
+            packet.put("trigger", gamepad2.right_trigger);
+            dashboard.sendTelemetryPacket(packet);
 
             // Set wheel powers
             drive.Drive(gamepad1.left_stick_x, -gamepad1.left_stick_y, -gamepad1.right_stick_x);
@@ -150,9 +167,9 @@ public class MainTele extends LinearOpMode{
 
             // Shooter Control
             if (gamepad2.right_trigger > 0.1) {
-                shooter.setPower(-1);
+                shooter.setVelocity(GlobalVars.shooterTaTPS);
             } else {
-                shooter.setPower(0);
+                shooter.setVelocity(0);
             }
 
             // Shooter Servo Control
@@ -163,6 +180,24 @@ public class MainTele extends LinearOpMode{
                 }
                 shooterServo.setPosition(1);
             }
+
+            // Tape Measure Control
+            if (cur2.x) {
+                tapeMeasure.setPower(1);
+            } else if (cur2.y) {
+                tapeMeasure.setPower(-1);
+            } else {
+                tapeMeasure.setPower(0);
+            }
+
+            /*// Drive to Launch button
+            if (cur2.dpad_left) { // blue side
+                //slauto.drive();
+            }
+
+            if (cur2.dpad_right) { // red side
+                slauto.drive(42, -10, -92, 0.8, this);
+            }*/
 
             // Updates prev1 & 2
             try {
@@ -184,5 +219,7 @@ public class MainTele extends LinearOpMode{
 
             loops++;
         }
+
+        /*slamra.stop();*/
     }
 }

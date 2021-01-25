@@ -2,11 +2,13 @@ package org.firstinspires.ftc.teamcode.autonomous;
 
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.autonomous.EasyOpenCVImportable;
 
+@Disabled
 @TeleOp(name="webcamTest", group="Test")
 public class WebcamTest extends LinearOpMode {
     EasyOpenCVImportable easyOpenCVImportable = new EasyOpenCVImportable();
