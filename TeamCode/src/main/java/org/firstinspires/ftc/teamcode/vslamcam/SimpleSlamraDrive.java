@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.vslamcam;
 
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
+import com.arcrobotics.ftclib.geometry.Pose2d;
 import com.arcrobotics.ftclib.geometry.Rotation2d;
 import com.arcrobotics.ftclib.geometry.Transform2d;
 import com.arcrobotics.ftclib.geometry.Translation2d;
@@ -52,7 +53,17 @@ public class SimpleSlamraDrive extends LinearOpMode implements TeleAuto {
         telemetry.update();
 
         if (slamra == null) {
-            slamra = new T265Camera(new Transform2d(new Translation2d(), new Rotation2d(Math.PI / 2)), 0.1, hardwareMap.appContext);
+            // This one specifies the location of the camera relative to the robot. We need to specify that it
+            // is at 90 degrees, since we still want the front to be on the other side.
+            Transform2d cameraToRobot = new Transform2d(new Translation2d(), Rotation2d.fromDegrees(-90));
+
+            // This one specifies the starting location of the robot on the field, so we will have different values for
+            // different starting points on the field.
+            //Pose2d startingPose = new Pose2d(new Translation2d(40 * 0.0254, 27 * 0.0254), Rotation2d.fromDegrees(-90));
+            Pose2d startingPose = new Pose2d(new Translation2d(24 * 0.0254, -64 * 0.0254), Rotation2d.fromDegrees(90));
+
+            slamra = new T265Camera(cameraToRobot, 0.1, hardwareMap.appContext);
+            slamra.setPose(startingPose);
         }
 
         telemetry.addLine("Camera Done");
@@ -75,7 +86,7 @@ public class SimpleSlamraDrive extends LinearOpMode implements TeleAuto {
 
         if (opModeIsActive()) {
             slamra.start();
-            slauto.drive(0, 30, 0, 0.8, this);
+            slauto.drive(5, 0, 0, 0.8, this);
             slamra.stop();
         }
     }
