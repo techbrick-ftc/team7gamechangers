@@ -32,8 +32,8 @@ public class SimpleSlamra {
     private BNO055IMU imu;
     private double startingRadian;
     private double startingDegree;
-    private double offsetX;
-    private double offsetY;
+    private double startingX;
+    private double startingY;
 
     private double[] wheelPowers;
 
@@ -43,7 +43,7 @@ public class SimpleSlamra {
     private final FtcDashboard dashboard = FtcDashboard.getInstance();
 
     // Function which is called to pass variables and hardware to this class
-    public void setUp(DcMotor[] motors, T265Camera slamra, BNO055IMU imu, Telemetry telemetry, double offsetX, double offsetY) {
+    public void setUp(DcMotor[] motors, T265Camera slamra, BNO055IMU imu, Telemetry telemetry) {
         this.motors = motors;
         this.wheelPowers = new double[motors.length];
         this.imu = imu;
@@ -55,8 +55,8 @@ public class SimpleSlamra {
         T265Camera.CameraUpdate up = slamra.getLastReceivedCameraUpdate();
         Translation2d pose = new Translation2d(up.pose.getTranslation().getX() / 0.0254, up.pose.getTranslation().getY() / 0.0254);
 
-        this.offsetX = -pose.getY() + offsetX;
-        this.offsetY = pose.getX() + offsetY;
+        this.startingX = -pose.getY();
+        this.startingY = pose.getX();
     }
 
     // Function which is used to update the angle of the robot, used by the drive function
@@ -69,7 +69,7 @@ public class SimpleSlamra {
     public void drive(double targetX, double targetY, double targetDegree, double speed, TeleAuto callback) {
 
         double flPower, frPower, rlPower, rrPower;
-        System.out.println("Starting Angle: " + startingDegree + "\nStarting X: " + offsetX + "\nStarting Y: " + offsetY);
+        System.out.println("Starting Angle: " + startingDegree + "\nStarting X: " + startingX + "\nStarting Y: " + startingY);
 
         while (callback.opModeIsActive()) {
             System.out.println("Start of Loop");
@@ -157,8 +157,8 @@ public class SimpleSlamra {
         Translation2d pose = new Translation2d(up.pose.getTranslation().getX() / 0.0254, up.pose.getTranslation().getY() / 0.0254);
 
         // Saves the robot's current position
-        currentX = -pose.getY() - offsetX;
-        currentY = pose.getX() - offsetY;
+        currentX = -pose.getY() - startingX;
+        currentY = pose.getX() - startingY;
         rotation = up.pose.getRotation();
         confidence = up.confidence;
         return true;

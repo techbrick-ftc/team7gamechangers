@@ -98,7 +98,7 @@ public class EasyOpenCVImportable {
         static final Scalar GREEN = new Scalar(0, 255, 0);
 
         // Core values for position and size
-        static final Point REGION1_TOPLEFT_ANCHOR_POINT = new Point(181, 98);
+        static final Point REGION1_TOPLEFT_ANCHOR_POINT = new Point(180, 5);
 
         static final int REGION_WIDTH = 90;
         static final int REGION_HEIGHT = 60;

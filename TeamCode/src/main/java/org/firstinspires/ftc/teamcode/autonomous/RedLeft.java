@@ -2,7 +2,10 @@ package org.firstinspires.ftc.teamcode.autonomous;
 
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
+import com.arcrobotics.ftclib.geometry.Pose2d;
+import com.arcrobotics.ftclib.geometry.Rotation2d;
 import com.arcrobotics.ftclib.geometry.Transform2d;
+import com.arcrobotics.ftclib.geometry.Translation2d;
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -17,8 +20,8 @@ import org.firstinspires.ftc.teamcode.vslamcam.SimpleSlamra;
 import org.firstinspires.ftc.teamcode.zimportants.AutoImport;
 import org.firstinspires.ftc.teamcode.zimportants.TeleAuto;
 
-@Autonomous(name="BlueMain", group="Red")
-public class BlueMain extends LinearOpMode implements TeleAuto {
+@Autonomous(name="RedLeft", group="Red")
+public class RedLeft extends LinearOpMode implements TeleAuto {
 
     private DcMotor m1 = null;
     private DcMotor m2 = null;
@@ -36,11 +39,15 @@ public class BlueMain extends LinearOpMode implements TeleAuto {
     private static T265Camera slamra = null;
 
     SimpleSlamra slauto = new SimpleSlamra();
+    EasyOpenCVImportable camera = new EasyOpenCVImportable();
     AutoImport auto = new AutoImport();
     private BNO055IMU imu;
 
     FtcDashboard dashboard = FtcDashboard.getInstance();
     TelemetryPacket packet = new TelemetryPacket();
+
+    // vars used in program
+    private int activeGoal;
 
     public void runOpMode() {
         // configures hardware
@@ -63,9 +70,12 @@ public class BlueMain extends LinearOpMode implements TeleAuto {
         shooterServo = hardwareMap.get(Servo.class, "shooter_servo");
         tapeMeasure = hardwareMap.get(CRServo.class, "tape_measure");
 
+        wobbleAxis1.setDirection(DcMotorSimple.Direction.REVERSE);
+
         shooter.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         shooter.setDirection(DcMotorSimple.Direction.REVERSE);
 
+        // initializes imu
         imu = hardwareMap.get(BNO055IMU.class, "imu");
         BNO055IMU.Parameters param = new BNO055IMU.Parameters();
         param.accelUnit = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
@@ -75,14 +85,22 @@ public class BlueMain extends LinearOpMode implements TeleAuto {
         telemetry.addLine("IMU Done");
         telemetry.update();
 
+        // initializes easyopencv
+        camera.init(EasyOpenCVImportable.CameraType.WEBCAM, hardwareMap);
+
+        // initializes slamra
         if (slamra == null) {
-            slamra = new T265Camera(new Transform2d(), 0.1, hardwareMap.appContext);
+            Transform2d cameraToRobot = new Transform2d(new Translation2d(), Rotation2d.fromDegrees(-90));
+            Pose2d startingPose = new Pose2d(new Translation2d(23 * 0.0254, -62 * 0.0254), Rotation2d.fromDegrees(90));
+            slamra = new T265Camera(cameraToRobot, 0.1, hardwareMap.appContext);
+            slamra.setPose(startingPose);
         }
 
-        telemetry.addLine("Camera Done");
+        telemetry.addLine("Cameras Done");
         telemetry.update();
 
-        DcMotor[] motors = {m1, m2, m3, m4};
+        // passes hardware to auto class
+        auto.setUp(shooter, shooterServo, wobbleAxis2, wobbleAxis1, tapeMeasure);
 
         // adds start telemetry
         telemetry.addLine("hardware configured");
@@ -90,23 +108,49 @@ public class BlueMain extends LinearOpMode implements TeleAuto {
         packet.addLine("hardware configured");
         dashboard.sendTelemetryPacket(packet);
 
-        // Sets position of servos
-
+        // sets servos to starting positions
+        shooterServo.setPosition(1);
 
         waitForStart();
 
-        slauto.setUp(motors, slamra, imu, telemetry, -24, 64); // offsetX and Y are negative
-        auto.setUp(shooter, shooterServo);
+        // passes hardware to slamra class
+        DcMotor[] motors = {m1, m2, m3, m4};
+        slauto.setUp(motors, slamra, imu, telemetry);
 
         packet.addLine("program started");
         dashboard.sendTelemetryPacket(packet);
 
         if (opModeIsActive()) {
-            slamra.start();
-            shooter.setVelocity(-1444);
-            slauto.drive(42, -6, 0, 1, this);
-            auto.shoot(-1444, 4000, 0, 4000);
-            slamra.stop();
+            slamra.start(); // starts slamra
+            auto.wobbleControl("raise", this); // moves wobble out of slamra's way
+
+            // gets the current amount of rings
+            camera.startDetection();
+            sleep(1000);
+            EasyOpenCVImportable.RingNumber rings = camera.getDetection();
+            camera.stopDetection();
+            if (rings.equals(EasyOpenCVImportable.RingNumber.FOUR)) {
+                activeGoal = 2;
+            } else if (rings.equals(EasyOpenCVImportable.RingNumber.ONE)) {
+                activeGoal = 1;
+            } else if (rings.equals(EasyOpenCVImportable.RingNumber.NONE)) {
+                activeGoal = 0;
+            }
+
+            // drives to shooting position and shoots 3
+            shooter.setVelocity(-1540);
+            slauto.drive(7, 39, 0, 1, this);
+            auto.shoot(-1540, 3, 0, 1500);
+
+            // drives to wobble goal and drops, before raising again
+            auto.wobble("red", activeGoal, "drop", slauto, this);
+            auto.wobbleControl("store", this);
+
+            // parks at line
+            slauto.drive(7, 52, 0, 1, this);
+            auto.park(5000);
+
+            slamra.stop(); // stops slamra
         }
     }
 }

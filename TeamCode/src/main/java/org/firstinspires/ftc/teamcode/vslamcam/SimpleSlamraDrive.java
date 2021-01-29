@@ -15,6 +15,7 @@ import com.spartronics4915.lib.T265Camera;
 
 import org.firstinspires.ftc.teamcode.zimportants.TeleAuto;
 
+@Disabled
 @Autonomous(name="SCAuto", group="Autonomous")
 public class SimpleSlamraDrive extends LinearOpMode implements TeleAuto {
 
@@ -60,7 +61,7 @@ public class SimpleSlamraDrive extends LinearOpMode implements TeleAuto {
             // This one specifies the starting location of the robot on the field, so we will have different values for
             // different starting points on the field.
             //Pose2d startingPose = new Pose2d(new Translation2d(40 * 0.0254, 27 * 0.0254), Rotation2d.fromDegrees(-90));
-            Pose2d startingPose = new Pose2d(new Translation2d(24 * 0.0254, -64 * 0.0254), Rotation2d.fromDegrees(90));
+            Pose2d startingPose = new Pose2d(new Translation2d(23 * 0.0254, -62 * 0.0254), Rotation2d.fromDegrees(90));
 
             slamra = new T265Camera(cameraToRobot, 0.1, hardwareMap.appContext);
             slamra.setPose(startingPose);
@@ -79,14 +80,14 @@ public class SimpleSlamraDrive extends LinearOpMode implements TeleAuto {
 
         waitForStart();
 
-        slauto.setUp(motors, slamra, imu, telemetry, 0, 0);
+        slauto.setUp(motors, slamra, imu, telemetry);
 
         packet.addLine("program started");
         dashboard.sendTelemetryPacket(packet);
 
         if (opModeIsActive()) {
             slamra.start();
-            slauto.drive(5, 0, 0, 0.8, this);
+            slauto.drive(-40, 40, 90, 0.8, this);
             slamra.stop();
         }
     }

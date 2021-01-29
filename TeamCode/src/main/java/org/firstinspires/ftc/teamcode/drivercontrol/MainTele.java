@@ -73,6 +73,9 @@ public class MainTele extends LinearOpMode implements TeleAuto{
 
         intake2.setDirection(DcMotorSimple.Direction.REVERSE);
 
+        wobbleAxis1.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        wobbleAxis1.setDirection(DcMotorSimple.Direction.REVERSE);
+
         shooter.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         shooter.setDirection(DcMotorSimple.Direction.REVERSE);
 
@@ -137,10 +140,11 @@ public class MainTele extends LinearOpMode implements TeleAuto{
             // Wobble Grabber Control
             double wobbleY = gamepad2.left_stick_y;
             double wobble1Power = Range.clip(wobbleY, -0.75, 0.75);
-
-            wobbleAxis1.setPower(wobble1Power);
-            wobbleAxis1.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-            wobbleAxis1.setDirection(DcMotorSimple.Direction.REVERSE);
+            if ((wobbleY > 0 && wobbleAxis1.getCurrentPosition() < 6100) || (wobbleY < 0 && wobbleAxis1.getCurrentPosition() > 0)) {
+                wobbleAxis1.setPower(wobble1Power);
+            } else {
+                wobbleAxis1.setPower(0);
+            }
 
             if (cur2.b && !prev2.b && !axis2Switch) {
                 wobbleAxis2.setPosition(0.5);
@@ -216,6 +220,10 @@ public class MainTele extends LinearOpMode implements TeleAuto{
             packet.put("rr power", rr.getPower());
             packet.put("rl power", rl.getPower());
             dashboard.sendTelemetryPacket(packet);
+
+            telemetry.addData("wobble encoder", wobbleAxis1.getCurrentPosition());
+            telemetry.addData("wobble servo position", wobbleAxis2.getPosition());
+            telemetry.update();
 
             loops++;
         }
