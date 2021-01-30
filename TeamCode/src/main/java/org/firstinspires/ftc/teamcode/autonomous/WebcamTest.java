@@ -15,7 +15,7 @@ public class WebcamTest extends LinearOpMode {
     TelemetryPacket packet = new TelemetryPacket();
 
     public void runOpMode() {
-        easyOpenCVImportable.init(EasyOpenCVImportable.CameraType.WEBCAM, hardwareMap);
+        easyOpenCVImportable.init(EasyOpenCVImportable.CameraType.WEBCAM, hardwareMap, 180, 5, 90, 60);
 
         waitForStart();
 

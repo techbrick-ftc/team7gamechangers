@@ -22,12 +22,21 @@ public class EasyOpenCVImportable {
     private UltimateGoalDetectionPipeline pipeline;
     private boolean detecting;
 
-    public void init(CameraType cameraType, final HardwareMap hardwareMap) {
+    private static int posX;
+    private static int posY;
+    private static int width;
+    private static int height;
+
+    public void init(CameraType cameraType, final HardwareMap hardwareMap, int posX, int posY, int width, int height) {
         if (cameraType.equals(CameraType.WEBCAM)) {
             initWebcam(hardwareMap, "Webcam 1");
         } else {
             initPhone(hardwareMap);
         }
+        EasyOpenCVImportable.posX = posX;
+        EasyOpenCVImportable.posY = posY;
+        EasyOpenCVImportable.width = width;
+        EasyOpenCVImportable.height = height;
     }
 
     public void initWebcam(final HardwareMap hardwareMap, final String webcamName) {
@@ -98,10 +107,10 @@ public class EasyOpenCVImportable {
         static final Scalar GREEN = new Scalar(0, 255, 0);
 
         // Core values for position and size
-        static final Point REGION1_TOPLEFT_ANCHOR_POINT = new Point(180, 5);
+        static final Point REGION1_TOPLEFT_ANCHOR_POINT = new Point(posX, posY);
 
-        static final int REGION_WIDTH = 90;
-        static final int REGION_HEIGHT = 60;
+        static final int REGION_WIDTH = width;
+        static final int REGION_HEIGHT = height;
 
         final int FOUR_RING_THRESHOLD = 129;
         final int ONE_RING_THRESHOLD = 125;

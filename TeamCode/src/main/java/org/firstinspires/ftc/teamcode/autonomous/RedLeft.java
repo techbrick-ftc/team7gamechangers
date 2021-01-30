@@ -86,7 +86,7 @@ public class RedLeft extends LinearOpMode implements TeleAuto {
         telemetry.update();
 
         // initializes easyopencv
-        camera.init(EasyOpenCVImportable.CameraType.WEBCAM, hardwareMap);
+        camera.init(EasyOpenCVImportable.CameraType.WEBCAM, hardwareMap, 180, 5, 90, 60);
 
         // initializes slamra
         if (slamra == null) {
