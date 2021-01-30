@@ -11,7 +11,6 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.spartronics4915.lib.T265Camera;
 
-@Disabled
 @TeleOp(name="Slamra Test", group="Iterative Opmode")
 public class SlamraTest extends OpMode
 {

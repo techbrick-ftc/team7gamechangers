@@ -242,5 +242,13 @@ public class SimpleSlamra {
         }
         return newTheta;
     }
+
+    private void sleep(long milliseconds) {
+        try {
+            Thread.sleep(milliseconds);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
+    }
 }
 

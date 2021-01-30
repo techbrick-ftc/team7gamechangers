@@ -91,7 +91,7 @@ public class RedLeft extends LinearOpMode implements TeleAuto {
         // initializes slamra
         if (slamra == null) {
             Transform2d cameraToRobot = new Transform2d(new Translation2d(), Rotation2d.fromDegrees(-90));
-            Pose2d startingPose = new Pose2d(new Translation2d(23 * 0.0254, -62 * 0.0254), Rotation2d.fromDegrees(90));
+            Pose2d startingPose = new Pose2d(new Translation2d(25 * 0.0254, -63 * 0.0254), Rotation2d.fromDegrees(90));
             slamra = new T265Camera(cameraToRobot, 0.1, hardwareMap.appContext);
             slamra.setPose(startingPose);
         }
@@ -125,17 +125,7 @@ public class RedLeft extends LinearOpMode implements TeleAuto {
             auto.wobbleControl("raise", this); // moves wobble out of slamra's way
 
             // gets the current amount of rings
-            camera.startDetection();
-            sleep(1000);
-            EasyOpenCVImportable.RingNumber rings = camera.getDetection();
-            camera.stopDetection();
-            if (rings.equals(EasyOpenCVImportable.RingNumber.FOUR)) {
-                activeGoal = 2;
-            } else if (rings.equals(EasyOpenCVImportable.RingNumber.ONE)) {
-                activeGoal = 1;
-            } else if (rings.equals(EasyOpenCVImportable.RingNumber.NONE)) {
-                activeGoal = 0;
-            }
+            activeGoal = auto.ringCount(1000, camera);
 
             // drives to shooting position and shoots 3
             shooter.setVelocity(-1540);
@@ -143,7 +133,7 @@ public class RedLeft extends LinearOpMode implements TeleAuto {
             auto.shoot(-1540, 3, 0, 1500);
 
             // drives to wobble goal and drops, before raising again
-            auto.wobble("red", activeGoal, "drop", slauto, this);
+            auto.wobble(1, "red", activeGoal, "drop", slauto, this);
             auto.wobbleControl("store", this);
 
             // parks at line
