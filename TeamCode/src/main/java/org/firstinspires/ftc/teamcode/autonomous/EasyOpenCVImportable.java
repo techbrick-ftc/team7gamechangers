@@ -99,6 +99,8 @@ public class EasyOpenCVImportable {
         FOUR
     }
 
+    public int getAnalysis() { return this.pipeline.avg1; }
+
     private static class UltimateGoalDetectionPipeline extends OpenCvPipeline {
 
 
@@ -112,8 +114,8 @@ public class EasyOpenCVImportable {
         static final int REGION_WIDTH = width;
         static final int REGION_HEIGHT = height;
 
-        final int FOUR_RING_THRESHOLD = 129;
-        final int ONE_RING_THRESHOLD = 125;
+        final int FOUR_RING_THRESHOLD = 139;
+        final int ONE_RING_THRESHOLD = 128;
 
         Point region1_pointA = new Point(
                 REGION1_TOPLEFT_ANCHOR_POINT.x,
@@ -175,8 +177,6 @@ public class EasyOpenCVImportable {
 
             return input;
         }
-
-        public int getAnalysis() { return avg1; }
     }
 
     enum CameraType {

@@ -17,6 +17,9 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 import com.spartronics4915.lib.T265Camera;
 
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.teamcode.vslamcam.SimpleSlamra;
 import org.firstinspires.ftc.teamcode.zimportants.GlobalVars;
 import org.firstinspires.ftc.teamcode.zimportants.TeleAuto;
@@ -46,6 +49,8 @@ public class MainTele extends LinearOpMode implements TeleAuto{
 
     FieldCentric drive = new FieldCentric();
     private BNO055IMU imu = null;
+
+    double offsetAngle = 0;
 
     public void runOpMode() {
         int loops = 0;
@@ -140,11 +145,7 @@ public class MainTele extends LinearOpMode implements TeleAuto{
             // Wobble Grabber Control
             double wobbleY = gamepad2.left_stick_y;
             double wobble1Power = Range.clip(wobbleY, -0.75, 0.75);
-            if ((wobbleY > 0 && wobbleAxis1.getCurrentPosition() < 6100) || (wobbleY < 0 && wobbleAxis1.getCurrentPosition() > 0)) {
-                wobbleAxis1.setPower(wobble1Power);
-            } else {
-                wobbleAxis1.setPower(0);
-            }
+            wobbleAxis1.setPower(wobble1Power);
 
             if (cur2.b && !prev2.b && !axis2Switch) {
                 wobbleAxis2.setPosition(0.5);
@@ -171,7 +172,7 @@ public class MainTele extends LinearOpMode implements TeleAuto{
 
             // Shooter Control
             if (gamepad2.right_trigger > 0.1) {
-                shooter.setVelocity(GlobalVars.shooterTaTPS);
+                shooter.setVelocity(-1540);
             } else {
                 shooter.setVelocity(0);
             }
@@ -179,7 +180,7 @@ public class MainTele extends LinearOpMode implements TeleAuto{
             // Shooter Servo Control
             if (cur2.a && !prev2.a) {
                 ElapsedTime launchServoTime = new ElapsedTime();
-                while(launchServoTime.milliseconds() < 1000 && opModeIsActive()) {
+                while(launchServoTime.milliseconds() < 500 && opModeIsActive()) {
                     shooterServo.setPosition(0);
                 }
                 shooterServo.setPosition(1);
@@ -202,6 +203,11 @@ public class MainTele extends LinearOpMode implements TeleAuto{
             if (cur2.dpad_right) { // red side
                 slauto.drive(42, -10, -92, 0.8, this);
             }*/
+
+            // Reset Field Centric button
+            if (cur1.a) {
+                drive.newOffset();
+            }
 
             // Updates prev1 & 2
             try {

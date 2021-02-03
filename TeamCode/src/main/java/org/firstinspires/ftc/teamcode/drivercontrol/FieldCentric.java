@@ -7,6 +7,8 @@ import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 
+import static java.lang.Math.abs;
+
 public class FieldCentric {
     // Variable setup, all will be explained within code
     private DcMotor[] motors;
@@ -16,6 +18,7 @@ public class FieldCentric {
     private double rotation = 0;
     private double currentAngle;
     private BNO055IMU imu;
+    private double offsetAngle = 0;
 
     private double[] wheelPowers;
 
@@ -39,7 +42,7 @@ public class FieldCentric {
     }
 
     private void getAngle() {
-        currentAngle = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.RADIANS).firstAngle;
+        currentAngle = wrap(imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.RADIANS).firstAngle - offsetAngle);
     }
 
     /**
@@ -94,8 +97,24 @@ public class FieldCentric {
             math is counter-clockwise)
          */
         for (int i = 0; i < motors.length; i++) {
-            motors[i].setPower(Math.sin(wheelAngles[i] - newTheta) * r + turn);
+            motors[i].setPower(Math.sin(wheelAngles[i] - newTheta) * r + (turn / 1.2));
             wheelPowers[i] = motors[i].getPower();
         }
+    }
+
+    public void newOffset() {
+        offsetAngle = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.RADIANS).firstAngle - Math.PI/2;
+    }
+
+    private double wrap(double theta) {
+        double newTheta = theta;
+        while(abs(newTheta) > Math.PI) {
+            if (newTheta < -Math.PI) {
+                newTheta += Math.PI * 2;
+            } else {
+                newTheta -= Math.PI * 2;
+            }
+        }
+        return newTheta;
     }
 }

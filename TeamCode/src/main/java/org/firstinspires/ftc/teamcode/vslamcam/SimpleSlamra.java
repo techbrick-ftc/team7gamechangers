@@ -65,8 +65,12 @@ public class SimpleSlamra {
         currentDegree = wrap(imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle - startingDegree);
     }
 
-    // Main function, called to go to a target X and Y position, at a set speed and angle
     public void drive(double targetX, double targetY, double targetDegree, double speed, TeleAuto callback) {
+        drive(targetX, targetY, targetDegree, speed, callback, true);
+    }
+
+    // Main function, called to go to a target X and Y position, at a set speed and angle
+    public void drive(double targetX, double targetY, double targetDegree, double speed, TeleAuto callback, boolean doSlow) {
 
         double flPower, frPower, rlPower, rrPower;
         System.out.println("Starting Angle: " + startingDegree + "\nStarting X: " + startingX + "\nStarting Y: " + startingY);
@@ -88,7 +92,11 @@ public class SimpleSlamra {
             double diffAvg = (abs(diffX) + abs(diffY) + (abs(diffAngle) / 6)) / 3;
 
             // Stops robot and ends the loop if the target positions and angle had been completed
-            if (abs(diffX) < 1 && abs(diffY) < 1 && abs(diffAngle) < 4) {
+            if (doSlow && abs(diffX) < 1 && abs(diffY) < 1 && abs(diffAngle) < 4) {
+                System.out.println("Breaking out of Loop");
+                halt();
+                break;
+            } else if (!doSlow && abs(diffX) < 5 && abs(diffY) < 5 && abs(diffAngle) < 10) {
                 System.out.println("Breaking out of Loop");
                 halt();
                 break;
@@ -112,7 +120,10 @@ public class SimpleSlamra {
             rrPower /= max;
 
             double newSpeed = speed;
-            newSpeed *= clamp(0.3, 1, diffAvg / 10);
+
+            if (doSlow) {
+                newSpeed *= clamp(0.3, 1, diffAvg / 10);
+            }
 
             speedClimb(motors[0], flPower, newSpeed);
             speedClimb(motors[1], frPower, newSpeed);

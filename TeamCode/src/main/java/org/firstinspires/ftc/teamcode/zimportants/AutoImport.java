@@ -48,20 +48,20 @@ public class AutoImport {
     public void wobble(double speed, String side, int goal, String motion, SimpleSlamra slauto, TeleAuto callback) {
         if (side == "red") {
             if (goal == 0) {
-                slauto.drive(6, 48, 180, speed, callback);;
+                slauto.drive(20, 67, 180, speed, callback);
             } else if (goal == 1) {
-                slauto.drive(-18, 28, 180, speed, callback);
+                slauto.drive(-4, 43, 180, speed, callback);
             } else if (goal == 2) {
-                slauto.drive(-42, 52, 180, speed, callback);
+                slauto.drive(-28, 67, 180, speed, callback);
             }
 
         } else if (side == "blue") {
             if (goal == 0) {
-                slauto.drive(6, -48, 0, speed, callback);
+                slauto.drive(20, -67, 180, speed, callback);
             } else if (goal == 1) {
-                slauto.drive(-18, -28, 0, speed, callback);
+                slauto.drive(-24, -28, 180, speed, callback);
             } else if (goal == 2) {
-                slauto.drive(-42, -52, 0, speed, callback);
+                slauto.drive(-48, -40, 180, speed, callback);
             }
         }
 
@@ -70,7 +70,6 @@ public class AutoImport {
 
     public void wobbleControl(String motion, TeleAuto callback) {
         if (motion == "store") {
-            wobbleServo.setPosition(0);
             wobbleMotor.setTargetPosition(0);
             wobbleMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             wobbleMotor.setPower(1);
@@ -85,17 +84,18 @@ public class AutoImport {
             while (callback.opModeIsActive() && wobbleMotor.isBusy()) sleep(10);
 
             wobbleMotor.setPower(0);
+            sleep(100);
             wobbleServo.setPosition(0.5);
-            sleep(1000);
+            sleep(100);
 
         } else if (motion == "raise") {
-            wobbleServo.setPosition(0);
             wobbleMotor.setTargetPosition(3050);
             wobbleMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             wobbleMotor.setPower(1);
             while (callback.opModeIsActive() && wobbleMotor.isBusy()) sleep(10);
 
             wobbleMotor.setPower(0);
+            wobbleServo.setPosition(0);
         }
     }
 
@@ -107,10 +107,8 @@ public class AutoImport {
 
     public int ringCount(long delay, EasyOpenCVImportable camera) {
         int activeGoal = 0;
-        camera.startDetection();
         sleep(delay);
         EasyOpenCVImportable.RingNumber rings = camera.getDetection();
-        camera.stopDetection();
         if (rings.equals(EasyOpenCVImportable.RingNumber.FOUR)) {
             activeGoal = 2;
             System.out.println("Active Rings: FOUR");

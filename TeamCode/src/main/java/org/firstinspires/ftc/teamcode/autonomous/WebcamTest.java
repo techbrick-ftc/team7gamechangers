@@ -15,7 +15,7 @@ public class WebcamTest extends LinearOpMode {
     TelemetryPacket packet = new TelemetryPacket();
 
     public void runOpMode() {
-        easyOpenCVImportable.init(EasyOpenCVImportable.CameraType.WEBCAM, hardwareMap, 180, 5, 90, 60);
+        easyOpenCVImportable.init(EasyOpenCVImportable.CameraType.WEBCAM, hardwareMap, 5, 125, 45, 60);
 
         waitForStart();
 
@@ -24,6 +24,7 @@ public class WebcamTest extends LinearOpMode {
             while(opModeIsActive() && !isStopRequested()) {
                 packet.put("status", easyOpenCVImportable.getDetecting());
                 packet.put("detected", easyOpenCVImportable.getDetection());
+                packet.put("analysis", easyOpenCVImportable.getAnalysis());
                 dashboard.sendTelemetryPacket(packet);
                 dashboard.startCameraStream(easyOpenCVImportable.getWebCamera(), 0);
             }

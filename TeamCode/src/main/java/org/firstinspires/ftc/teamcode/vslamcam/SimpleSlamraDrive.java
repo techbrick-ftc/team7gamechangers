@@ -15,6 +15,7 @@ import com.spartronics4915.lib.T265Camera;
 
 import org.firstinspires.ftc.teamcode.zimportants.TeleAuto;
 
+@Disabled
 @Autonomous(name="SCAuto", group="Autonomous")
 public class SimpleSlamraDrive extends LinearOpMode implements TeleAuto {
 
@@ -55,12 +56,12 @@ public class SimpleSlamraDrive extends LinearOpMode implements TeleAuto {
         if (slamra == null) {
             // This one specifies the location of the camera relative to the robot. We need to specify that it
             // is at 90 degrees, since we still want the front to be on the other side.
-            Transform2d cameraToRobot = new Transform2d(new Translation2d(), Rotation2d.fromDegrees(-90));
+            Transform2d cameraToRobot = new Transform2d(new Translation2d(6 * 0.0254, 7 * 0.0254), Rotation2d.fromDegrees(-90));
 
             // This one specifies the starting location of the robot on the field, so we will have different values for
             // different starting points on the field.
             //Pose2d startingPose = new Pose2d(new Translation2d(40 * 0.0254, 27 * 0.0254), Rotation2d.fromDegrees(-90));
-            Pose2d startingPose = new Pose2d(new Translation2d(25 * 0.0254, -63 * 0.0254), Rotation2d.fromDegrees(90));
+            Pose2d startingPose = new Pose2d(new Translation2d(24 * 0.0254, -56 * 0.0254), Rotation2d.fromDegrees(90));
 
             slamra = new T265Camera(cameraToRobot, 1, hardwareMap.appContext);
             slamra.setPose(startingPose);
