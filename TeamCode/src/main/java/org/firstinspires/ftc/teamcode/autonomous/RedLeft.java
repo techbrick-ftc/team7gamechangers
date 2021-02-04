@@ -21,7 +21,7 @@ import org.firstinspires.ftc.teamcode.zimportants.AutoImport;
 import org.firstinspires.ftc.teamcode.zimportants.EasyOpenCVImportable;
 import org.firstinspires.ftc.teamcode.zimportants.TeleAuto;
 
-@Autonomous(name="RedLeft", group="Red")
+@Autonomous(name="RedLeft", group="Blue")
 public class RedLeft extends LinearOpMode implements TeleAuto {
 
     private DcMotor m1 = null;
@@ -92,7 +92,7 @@ public class RedLeft extends LinearOpMode implements TeleAuto {
         // initializes slamra
         if (slamra == null) {
             Transform2d cameraToRobot = new Transform2d(new Translation2d(6 * 0.0254, 7 * 0.0254), Rotation2d.fromDegrees(-90));
-            Pose2d startingPose = new Pose2d(new Translation2d(-24 * 0.0254, -56 * 0.0254), Rotation2d.fromDegrees(90));
+            Pose2d startingPose = new Pose2d(new Translation2d(24 * 0.0254, -56 * 0.0254), Rotation2d.fromDegrees(90));
             slamra = new T265Camera(cameraToRobot, 0.1, hardwareMap.appContext);
             slamra.setPose(startingPose);
         }
@@ -134,17 +134,17 @@ public class RedLeft extends LinearOpMode implements TeleAuto {
             slamra.start(); // starts slamra
 
             // drives to shooting position and shoots 3 rings
-            shooter.setVelocity(-1540);
-            slauto.drive(9, -24, 0, 1, this, false);
-            slauto.drive(2, -39, 0, 1, this);
-            auto.shoot(-1540, 3, 0, 1500);
+            shooter.setVelocity(-1500);
+            slauto.drive(9, 24, 0, 1, this, false);
+            slauto.drive(2, 39, 0, 1, this);
+            auto.shoot(-1500, 3, 0, 500);
 
             // drives to wobble goal and drops, before raising again
-            auto.wobble(1, "blue", activeGoal, "drop", slauto, this);
+            auto.wobble(1, "red", activeGoal, "drop", slauto, this);
             auto.wobbleControl("store", this);
 
             // parks at middle of field
-            slauto.drive(-10, -15, -90, 1, this);
+            slauto.drive(-10, 15, -90, 1, this);
 
             slamra.stop(); // stops slamra
         }

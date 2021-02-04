@@ -2,7 +2,10 @@ package org.firstinspires.ftc.teamcode.drivercontrol;
 
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
+import com.arcrobotics.ftclib.geometry.Pose2d;
+import com.arcrobotics.ftclib.geometry.Rotation2d;
 import com.arcrobotics.ftclib.geometry.Transform2d;
+import com.arcrobotics.ftclib.geometry.Translation2d;
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -30,8 +33,8 @@ public class MainTele extends LinearOpMode implements TeleAuto{
     FtcDashboard dashboard = FtcDashboard.getInstance();
     TelemetryPacket packet = new TelemetryPacket();
 
-    /*private static T265Camera slamra = null;
-    SimpleSlamra slauto = new SimpleSlamra();*/
+    private static T265Camera slamra = null;
+    SimpleSlamra slauto = new SimpleSlamra();
 
     private ElapsedTime runtime = new ElapsedTime();
     private DcMotor fl = null;
@@ -49,8 +52,6 @@ public class MainTele extends LinearOpMode implements TeleAuto{
 
     FieldCentric drive = new FieldCentric();
     private BNO055IMU imu = null;
-
-    double offsetAngle = 0;
 
     public void runOpMode() {
         int loops = 0;
@@ -117,11 +118,17 @@ public class MainTele extends LinearOpMode implements TeleAuto{
         shooterServo.setPosition(1);
         wobbleAxis2.setPosition(0);
 
-        /*if (slamra == null) {
-            slamra = new T265Camera(new Transform2d(), 0.1, hardwareMap.appContext);
-        }*/
+        if (slamra == null) {
+            System.out.println("slamra is null");
+            Transform2d cameraToRobot = new Transform2d(new Translation2d(6 * 0.0254, 7 * 0.0254), Rotation2d.fromDegrees(-90));
+            Pose2d startingPose = new Pose2d(new Translation2d(24 * 0.0254, -56 * 0.0254), Rotation2d.fromDegrees(90));
+            slamra = new T265Camera(cameraToRobot, 0.1, hardwareMap.appContext);
+            slamra.setPose(startingPose);
+        }
 
         waitForStart();
+
+        slauto.setUp(motors, slamra, imu, telemetry);
 
         // Robot Control
         while(opModeIsActive()) {
@@ -195,14 +202,14 @@ public class MainTele extends LinearOpMode implements TeleAuto{
                 tapeMeasure.setPower(0);
             }
 
-            /*// Drive to Launch button
-            if (cur2.dpad_left) { // blue side
+            // Drive to Launch button
+            /*if (cur2.dpad_left) { // blue side
                 //slauto.drive();
-            }
-
-            if (cur2.dpad_right) { // red side
-                slauto.drive(42, -10, -92, 0.8, this);
             }*/
+
+            if (cur1.b) { // red side
+                slauto.drive(42, -10, -92, 0.8, this);
+            }
 
             // Reset Field Centric button
             if (cur1.a) {

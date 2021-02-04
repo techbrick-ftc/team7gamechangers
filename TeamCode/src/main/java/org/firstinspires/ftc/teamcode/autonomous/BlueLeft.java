@@ -21,7 +21,7 @@ import org.firstinspires.ftc.teamcode.zimportants.AutoImport;
 import org.firstinspires.ftc.teamcode.zimportants.EasyOpenCVImportable;
 import org.firstinspires.ftc.teamcode.zimportants.TeleAuto;
 
-@Autonomous(name="BlueLeft", group="Blue")
+@Autonomous(name="BlueLeft", group="Red")
 public class BlueLeft extends LinearOpMode implements TeleAuto {
 
     private DcMotor m1 = null;
@@ -134,17 +134,17 @@ public class BlueLeft extends LinearOpMode implements TeleAuto {
             slamra.start(); // starts slamra
 
             // drives to shooting position and shoots 3 rings
-            shooter.setVelocity(-1540);
-            slauto.drive(9, 55, 0, 1, this, false);
-            slauto.drive(2, 39, 0, 1, this);
-            auto.shoot(-1540, 3, 0, 1500);
+            shooter.setVelocity(-1500);
+            slauto.drive(9, -55, 0, 1, this, false);
+            slauto.drive(2, -39, 0, 1, this);
+            auto.shoot(-1500, 3, 0, 500);
 
             // drives to wobble goal and drops, before raising again
             auto.wobble(1, "red", activeGoal, "drop", slauto, this);
             auto.wobbleControl("store", this);
 
             // parks at middle of field
-            slauto.drive(-10, 15, -90, 1, this);
+            slauto.drive(-10, -15, -90, 1, this);
 
             slamra.stop(); // stops slamra
         }

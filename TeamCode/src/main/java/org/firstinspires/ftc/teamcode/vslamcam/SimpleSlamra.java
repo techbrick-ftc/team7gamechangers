@@ -32,8 +32,7 @@ public class SimpleSlamra {
     private BNO055IMU imu;
     private double startingRadian;
     private double startingDegree;
-    private double startingX;
-    private double startingY;
+;
 
     private double[] wheelPowers;
 
@@ -51,12 +50,6 @@ public class SimpleSlamra {
         this.telemetry = telemetry;
         startingDegree = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle;
         startingRadian = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.RADIANS).firstAngle;
-
-        T265Camera.CameraUpdate up = slamra.getLastReceivedCameraUpdate();
-        Translation2d pose = new Translation2d(up.pose.getTranslation().getX() / 0.0254, up.pose.getTranslation().getY() / 0.0254);
-
-        this.startingX = -pose.getY();
-        this.startingY = pose.getX();
     }
 
     // Function which is used to update the angle of the robot, used by the drive function
@@ -73,7 +66,7 @@ public class SimpleSlamra {
     public void drive(double targetX, double targetY, double targetDegree, double speed, TeleAuto callback, boolean doSlow) {
 
         double flPower, frPower, rlPower, rrPower;
-        System.out.println("Starting Angle: " + startingDegree + "\nStarting X: " + startingX + "\nStarting Y: " + startingY);
+        System.out.println("Starting Angle: " + startingDegree + "\nStarting X: ");
 
         while (callback.opModeIsActive()) {
             System.out.println("Start of Loop");
@@ -168,8 +161,8 @@ public class SimpleSlamra {
         Translation2d pose = new Translation2d(up.pose.getTranslation().getX() / 0.0254, up.pose.getTranslation().getY() / 0.0254);
 
         // Saves the robot's current position
-        currentX = -pose.getY() - startingX;
-        currentY = pose.getX() - startingY;
+        currentX = -pose.getY();
+        currentY = pose.getX();
         rotation = up.pose.getRotation();
         confidence = up.confidence;
         return true;
