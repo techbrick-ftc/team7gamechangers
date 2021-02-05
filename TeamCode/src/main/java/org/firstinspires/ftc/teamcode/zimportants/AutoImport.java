@@ -46,20 +46,20 @@ public class AutoImport {
     public void wobble(double speed, String side, int goal, String motion, SimpleSlamra slauto, TeleAuto callback) {
         if (side == "red") {
             if (goal == 0) {
-                slauto.drive(20, 56, 180, speed, callback);
+                slauto.drive(20, 61, 180, speed, callback);
             } else if (goal == 1) {
                 slauto.drive(-4, 43, 180, speed, callback);
             } else if (goal == 2) {
-                slauto.drive(-28, 56, 180, speed, callback);
+                slauto.drive(-28, 61, 180, speed, callback);
             }
 
         } else if (side == "blue") {
             if (goal == 0) {
-                slauto.drive(20, -56, 180, speed, callback);
+                slauto.drive(20, -61, 180, speed, callback);
             } else if (goal == 1) {
                 slauto.drive(-4, -43, 180, speed, callback);
             } else if (goal == 2) {
-                slauto.drive(-28, -56, 180, speed, callback);
+                slauto.drive(-28, -61, 180, speed, callback);
             }
         }
 

@@ -4,5 +4,5 @@ import com.acmerobotics.dashboard.config.Config;
 
 @Config
 public class GlobalVars {
-    public static double shooterTaTPS = 30; // Here is where you can set a target TPS for the shooter
+    public static double shooterTaTPS = -1540; // Here is where you can set a target TPS for the shooter
 }

@@ -92,7 +92,7 @@ public class BlueSimple extends LinearOpMode implements TeleAuto {
         // initializes slamra
         if (slamra == null) {
             Transform2d cameraToRobot = new Transform2d(new Translation2d(6 * 0.0254, 7 * 0.0254), Rotation2d.fromDegrees(-90));
-            Pose2d startingPose = new Pose2d(new Translation2d(9 * 0.0254, -56 * 0.0254), Rotation2d.fromDegrees(90));
+            Pose2d startingPose = new Pose2d(new Translation2d(-11 * 0.0254, -56 * 0.0254), Rotation2d.fromDegrees(90));
             slamra = new T265Camera(cameraToRobot, 0.1, hardwareMap.appContext);
             slamra.setPose(startingPose);
         }
@@ -132,7 +132,20 @@ public class BlueSimple extends LinearOpMode implements TeleAuto {
         if (opModeIsActive()) {
             slamra.start(); // starts slamra
 
+            sleep(3000); // Wait 3 seconds before moving
 
+            // Scoots over
+            slauto.drive(56, -1, 0, 1, this);
+
+            sleep(14000); // Wait 14 seconds before moving to shoot
+
+            // Drives to shooting area and shoots 3
+            shooter.setVelocity(-1500);
+            slauto.drive(0, -10, 17, 1, this);
+            auto.shoot(-1500, 3, 0, 500);
+
+            // Parks
+            slauto.drive(-10, -11, 17, 1, this);
 
             slamra.stop(); // stops slamra
         }
