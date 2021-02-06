@@ -48,7 +48,7 @@ public class MainTele extends LinearOpMode implements TeleAuto{
     private DcMotor intake2 = null;
     private DcMotorEx shooter = null;
     private Servo shooterServo = null;
-    private CRServo tapeMeasure = null;
+    //private CRServo tapeMeasure = null;
 
     FieldCentric drive = new FieldCentric();
     private BNO055IMU imu = null;
@@ -72,7 +72,7 @@ public class MainTele extends LinearOpMode implements TeleAuto{
         intake2 = hardwareMap.get(DcMotor.class, "intake_2");
         shooter = hardwareMap.get(DcMotorEx.class, "shooter");
         shooterServo = hardwareMap.get(Servo.class, "shooter_servo");
-        tapeMeasure = hardwareMap.get(CRServo.class, "tape_measure");
+        //tapeMeasure = hardwareMap.get(CRServo.class, "tape_measure");
 
         imu = hardwareMap.get(BNO055IMU.class, "imu");
         imu.initialize(new BNO055IMU.Parameters());
@@ -193,14 +193,14 @@ public class MainTele extends LinearOpMode implements TeleAuto{
                 shooterServo.setPosition(1);
             }
 
-            // Tape Measure Control
+            /*// Tape Measure Control
             if (cur2.x) {
                 tapeMeasure.setPower(1);
             } else if (cur2.y) {
                 tapeMeasure.setPower(-1);
             } else {
                 tapeMeasure.setPower(0);
-            }
+            }*/
 
             // Drive to Launch button
             /*if (cur2.dpad_left) { // blue side

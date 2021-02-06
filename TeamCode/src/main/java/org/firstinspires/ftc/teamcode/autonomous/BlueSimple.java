@@ -69,7 +69,7 @@ public class BlueSimple extends LinearOpMode implements TeleAuto {
         intake2 = hardwareMap.get(DcMotor.class, "intake_2");
         shooter = hardwareMap.get(DcMotorEx.class, "shooter");
         shooterServo = hardwareMap.get(Servo.class, "shooter_servo");
-        tapeMeasure = hardwareMap.get(CRServo.class, "tape_measure");
+        //tapeMeasure = hardwareMap.get(CRServo.class, "tape_measure");
 
         wobbleAxis1.setDirection(DcMotorSimple.Direction.REVERSE);
 
