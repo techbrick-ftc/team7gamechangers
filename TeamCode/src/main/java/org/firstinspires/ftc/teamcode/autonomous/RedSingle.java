@@ -21,8 +21,8 @@ import org.firstinspires.ftc.teamcode.zimportants.AutoImport;
 import org.firstinspires.ftc.teamcode.zimportants.EasyOpenCVImportable;
 import org.firstinspires.ftc.teamcode.zimportants.TeleAuto;
 
-@Autonomous(name="BlueSimple", group="Blue")
-public class BlueSimple extends LinearOpMode implements TeleAuto {
+@Autonomous(name="RedSingle", group="Red")
+public class RedSingle extends LinearOpMode implements TeleAuto {
 
     private DcMotor m1 = null;
     private DcMotor m2 = null;
@@ -72,7 +72,7 @@ public class BlueSimple extends LinearOpMode implements TeleAuto {
         //tapeMeasure = hardwareMap.get(CRServo.class, "tape_measure");
 
         wobbleAxis1.setDirection(DcMotorSimple.Direction.REVERSE);
-
+        intake2.setDirection(DcMotorSimple.Direction.REVERSE);
         shooter.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         shooter.setDirection(DcMotorSimple.Direction.REVERSE);
 
@@ -87,12 +87,12 @@ public class BlueSimple extends LinearOpMode implements TeleAuto {
         telemetry.update();
 
         // initializes easyopencv
-        camera.init(EasyOpenCVImportable.CameraType.WEBCAM, hardwareMap, 275, 125, 45, 60);
+        camera.init(EasyOpenCVImportable.CameraType.WEBCAM, hardwareMap, 225, 150, 45, 40);
 
         // initializes slamra
         if (slamra == null) {
             Transform2d cameraToRobot = new Transform2d(new Translation2d(6 * 0.0254, 7 * 0.0254), Rotation2d.fromDegrees(-90));
-            Pose2d startingPose = new Pose2d(new Translation2d(-11 * 0.0254, -56 * 0.0254), Rotation2d.fromDegrees(90));
+            Pose2d startingPose = new Pose2d(new Translation2d(31 * 0.0254, -56 * 0.0254), Rotation2d.fromDegrees(90));
             slamra = new T265Camera(cameraToRobot, 0.1, hardwareMap.appContext);
             slamra.setPose(startingPose);
         }
@@ -132,20 +132,73 @@ public class BlueSimple extends LinearOpMode implements TeleAuto {
         if (opModeIsActive()) {
             slamra.start(); // starts slamra
 
-            sleep(3000); // Wait 3 seconds before moving
+            // spins up flywheel
+            shooter.setVelocity(-1350);
 
-            // Scoots over
-            slauto.drive(56, -1, 0, 1, this);
+            // drives to first power shot and shoots
+            slauto.drive(-4, 26, 0, 1, this);
+            auto.shoot(-1350, 1, 0, 100, false);
 
-            sleep(14000); // Wait 14 seconds before moving to shoot
+            // drives to second power shot and shoots
+            slauto.drive(-4, 19, 0, 1, this);
+            auto.shoot(-1350, 1, 0, 100, false);
 
-            // Drives to shooting area and shoots 3
-            shooter.setVelocity(-1500);
-            slauto.drive(0, -10, 17, 1, this);
-            auto.shoot(-1500, 3, 0, 500, true);
+            // drives to third power shot and shoots
+            slauto.drive(-4, 12, 0, 1, this);
+            auto.shoot(-1350, 1, 0, 100, true);
 
-            // Parks
-            slauto.drive(-10, -11, 17, 1, this);
+            // drives to active goal and places first wobble
+            auto.wobbleAsync(6500, 1, 1, "red", activeGoal, slauto, this);
+            auto.wobbleMove(true, this);
+            sleep(1000);
+
+            // does the following if there are rings on field
+            if (activeGoal == 1) {
+                // picks up single ring
+                slauto.drive(0, 41, 0, 1, this);
+                auto.intakeControl(1);
+                slauto.drive(12, 41, 0, 1, this, false, false);
+                sleep(1000);
+                auto.intakeControl(0);
+
+                // drives to shooting position and shoots
+                shooter.setVelocity(-1500);
+                slauto.drive(2, 39, 0, 1, this);
+                auto.shoot(-1500, 1, 0, 100, true);
+                shooter.setVelocity(0);
+
+            } else if (activeGoal == 2) {
+                // knocks down stack of rings, and picks 3 up
+                slauto.drive(0, 41, 0, 1, this);
+                slauto.drive(10, 41, 0, 1, this);
+                slauto.drive(0, 41, 0, 1, this);
+                auto.intakeControl(1);
+                slauto.drive(20, 41, 0, 1, this);
+                sleep(1000);
+                auto.intakeControl(0);
+
+                // drives to shooting position and shoots
+                shooter.setVelocity(-1500);
+                slauto.drive(2, 39, 0, 1, this);
+                auto.shoot(-1500, 3, 0, 500, true);
+                shooter.setVelocity(0);
+
+                // picks up remaining ring
+                slauto.drive(0, 41, 0, 1, this);
+                auto.intakeControl(1);
+                slauto.drive(12, 41, 0, 1, this);
+                sleep(100);
+                auto.intakeControl(0);
+
+                // shoots remaining ring
+                shooter.setVelocity(-1500);
+                slauto.drive(2, 39, 0, 1, this);
+                auto.shoot(-1500, 1, 0, 100, true);
+                shooter.setVelocity(0);
+            }
+
+            // moves second wobble to zone
+
 
             slamra.stop(); // stops slamra
         }

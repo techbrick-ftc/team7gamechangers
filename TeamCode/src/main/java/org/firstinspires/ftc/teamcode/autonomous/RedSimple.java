@@ -101,7 +101,7 @@ public class RedSimple extends LinearOpMode implements TeleAuto {
         telemetry.update();
 
         // passes hardware to auto class
-        auto.setUp(shooter, shooterServo, wobbleAxis2, wobbleAxis1, tapeMeasure);
+        auto.setUp(shooter, shooterServo, wobbleAxis2, wobbleAxis1, tapeMeasure, intake1, intake2);
 
         // adds start telemetry
         telemetry.addLine("hardware configured");
@@ -142,7 +142,7 @@ public class RedSimple extends LinearOpMode implements TeleAuto {
             // Drives to shooting area and shoots 3
             shooter.setVelocity(-1500);
             slauto.drive(4, 20, -15, 1, this);
-            auto.shoot(-1500, 3, 0, 500);
+            auto.shoot(-1500, 3, 0, 500, true);
 
             // Parks
             slauto.drive(-15, 20, -17, 1, this);

@@ -59,11 +59,11 @@ public class SimpleSlamra {
     }
 
     public void drive(double targetX, double targetY, double targetDegree, double speed, TeleAuto callback) {
-        drive(targetX, targetY, targetDegree, speed, callback, true);
+        drive(targetX, targetY, targetDegree, speed, callback, true, true);
     }
 
     // Main function, called to go to a target X and Y position, at a set speed and angle
-    public void drive(double targetX, double targetY, double targetDegree, double speed, TeleAuto callback, boolean doSlow) {
+    public void drive(double targetX, double targetY, double targetDegree, double speed, TeleAuto callback, boolean doSlow, boolean doAccel) {
 
         double flPower, frPower, rlPower, rrPower;
         System.out.println("Starting Angle: " + startingDegree + "\nStarting X: ");
@@ -85,7 +85,7 @@ public class SimpleSlamra {
             double diffAvg = (abs(diffX) + abs(diffY) + (abs(diffAngle) / 6)) / 3;
 
             // Stops robot and ends the loop if the target positions and angle had been completed
-            if (doSlow && abs(diffX) < 1 && abs(diffY) < 1 && abs(diffAngle) < 4) {
+            if (doSlow && abs(diffX) < 0.5 && abs(diffY) < 0.5 && abs(diffAngle) < 2) {
                 System.out.println("Breaking out of Loop");
                 halt();
                 break;
@@ -118,10 +118,17 @@ public class SimpleSlamra {
                 newSpeed *= clamp(0.3, 1, diffAvg / 10);
             }
 
-            speedClimb(motors[0], flPower, newSpeed);
-            speedClimb(motors[1], frPower, newSpeed);
-            speedClimb(motors[2], rrPower, newSpeed);
-            speedClimb(motors[3], rlPower, newSpeed);
+            if (doAccel) {
+                speedClimb(motors[0], flPower, newSpeed);
+                speedClimb(motors[1], frPower, newSpeed);
+                speedClimb(motors[2], rrPower, newSpeed);
+                speedClimb(motors[3], rlPower, newSpeed);
+            } else {
+                motors[0].setPower(flPower * newSpeed);
+                motors[1].setPower(frPower * newSpeed);
+                motors[2].setPower(rrPower * newSpeed);
+                motors[3].setPower(rlPower * newSpeed);
+            }
 
             // Updates all telemetries
             telemetryUpdate(currentX, currentY, diffX, diffY, newSpeed);
