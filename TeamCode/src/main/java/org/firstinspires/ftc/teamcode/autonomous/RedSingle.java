@@ -69,7 +69,7 @@ public class RedSingle extends LinearOpMode implements TeleAuto {
         intake2 = hardwareMap.get(DcMotor.class, "intake_2");
         shooter = hardwareMap.get(DcMotorEx.class, "shooter");
         shooterServo = hardwareMap.get(Servo.class, "shooter_servo");
-        //tapeMeasure = hardwareMap.get(CRServo.class, "tape_measure");
+        // tapeMeasure = hardwareMap.get(CRServo.class, "tape_measure");
 
         wobbleAxis1.setDirection(DcMotorSimple.Direction.REVERSE);
         intake2.setDirection(DcMotorSimple.Direction.REVERSE);
@@ -136,11 +136,11 @@ public class RedSingle extends LinearOpMode implements TeleAuto {
             shooter.setVelocity(-1350);
 
             // drives to first power shot and shoots
-            slauto.drive(-4, 26, 0, 1, this);
+            slauto.drive(-4, 23, 0, 1, this);
             auto.shoot(-1350, 1, 0, 100, false);
 
             // drives to second power shot and shoots
-            slauto.drive(-4, 19, 0, 1, this);
+            slauto.drive(-4, 18, 0, 1, this);
             auto.shoot(-1350, 1, 0, 100, false);
 
             // drives to third power shot and shoots
@@ -150,20 +150,28 @@ public class RedSingle extends LinearOpMode implements TeleAuto {
             // drives to active goal and places first wobble
             auto.wobbleAsync(6500, 1, 1, "red", activeGoal, slauto, this);
             auto.wobbleMove(true, this);
-            sleep(1000);
+            sleep(200);
+            auto.wobbleManual(3050, 1);
+            sleep(500);
 
             // does the following if there are rings on field
             if (activeGoal == 1) {
-                // picks up single ring
-                slauto.drive(0, 41, 0, 1, this);
-                auto.intakeControl(1);
-                slauto.drive(12, 41, 0, 1, this, false, false);
-                sleep(1000);
-                auto.intakeControl(0);
+                // moves away from wobble
+                slauto.drive(-3, 43, 180, 1, this);
 
-                // drives to shooting position and shoots
+                // picks up single ring
+                slauto.drive(0, 43, 0, 1, this);
+                auto.intakeControl(1);
+                slauto.drive(16, 43, 0, 1, this, false, false);
+                sleep(2000);
+
+                // drives to shooting position
                 shooter.setVelocity(-1500);
                 slauto.drive(2, 39, 0, 1, this);
+
+                auto.intakeControl(0); // turns off intake
+
+                // shoots
                 auto.shoot(-1500, 1, 0, 100, true);
                 shooter.setVelocity(0);
 
@@ -198,7 +206,9 @@ public class RedSingle extends LinearOpMode implements TeleAuto {
             }
 
             // moves second wobble to zone
-
+            slauto.drive(26, 58, 0, 1, this);
+            auto.wobbleManual(6600, 1);
+            sleep(10000);
 
             slamra.stop(); // stops slamra
         }

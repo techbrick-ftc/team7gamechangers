@@ -129,6 +129,12 @@ public class AutoImport {
         }
     }
 
+    public void wobbleManual(int position, double power) {
+        wobbleMotor.setTargetPosition(position);
+        wobbleMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        wobbleMotor.setPower(power);
+    }
+
     public void wobbleMove(boolean down, TeleAuto callback) {
         if (down) {
             while (callback.opModeIsActive() && wobbleMotor.isBusy()) sleep(10);
