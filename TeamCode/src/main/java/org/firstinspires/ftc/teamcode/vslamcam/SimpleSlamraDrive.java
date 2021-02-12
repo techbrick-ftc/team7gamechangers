@@ -80,7 +80,7 @@ public class SimpleSlamraDrive extends LinearOpMode implements TeleAuto {
 
         waitForStart();
 
-        slauto.setUp(motors, slamra, imu, telemetry);
+        slauto.setUp(motors, imu, telemetry);
 
         packet.addLine("program started");
         dashboard.sendTelemetryPacket(packet);

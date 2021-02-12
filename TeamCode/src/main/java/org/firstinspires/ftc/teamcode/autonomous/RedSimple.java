@@ -14,12 +14,12 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
-import com.spartronics4915.lib.T265Camera;
 
 import org.firstinspires.ftc.teamcode.vslamcam.SimpleSlamra;
 import org.firstinspires.ftc.teamcode.zimportants.AutoImport;
 import org.firstinspires.ftc.teamcode.zimportants.EasyOpenCVImportable;
 import org.firstinspires.ftc.teamcode.zimportants.TeleAuto;
+import org.firstinspires.ftc.teamcode.zimportants.GlobalSlamra;
 
 @Autonomous(name="RedSimple", group="Red")
 public class RedSimple extends LinearOpMode implements TeleAuto {
@@ -36,8 +36,6 @@ public class RedSimple extends LinearOpMode implements TeleAuto {
     private DcMotorEx shooter = null;
     private Servo shooterServo = null;
     private CRServo tapeMeasure = null;
-
-    private static T265Camera slamra = null;
 
     SimpleSlamra slauto = new SimpleSlamra();
     EasyOpenCVImportable camera = new EasyOpenCVImportable();
@@ -90,12 +88,9 @@ public class RedSimple extends LinearOpMode implements TeleAuto {
         camera.init(EasyOpenCVImportable.CameraType.WEBCAM, hardwareMap, 275, 125, 45, 60);
 
         // initializes slamra
-        if (slamra == null) {
-            Transform2d cameraToRobot = new Transform2d(new Translation2d(6 * 0.0254, 7 * 0.0254), Rotation2d.fromDegrees(-90));
-            Pose2d startingPose = new Pose2d(new Translation2d(24 * 0.0254, -56 * 0.0254), Rotation2d.fromDegrees(90));
-            slamra = new T265Camera(cameraToRobot, 0.1, hardwareMap.appContext);
-            slamra.setPose(startingPose);
-        }
+        Transform2d cameraToRobot = new Transform2d(new Translation2d(6 * 0.0254, 7 * 0.0254), Rotation2d.fromDegrees(-90));
+        Pose2d startingPose = new Pose2d(new Translation2d(31 * 0.0254, -56 * 0.0254), Rotation2d.fromDegrees(90));
+        GlobalSlamra.startCamera(hardwareMap, cameraToRobot, startingPose);
 
         telemetry.addLine("Cameras Done");
         telemetry.update();
@@ -124,14 +119,12 @@ public class RedSimple extends LinearOpMode implements TeleAuto {
 
         // passes hardware to slamra class
         DcMotor[] motors = {m1, m2, m3, m4};
-        slauto.setUp(motors, slamra, imu, telemetry);
+        slauto.setUp(motors, imu, telemetry);
 
         packet.addLine("program started");
         dashboard.sendTelemetryPacket(packet);
 
         if (opModeIsActive()) {
-            slamra.start(); // starts slamra
-
             sleep(3000); // Wait 3 seconds before moving
 
             // Scoots over
@@ -146,8 +139,6 @@ public class RedSimple extends LinearOpMode implements TeleAuto {
 
             // Parks
             slauto.drive(-15, 20, -17, 1, this);
-
-            slamra.stop(); // stops slamra
         }
     }
 }

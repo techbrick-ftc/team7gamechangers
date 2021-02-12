@@ -20,6 +20,7 @@ import org.firstinspires.ftc.teamcode.vslamcam.SimpleSlamra;
 import org.firstinspires.ftc.teamcode.zimportants.AutoImport;
 import org.firstinspires.ftc.teamcode.zimportants.EasyOpenCVImportable;
 import org.firstinspires.ftc.teamcode.zimportants.TeleAuto;
+import org.firstinspires.ftc.teamcode.zimportants.GlobalSlamra;
 
 @Autonomous(name="RedSingle", group="Red")
 public class RedSingle extends LinearOpMode implements TeleAuto {
@@ -36,8 +37,6 @@ public class RedSingle extends LinearOpMode implements TeleAuto {
     private DcMotorEx shooter = null;
     private Servo shooterServo = null;
     private CRServo tapeMeasure = null;
-
-    private static T265Camera slamra = null;
 
     SimpleSlamra slauto = new SimpleSlamra();
     EasyOpenCVImportable camera = new EasyOpenCVImportable();
@@ -90,12 +89,9 @@ public class RedSingle extends LinearOpMode implements TeleAuto {
         camera.init(EasyOpenCVImportable.CameraType.WEBCAM, hardwareMap, 225, 150, 45, 40);
 
         // initializes slamra
-        if (slamra == null) {
-            Transform2d cameraToRobot = new Transform2d(new Translation2d(6 * 0.0254, 7 * 0.0254), Rotation2d.fromDegrees(-90));
-            Pose2d startingPose = new Pose2d(new Translation2d(31 * 0.0254, -56 * 0.0254), Rotation2d.fromDegrees(90));
-            slamra = new T265Camera(cameraToRobot, 0.1, hardwareMap.appContext);
-            slamra.setPose(startingPose);
-        }
+        Transform2d cameraToRobot = new Transform2d(new Translation2d(6 * 0.0254, 7 * 0.0254), Rotation2d.fromDegrees(-90));
+        Pose2d startingPose = new Pose2d(new Translation2d(31 * 0.0254, -56 * 0.0254), Rotation2d.fromDegrees(90));
+        GlobalSlamra.startCamera(hardwareMap, cameraToRobot, startingPose);
 
         telemetry.addLine("Cameras Done");
         telemetry.update();
@@ -126,15 +122,15 @@ public class RedSingle extends LinearOpMode implements TeleAuto {
 
         // passes hardware to slamra class
         DcMotor[] motors = {m1, m2, m3, m4};
-        slauto.setUp(motors, slamra, imu, telemetry);
+        slauto.setUp(motors, imu, telemetry);
 
         packet.addLine("program started");
         dashboard.sendTelemetryPacket(packet);
 
         if (opModeIsActive()) {
-            slamra.start(); // starts slamra
+            slauto.drive(10, 39, 0, 1, this);
 
-            // spins up flywheel
+            /*// spins up flywheel
             shooter.setVelocity(-1350); // orig -1350
 
             // drives to first power shot and shoots
@@ -222,9 +218,7 @@ public class RedSingle extends LinearOpMode implements TeleAuto {
                 slauto.drive(6, 51, 180, 1, this);
             } else {
                 slauto.drive(6, 51, 180, 1, this);
-            }
-
-            slamra.stop(); // stops slamra
+            }*/
         }
     }
 }

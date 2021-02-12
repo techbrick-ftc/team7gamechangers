@@ -8,12 +8,13 @@ import com.spartronics4915.lib.T265Camera;
 public class GlobalSlamra {
     private static T265Camera camera = null;
 
-    public static void startCamera(HardwareMap hardwareMap) {
+    public static void startCamera(HardwareMap hardwareMap, Transform2d transform2d, Pose2d pose2d) {
         if (camera == null) {
-            camera = new T265Camera(new Transform2d(), 0.8, hardwareMap.appContext);
+            camera = new T265Camera(transform2d, 0.1, hardwareMap.appContext);
             try {
                 Thread.sleep(2000);
             } catch (Exception ignored) {}
+            camera.setPose(pose2d);
             camera.start();
         }
     }
@@ -22,7 +23,7 @@ public class GlobalSlamra {
         return camera.getLastReceivedCameraUpdate();
     }
 
-    public static void setPose(Pose2d pose) {
-        camera.setPose(pose);
+    public static void setPose(Pose2d pose2d) {
+        camera.setPose(pose2d);
     }
 }

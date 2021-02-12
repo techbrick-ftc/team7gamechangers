@@ -15,6 +15,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.teamcode.zimportants.TeleAuto;
+import org.firstinspires.ftc.teamcode.zimportants.GlobalSlamra;
 
 import static java.lang.Math.abs;
 
@@ -36,17 +37,13 @@ public class SimpleSlamra {
 
     private double[] wheelPowers;
 
-    // Instantiates the T265 camera
-    private T265Camera slamra;
-
     private final FtcDashboard dashboard = FtcDashboard.getInstance();
 
     // Function which is called to pass variables and hardware to this class
-    public void setUp(DcMotor[] motors, T265Camera slamra, BNO055IMU imu, Telemetry telemetry) {
+    public void setUp(DcMotor[] motors, BNO055IMU imu, Telemetry telemetry) {
         this.motors = motors;
         this.wheelPowers = new double[motors.length];
         this.imu = imu;
-        this.slamra = slamra;
         this.telemetry = telemetry;
         startingDegree = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle;
         startingRadian = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.RADIANS).firstAngle;
@@ -175,7 +172,7 @@ public class SimpleSlamra {
 
     private boolean getPosition() {
         // Gathers data from the T265 camera, saving it as a translation2d used to get the current X and Y positions
-        T265Camera.CameraUpdate up = slamra.getLastReceivedCameraUpdate();
+        T265Camera.CameraUpdate up = GlobalSlamra.getUpdate();
         if (up.confidence == T265Camera.PoseConfidence.Failed) {
             System.out.println("Skipping loop");
             return false;

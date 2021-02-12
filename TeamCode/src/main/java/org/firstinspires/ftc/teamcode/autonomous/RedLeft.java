@@ -124,7 +124,7 @@ public class RedLeft extends LinearOpMode implements TeleAuto {
 
         // passes hardware to slamra class
         DcMotor[] motors = {m1, m2, m3, m4};
-        slauto.setUp(motors, slamra, imu, telemetry);
+        slauto.setUp(motors, imu, telemetry);
 
         packet.addLine("program started");
         dashboard.sendTelemetryPacket(packet);
