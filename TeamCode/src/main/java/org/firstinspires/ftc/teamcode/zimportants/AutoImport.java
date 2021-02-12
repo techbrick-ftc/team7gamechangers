@@ -41,8 +41,8 @@ public class AutoImport {
         shooter.setVelocity(tps);
         sleep(rev);
         for (int i = 0; i < amount; i++) {
-            loader.setPosition(0);
-            sleep(500);
+            loader.setPosition(0.3);
+            sleep(300);
             loader.setPosition(1);
             sleep(delay);
         }
@@ -111,21 +111,37 @@ public class AutoImport {
 
         if (side == "red") {
             if (goal == 0) {
-                slauto.drive(20, 69, 180, speed, callback);
+                slauto.drive(18, 68, 180, speed, callback);
             } else if (goal == 1) {
-                slauto.drive(-4, 51, 180, speed, callback);
+                slauto.drive(-6, 49, 180, speed, callback);
             } else if (goal == 2) {
-                slauto.drive(-28, 69, 180, speed, callback);
+                slauto.drive(-30, 68, 180, speed, callback);
             }
 
         } else if (side == "blue") {
             if (goal == 0) {
-                slauto.drive(20, -69, 180, speed, callback);
+                slauto.drive(18, -68, 180, speed, callback);
             } else if (goal == 1) {
-                slauto.drive(-4, -51, 180, speed, callback);
+                slauto.drive(-6, -49, 180, speed, callback);
             } else if (goal == 2) {
-                slauto.drive(-28, -69, 180, speed, callback);
+                slauto.drive(-30, -68, 180, speed, callback);
             }
+        }
+    }
+
+    public void wobbleAsyncSecond(int position, double power, double speed, int goal, SimpleSlamra slauto, TeleAuto callback) {
+        wobbleMotor.setTargetPosition(position);
+        wobbleMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        wobbleMotor.setPower(power);
+
+        if (goal == 0) {
+            slauto.drive(35, 53, 180, speed, callback, false, true);
+            slauto.drive(24, 72, 180, speed, callback);
+        } else if (goal == 1) {
+            slauto.drive(0, 53, 180, speed, callback);
+        } else if (goal == 2) {
+            //slauto.drive(-10, 53, 180, speed, callback, false, true);
+            slauto.drive(-24, 72, 180, speed, callback);
         }
     }
 
@@ -142,6 +158,9 @@ public class AutoImport {
             sleep(100);
             wobbleServo.setPosition(0.5);
         } else {
+            while (callback.opModeIsActive() && wobbleMotor.isBusy()) sleep(10);
+            wobbleMotor.setPower(0);
+            sleep(100);
             wobbleServo.setPosition(0);
         }
     }

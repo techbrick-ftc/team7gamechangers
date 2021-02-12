@@ -55,6 +55,7 @@ public class MainTele extends LinearOpMode implements TeleAuto{
 
     public void runOpMode() {
         int loops = 0;
+        ElapsedTime launchServoTime = null;
 
         // adds start telemetry
         telemetry.addLine("hardware ready");
@@ -185,11 +186,12 @@ public class MainTele extends LinearOpMode implements TeleAuto{
             }
 
             // Shooter Servo Control
-            if (cur2.a && !prev2.a) {
-                ElapsedTime launchServoTime = new ElapsedTime();
-                while(launchServoTime.milliseconds() < 500 && opModeIsActive()) {
-                    shooterServo.setPosition(0);
-                }
+            if (launchServoTime == null && cur2.a && !prev2.a) {
+                launchServoTime = new ElapsedTime();
+                shooterServo.setPosition(0.3);
+            } else if (launchServoTime != null && launchServoTime.milliseconds() > 600) {
+                launchServoTime = null;
+            } else if (launchServoTime != null && launchServoTime.milliseconds() > 300) {
                 shooterServo.setPosition(1);
             }
 

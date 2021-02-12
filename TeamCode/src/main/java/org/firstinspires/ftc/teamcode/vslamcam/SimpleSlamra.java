@@ -68,6 +68,9 @@ public class SimpleSlamra {
         double flPower, frPower, rlPower, rrPower;
         System.out.println("Starting Angle: " + startingDegree + "\nStarting X: ");
 
+        double prevX = 0;
+        double prevY = 0;
+
         while (callback.opModeIsActive()) {
             System.out.println("Start of Loop");
 
@@ -89,10 +92,18 @@ public class SimpleSlamra {
                 System.out.println("Breaking out of Loop");
                 halt();
                 break;
-            } else if (!doSlow && abs(diffX) < 5 && abs(diffY) < 5 && abs(diffAngle) < 10) {
+            } else if (!doSlow && abs(diffX) < 2 && abs(diffY) < 2 && abs(diffAngle) < 2) {
                 System.out.println("Breaking out of Loop");
                 halt();
                 break;
+            }
+
+            // Holds program if camera stops sending new data
+            if (currentX == prevX && currentY == prevY) {
+                halt();
+                prevX = currentX; // sets prev positions
+                prevY = currentY;
+                continue;
             }
 
             double rotatedX = diffX * Math.cos(-currentRadian) - diffY * Math.sin(-currentRadian);
@@ -129,6 +140,10 @@ public class SimpleSlamra {
                 motors[2].setPower(rrPower * newSpeed);
                 motors[3].setPower(rlPower * newSpeed);
             }
+
+            // Sets prev positions
+            prevX = currentX;
+            prevY = currentY;
 
             // Updates all telemetries
             telemetryUpdate(currentX, currentY, diffX, diffY, newSpeed);

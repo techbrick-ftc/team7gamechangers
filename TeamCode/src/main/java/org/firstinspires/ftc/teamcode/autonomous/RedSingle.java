@@ -69,7 +69,7 @@ public class RedSingle extends LinearOpMode implements TeleAuto {
         intake2 = hardwareMap.get(DcMotor.class, "intake_2");
         shooter = hardwareMap.get(DcMotorEx.class, "shooter");
         shooterServo = hardwareMap.get(Servo.class, "shooter_servo");
-        // tapeMeasure = hardwareMap.get(CRServo.class, "tape_measure");
+        tapeMeasure = hardwareMap.get(CRServo.class, "tape_measure");
 
         wobbleAxis1.setDirection(DcMotorSimple.Direction.REVERSE);
         intake2.setDirection(DcMotorSimple.Direction.REVERSE);
@@ -117,8 +117,10 @@ public class RedSingle extends LinearOpMode implements TeleAuto {
         while (!isStarted()) {
             // gets the current amount of rings
             activeGoal = auto.ringCount(0, camera);
-            packet.put("Goal: ", activeGoal);
+            packet.put("Goal", activeGoal);
             dashboard.sendTelemetryPacket(packet);
+            telemetry.addData("Goal", activeGoal);
+            telemetry.update();
         }
         camera.stopDetection();
 
@@ -133,19 +135,19 @@ public class RedSingle extends LinearOpMode implements TeleAuto {
             slamra.start(); // starts slamra
 
             // spins up flywheel
-            shooter.setVelocity(-1350);
+            shooter.setVelocity(-1350); // orig -1350
 
             // drives to first power shot and shoots
             slauto.drive(-4, 23, 0, 1, this);
             auto.shoot(-1350, 1, 0, 100, false);
 
             // drives to second power shot and shoots
-            slauto.drive(-4, 18, 0, 1, this);
-            auto.shoot(-1350, 1, 0, 100, false);
+            slauto.drive(-4, 17, 0, 1, this);
+            auto.shoot(-1310, 1, 0, 100, false);
 
             // drives to third power shot and shoots
-            slauto.drive(-4, 12, 0, 1, this);
-            auto.shoot(-1350, 1, 0, 100, true);
+            slauto.drive(-4, 10, 0, 1, this);
+            auto.shoot(-1310, 1, 0, 100, true);
 
             // drives to active goal and places first wobble
             auto.wobbleAsync(6500, 1, 1, "red", activeGoal, slauto, this);
@@ -162,12 +164,12 @@ public class RedSingle extends LinearOpMode implements TeleAuto {
                 // picks up single ring
                 slauto.drive(0, 43, 0, 1, this);
                 auto.intakeControl(1);
-                slauto.drive(16, 43, 0, 1, this, false, false);
-                sleep(2000);
+                slauto.drive(16, 43, 0, 1, this);
+                sleep(1000);
 
                 // drives to shooting position
                 shooter.setVelocity(-1500);
-                slauto.drive(2, 39, 0, 1, this);
+                slauto.drive(2, 39, 0, 1, this, false, false);
 
                 auto.intakeControl(0); // turns off intake
 
@@ -178,8 +180,8 @@ public class RedSingle extends LinearOpMode implements TeleAuto {
             } else if (activeGoal == 2) {
                 // knocks down stack of rings, and picks 3 up
                 slauto.drive(0, 41, 0, 1, this);
-                slauto.drive(10, 41, 0, 1, this);
-                slauto.drive(0, 41, 0, 1, this);
+                slauto.drive(10, 41, 0, 1, this, false, false);
+                slauto.drive(0, 41, 0, 1, this, false, false);
                 auto.intakeControl(1);
                 slauto.drive(20, 41, 0, 1, this);
                 sleep(1000);
@@ -191,13 +193,6 @@ public class RedSingle extends LinearOpMode implements TeleAuto {
                 auto.shoot(-1500, 3, 0, 500, true);
                 shooter.setVelocity(0);
 
-                // picks up remaining ring
-                slauto.drive(0, 41, 0, 1, this);
-                auto.intakeControl(1);
-                slauto.drive(12, 41, 0, 1, this);
-                sleep(100);
-                auto.intakeControl(0);
-
                 // shoots remaining ring
                 shooter.setVelocity(-1500);
                 slauto.drive(2, 39, 0, 1, this);
@@ -205,10 +200,29 @@ public class RedSingle extends LinearOpMode implements TeleAuto {
                 shooter.setVelocity(0);
             }
 
+            // grabs second wobble
+            slauto.drive(27, 55, 0, 1, this);
+            auto.wobbleManual(7300, 1);
+            auto.wobbleMove(false, this);
+            sleep(500);
+            auto.wobbleManual(3050, 1);
+
+            tapeMeasure.setPower(1); // starts extending tape measure to park
+
             // moves second wobble to zone
-            slauto.drive(26, 58, 0, 1, this);
-            auto.wobbleManual(6600, 1);
-            sleep(10000);
+            auto.wobbleAsyncSecond(6500, 1, 1, activeGoal, slauto, this);
+            auto.wobbleMove(true, this);
+            sleep(200);
+            auto.wobbleManual(3050, 1);
+            sleep(500);
+
+            // parks
+            if (activeGoal == 0) {
+                slauto.drive(35, 53, 180, 1, this, false, true);
+                slauto.drive(6, 51, 180, 1, this);
+            } else {
+                slauto.drive(6, 51, 180, 1, this);
+            }
 
             slamra.stop(); // stops slamra
         }
