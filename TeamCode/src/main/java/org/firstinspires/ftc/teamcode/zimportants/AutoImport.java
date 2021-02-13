@@ -7,7 +7,9 @@ import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
+import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.vslamcam.SimpleSlamra;
 import org.firstinspires.ftc.teamcode.vslamcentric.SlamraAuto;
 import org.firstinspires.ftc.teamcode.vslamcentric.SlamraDrive;
@@ -37,6 +39,7 @@ public class AutoImport {
         this.intake2 = intake2;
     }
 
+    // Function which is called to shoot a given number of rings, at a given speed, with given delays
     public void shoot(double tps, int amount, long rev, long delay, boolean doStop) {
         shooter.setVelocity(tps);
         sleep(rev);
@@ -51,6 +54,7 @@ public class AutoImport {
         }
     }
 
+    // Function which is calleed to synchronously drive to a wobble goal and deploy the wobble
     public void wobbleSync(double speed, String side, int goal, String motion, SimpleSlamra slauto, TeleAuto callback) {
         wobbleControl(motion, callback);
         if (side == "red") {
@@ -73,6 +77,7 @@ public class AutoImport {
         }
     }
 
+    // Function which can be called to drive the wobble grabber to common positions
     public void wobbleControl(String motion, TeleAuto callback) {
         if (motion == "store") {
             wobbleMotor.setTargetPosition(0);
@@ -104,6 +109,7 @@ public class AutoImport {
         }
     }
 
+    // Function which asynchronously deploys wobble and drives to the goal
     public void wobbleAsync(int position, double power, double speed, String side, int goal, SimpleSlamra slauto, TeleAuto callback) {
         wobbleMotor.setTargetPosition(position);
         wobbleMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -111,11 +117,11 @@ public class AutoImport {
 
         if (side == "red") {
             if (goal == 0) {
-                slauto.drive(18, 68, 180, speed, callback);
+                slauto.drive(18, 70, 180, speed, callback);
             } else if (goal == 1) {
-                slauto.drive(-6, 49, 180, speed, callback);
+                slauto.drive(-6, 51, 180, speed, callback);
             } else if (goal == 2) {
-                slauto.drive(-30, 68, 180, speed, callback);
+                slauto.drive(-30, 70, 180, speed, callback);
             }
 
         } else if (side == "blue") {
@@ -129,53 +135,72 @@ public class AutoImport {
         }
     }
 
+    // Function used for the second wobble, if there is one. It places it slightly away from the first
     public void wobbleAsyncSecond(int position, double power, double speed, int goal, SimpleSlamra slauto, TeleAuto callback) {
         wobbleMotor.setTargetPosition(position);
         wobbleMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         wobbleMotor.setPower(power);
 
         if (goal == 0) {
-            slauto.drive(35, 53, 180, speed, callback, false, true);
+            slauto.drive(35, 53, 180, speed, 0, callback, false, true);
             slauto.drive(24, 72, 180, speed, callback);
         } else if (goal == 1) {
             slauto.drive(0, 53, 180, speed, callback);
         } else if (goal == 2) {
-            //slauto.drive(-10, 53, 180, speed, callback, false, true);
-            slauto.drive(-24, 72, 180, speed, callback);
+            slauto.drive(-10, 53, 180, speed, 0, callback, false, true);
+            slauto.drive(-24, 72, 180, speed, 0, callback, true, false);
         }
     }
 
+    // Function which simply drives the wobble grabber to a set position, asynchronously
     public void wobbleManual(int position, double power) {
         wobbleMotor.setTargetPosition(position);
         wobbleMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         wobbleMotor.setPower(power);
     }
 
-    public void wobbleMove(boolean down, TeleAuto callback) {
+    // Function which simply sets the position of the wobble grabber servo, once the wobble grabber isnt moving.
+    public void wobbleMove(boolean down, TeleAuto callback, Telemetry telemetry) {
+        ElapsedTime timeout = new ElapsedTime();
         if (down) {
-            while (callback.opModeIsActive() && wobbleMotor.isBusy()) sleep(10);
+            while (callback.opModeIsActive() && wobbleMotor.isBusy()) {
+                sleep(10);
+                telemetry.addData("encoder", wobbleMotor.getCurrentPosition());
+                if (timeout.seconds() > 4) {
+                    break;
+                }
+            }
             wobbleMotor.setPower(0);
             sleep(100);
             wobbleServo.setPosition(0.5);
         } else {
-            while (callback.opModeIsActive() && wobbleMotor.isBusy()) sleep(10);
+            while (callback.opModeIsActive() && wobbleMotor.isBusy()) {
+                sleep(10);
+                telemetry.addData("encoder", wobbleMotor.getCurrentPosition());
+                if (timeout.seconds() > 4) {
+                    break;
+                }
+            }
             wobbleMotor.setPower(0);
             sleep(100);
             wobbleServo.setPosition(0);
         }
     }
 
+    // Function which can be used to set both of the intake motors' speeds
     public void intakeControl(double power) {
         intake1.setPower(power);
         intake2.setPower(power);
     }
 
+    // Function which can be used to extend the tape measure for a specified time
     public void park(long extendTime) {
         tapeMeasure.setPower(1);
         sleep(extendTime);
         tapeMeasure.setPower(0);
     }
 
+    // Function which handles the amount of rings, and gives it to the op mode
     public int ringCount(long delay, EasyOpenCVImportable camera) {
         int activeGoal = 0;
         sleep(delay);
@@ -193,6 +218,7 @@ public class AutoImport {
         return activeGoal;
     }
 
+    // A class-side sleep function
     private void sleep(long milliseconds) {
         try {
             Thread.sleep(milliseconds);

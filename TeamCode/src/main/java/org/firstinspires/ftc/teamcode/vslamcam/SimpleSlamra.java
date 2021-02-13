@@ -9,6 +9,8 @@ import com.arcrobotics.ftclib.geometry.Translation2d;
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+
+import com.qualcomm.robotcore.util.ElapsedTime;
 import com.spartronics4915.lib.T265Camera;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
@@ -56,17 +58,19 @@ public class SimpleSlamra {
     }
 
     public void drive(double targetX, double targetY, double targetDegree, double speed, TeleAuto callback) {
-        drive(targetX, targetY, targetDegree, speed, callback, true, true);
+        drive(targetX, targetY, targetDegree, speed, 0, callback, true, true);
     }
 
     // Main function, called to go to a target X and Y position, at a set speed and angle
-    public void drive(double targetX, double targetY, double targetDegree, double speed, TeleAuto callback, boolean doSlow, boolean doAccel) {
+    public void drive(double targetX, double targetY, double targetDegree, double speed, int timeout, TeleAuto callback, boolean doSlow, boolean doAccel) {
 
         double flPower, frPower, rlPower, rrPower;
         System.out.println("Starting Angle: " + startingDegree + "\nStarting X: ");
 
         double prevX = 0;
         double prevY = 0;
+
+        ElapsedTime timeoutTimer = new ElapsedTime();
 
         while (callback.opModeIsActive()) {
             System.out.println("Start of Loop");
@@ -91,6 +95,12 @@ public class SimpleSlamra {
                 break;
             } else if (!doSlow && abs(diffX) < 2 && abs(diffY) < 2 && abs(diffAngle) < 2) {
                 System.out.println("Breaking out of Loop");
+                halt();
+                break;
+            }
+
+            // Skips if timeout
+            if (timeout != 0 && timeoutTimer.seconds() > timeout) {
                 halt();
                 break;
             }

@@ -48,10 +48,12 @@ public class MainTele extends LinearOpMode implements TeleAuto{
     private DcMotor intake2 = null;
     private DcMotorEx shooter = null;
     private Servo shooterServo = null;
-    //private CRServo tapeMeasure = null;
+    private CRServo tapeMeasure = null;
 
     FieldCentric drive = new FieldCentric();
     private BNO055IMU imu = null;
+
+    private int shooterTPS = -1540;
 
     public void runOpMode() {
         int loops = 0;
@@ -73,7 +75,7 @@ public class MainTele extends LinearOpMode implements TeleAuto{
         intake2 = hardwareMap.get(DcMotor.class, "intake_2");
         shooter = hardwareMap.get(DcMotorEx.class, "shooter");
         shooterServo = hardwareMap.get(Servo.class, "shooter_servo");
-        //tapeMeasure = hardwareMap.get(CRServo.class, "tape_measure");
+        tapeMeasure = hardwareMap.get(CRServo.class, "tape_measure");
 
         imu = hardwareMap.get(BNO055IMU.class, "imu");
         imu.initialize(new BNO055IMU.Parameters());
@@ -180,7 +182,7 @@ public class MainTele extends LinearOpMode implements TeleAuto{
 
             // Shooter Control
             if (gamepad2.right_trigger > 0.1) {
-                shooter.setVelocity(GlobalVars.shooterTaTPS);
+                shooter.setVelocity(shooterTPS);
             } else {
                 shooter.setVelocity(0);
             }
@@ -195,14 +197,14 @@ public class MainTele extends LinearOpMode implements TeleAuto{
                 shooterServo.setPosition(1);
             }
 
-            /*// Tape Measure Control
+            // Tape Measure Control
             if (cur2.x) {
                 tapeMeasure.setPower(1);
             } else if (cur2.y) {
                 tapeMeasure.setPower(-1);
             } else {
                 tapeMeasure.setPower(0);
-            }*/
+            }
 
             // Drive to Launch button
             /*if (cur2.dpad_left) { // blue side
@@ -214,8 +216,18 @@ public class MainTele extends LinearOpMode implements TeleAuto{
             }*/
 
             // Reset Field Centric button
-            if (cur1.a) {
+            if (cur1.a && !prev1.a) {
                 drive.newOffset();
+            }
+
+            // High shot button
+            if (cur2.dpad_up && !prev2.dpad_up) {
+                shooterTPS = -1540;
+            }
+
+            // Power shot Button
+            if (cur2.dpad_down && !prev2.dpad_down) {
+                shooterTPS = -1390;
             }
 
             // Updates prev1 & 2

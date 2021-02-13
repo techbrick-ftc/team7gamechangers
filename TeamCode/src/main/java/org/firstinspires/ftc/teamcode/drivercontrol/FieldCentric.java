@@ -39,6 +39,8 @@ public class FieldCentric {
         for (double wheelAngle : wheelAngles) {
             wheelAngle -= currentAngle;
         }
+
+        newOffset();
     }
 
     private void getAngle() {
