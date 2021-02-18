@@ -72,7 +72,7 @@ public class SimpleSlamra {
 
         ElapsedTime timeoutTimer = new ElapsedTime();
 
-        while (callback.opModeIsActive()) {
+        while (callback.opModeIsActive() && !callback.driverAbort()) {
             System.out.println("Start of Loop");
 
             // Updates angle variables

@@ -7,6 +7,7 @@ import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.hardware.TouchSensor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
@@ -24,12 +25,13 @@ public class AutoImport {
     private CRServo tapeMeasure;
     private DcMotor intake1;
     private DcMotor intake2;
+    private TouchSensor armTouch;
 
     private final FtcDashboard dashboard = FtcDashboard.getInstance();
     TelemetryPacket packet = new TelemetryPacket();
 
     // Function which is called to pass variables and hardware to this class
-    public void setUp(DcMotorEx shooter, Servo loader, Servo wobbleServo, DcMotor wobbleMotor, CRServo tapeMeasure, DcMotor intake1, DcMotor intake2) {
+    public void setUp(DcMotorEx shooter, Servo loader, Servo wobbleServo, DcMotor wobbleMotor, CRServo tapeMeasure, DcMotor intake1, DcMotor intake2, TouchSensor armTouch) {
         this.shooter = shooter;
         this.loader = loader;
         this.wobbleServo = wobbleServo;
@@ -37,6 +39,7 @@ public class AutoImport {
         this.tapeMeasure = tapeMeasure;
         this.intake1 = intake1;
         this.intake2 = intake2;
+        this.armTouch = armTouch;
     }
 
     // Function which is called to shoot a given number of rings, at a given speed, with given delays
@@ -91,7 +94,7 @@ public class AutoImport {
             wobbleMotor.setTargetPosition(6500);
             wobbleMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             wobbleMotor.setPower(1);
-            while (callback.opModeIsActive() && wobbleMotor.isBusy()) sleep(10);
+            while (callback.opModeIsActive() && wobbleMotor.isBusy() && !armTouch.isPressed()) sleep(10);
 
             wobbleMotor.setPower(0);
             sleep(100);
@@ -162,25 +165,15 @@ public class AutoImport {
     // Function which simply sets the position of the wobble grabber servo, once the wobble grabber isnt moving.
     public void wobbleMove(boolean down, TeleAuto callback, Telemetry telemetry) {
         ElapsedTime timeout = new ElapsedTime();
+        while (callback.opModeIsActive() && wobbleMotor.isBusy() && timeout.seconds() < 4 && !armTouch.isPressed()) {
+            sleep(10);
+            telemetry.addData("encoder", wobbleMotor.getCurrentPosition());
+        }
         if (down) {
-            while (callback.opModeIsActive() && wobbleMotor.isBusy()) {
-                sleep(10);
-                telemetry.addData("encoder", wobbleMotor.getCurrentPosition());
-                if (timeout.seconds() > 4) {
-                    break;
-                }
-            }
             wobbleMotor.setPower(0);
             sleep(100);
             wobbleServo.setPosition(0.5);
         } else {
-            while (callback.opModeIsActive() && wobbleMotor.isBusy()) {
-                sleep(10);
-                telemetry.addData("encoder", wobbleMotor.getCurrentPosition());
-                if (timeout.seconds() > 4) {
-                    break;
-                }
-            }
             wobbleMotor.setPower(0);
             sleep(100);
             wobbleServo.setPosition(0);

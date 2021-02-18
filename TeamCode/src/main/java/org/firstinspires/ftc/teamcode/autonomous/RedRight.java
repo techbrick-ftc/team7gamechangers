@@ -14,6 +14,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.hardware.TouchSensor;
 import com.spartronics4915.lib.T265Camera;
 
 import org.firstinspires.ftc.teamcode.vslamcam.SimpleSlamra;
@@ -36,6 +37,7 @@ public class RedRight extends LinearOpMode implements TeleAuto {
     private DcMotorEx shooter = null;
     private Servo shooterServo = null;
     private CRServo tapeMeasure = null;
+    private TouchSensor armTouch = null;
 
     private static T265Camera slamra = null;
 
@@ -49,6 +51,10 @@ public class RedRight extends LinearOpMode implements TeleAuto {
 
     // vars used in program
     private int activeGoal;
+
+    public boolean driverAbort() {
+        return false;
+    }
 
     public void runOpMode() {
         // configures hardware
@@ -70,6 +76,7 @@ public class RedRight extends LinearOpMode implements TeleAuto {
         shooter = hardwareMap.get(DcMotorEx.class, "shooter");
         shooterServo = hardwareMap.get(Servo.class, "shooter_servo");
         //tapeMeasure = hardwareMap.get(CRServo.class, "tape_measure");
+        armTouch = hardwareMap.get(TouchSensor.class, "arm_touch");
 
         wobbleAxis1.setDirection(DcMotorSimple.Direction.REVERSE);
 
@@ -101,7 +108,7 @@ public class RedRight extends LinearOpMode implements TeleAuto {
         telemetry.update();
 
         // passes hardware to auto class
-        auto.setUp(shooter, shooterServo, wobbleAxis2, wobbleAxis1, tapeMeasure, intake1, intake2);
+        auto.setUp(shooter, shooterServo, wobbleAxis2, wobbleAxis1, tapeMeasure, intake1, intake2, armTouch);
 
         // adds start telemetry
         telemetry.addLine("hardware configured");
