@@ -1,3 +1,5 @@
+// A basic op mode using FieldCentric.java, for testing purposes
+
 package org.firstinspires.ftc.teamcode.drivercontrol;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;

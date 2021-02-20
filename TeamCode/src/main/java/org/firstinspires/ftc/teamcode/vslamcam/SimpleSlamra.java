@@ -32,7 +32,6 @@ public class SimpleSlamra {
     private double currentDegree;
     private T265Camera.PoseConfidence confidence;
     private Telemetry telemetry;
-    private BNO055IMU imu;
     private double startingRadian;
     private double startingDegree;
 ;
@@ -42,19 +41,10 @@ public class SimpleSlamra {
     private final FtcDashboard dashboard = FtcDashboard.getInstance();
 
     // Function which is called to pass variables and hardware to this class
-    public void setUp(DcMotor[] motors, BNO055IMU imu, Telemetry telemetry) {
+    public void setUp(DcMotor[] motors, Telemetry telemetry) {
         this.motors = motors;
         this.wheelPowers = new double[motors.length];
-        this.imu = imu;
         this.telemetry = telemetry;
-        startingDegree = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle;
-        startingRadian = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.RADIANS).firstAngle;
-    }
-
-    // Function which is used to update the angle of the robot, used by the drive function
-    private void getAngle() {
-        /*currentRadian = wrapRadians(imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.RADIANS).firstAngle - startingRadian);
-        currentDegree = wrap(imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle - startingDegree);*/
     }
 
     public void drive(double targetX, double targetY, double targetDegree, double speed, TeleAuto callback) {
@@ -74,9 +64,6 @@ public class SimpleSlamra {
 
         while (callback.opModeIsActive() && !callback.driverAbort()) {
             System.out.println("Start of Loop");
-
-            // Updates angle variables
-            getAngle();
 
             // Updates position variables
             if (!getPosition()) continue;
@@ -113,29 +100,34 @@ public class SimpleSlamra {
                 continue;
             }
 
+            // Translates the target point's location from a field centric view to a robot centric
+            // one, based on the robot's position and orientation
             double rotatedX = diffX * Math.cos(-currentRadian) - diffY * Math.sin(-currentRadian);
             double rotatedY = diffY * Math.cos(currentRadian) - diffX * Math.sin(currentRadian);
 
+            // Calculates individual wheel powers, based on the above values and how much it needs
+            // to rotate
             flPower = rotatedY + rotatedX - (diffAngle / 6);
             rlPower = rotatedY - rotatedX - (diffAngle / 6);
             frPower = rotatedY - rotatedX + (diffAngle / 6);
             rrPower = rotatedY + rotatedX + (diffAngle / 6);
 
+            // Scales down the wheel powers, so that the highest value is 1
             double max = Math.max(Math.abs(flPower), Math.abs(rlPower));
             max = Math.max(Math.abs(frPower), max);
             max = Math.max(Math.abs(rrPower), max);
-
             flPower /= max;
             frPower /= max;
             rlPower /= max;
             rrPower /= max;
 
+            // Lowers wheel powers as it approaches target position
             double newSpeed = speed;
-
             if (doSlow) {
                 newSpeed *= clamp(0.3, 1, diffAvg / 10);
             }
 
+            // Slowly ramps up wheel powers as it begins moving
             if (doAccel) {
                 speedClimb(motors[0], flPower, newSpeed);
                 speedClimb(motors[1], frPower, newSpeed);

@@ -27,7 +27,7 @@ public class FindMotor extends LinearOpMode{
         rl = hardwareMap.get(DcMotor.class, "rl");
         rr = hardwareMap.get(DcMotor.class, "rr");
 
-        waitForStart(); //
+        waitForStart();
 
         if(opModeIsActive()) {
             fr.setPower(1);

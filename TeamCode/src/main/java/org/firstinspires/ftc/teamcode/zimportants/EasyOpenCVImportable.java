@@ -1,3 +1,5 @@
+// This is a class which allows us to easily determine how many rings are in the stack
+
 package org.firstinspires.ftc.teamcode.zimportants;
 
 import com.qualcomm.robotcore.hardware.HardwareMap;

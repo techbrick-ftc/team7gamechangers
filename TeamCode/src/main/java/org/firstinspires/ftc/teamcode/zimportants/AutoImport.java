@@ -1,45 +1,143 @@
+// Our parent auto program, which supplies all other auto programs.
+
 package org.firstinspires.ftc.teamcode.zimportants;
 
-// Setting up importations
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
+import com.arcrobotics.ftclib.geometry.Pose2d;
+import com.arcrobotics.ftclib.geometry.Rotation2d;
+import com.arcrobotics.ftclib.geometry.Transform2d;
+import com.arcrobotics.ftclib.geometry.Translation2d;
+import com.qualcomm.hardware.bosch.BNO055IMU;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.TouchSensor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.vslamcam.SimpleSlamra;
-import org.firstinspires.ftc.teamcode.vslamcentric.SlamraAuto;
-import org.firstinspires.ftc.teamcode.vslamcentric.SlamraDrive;
 
-public class AutoImport {
-
+public class AutoImport extends LinearOpMode implements TeleAuto {
     // Defines vars
-    private DcMotorEx shooter;
-    private Servo loader;
-    private Servo wobbleServo;
-    private DcMotor wobbleMotor;
-    private CRServo tapeMeasure;
-    private DcMotor intake1;
-    private DcMotor intake2;
-    private TouchSensor armTouch;
+    protected DcMotor m1 = null;
+    protected DcMotor m2 = null;
+    protected DcMotor m3 = null;
+    protected DcMotor m4 = null;
 
-    private final FtcDashboard dashboard = FtcDashboard.getInstance();
-    TelemetryPacket packet = new TelemetryPacket();
+    protected DcMotor wobbleAxis1 = null;
+    protected Servo wobbleAxis2 = null;
+    protected DcMotor intake1 = null;
+    protected DcMotor intake2 = null;
+    protected DcMotorEx shooter = null;
+    protected Servo shooterServo = null;
+    protected CRServo tapeMeasure = null;
+    protected TouchSensor armTouch = null;
 
-    // Function which is called to pass variables and hardware to this class
-    public void setUp(DcMotorEx shooter, Servo loader, Servo wobbleServo, DcMotor wobbleMotor, CRServo tapeMeasure, DcMotor intake1, DcMotor intake2, TouchSensor armTouch) {
-        this.shooter = shooter;
-        this.loader = loader;
-        this.wobbleServo = wobbleServo;
-        this.wobbleMotor = wobbleMotor;
-        this.tapeMeasure = tapeMeasure;
-        this.intake1 = intake1;
-        this.intake2 = intake2;
-        this.armTouch = armTouch;
+    protected SimpleSlamra slauto = new SimpleSlamra();
+    protected EasyOpenCVImportable camera = new EasyOpenCVImportable();
+    protected BNO055IMU imu;
+
+    protected FtcDashboard dashboard = FtcDashboard.getInstance();
+    protected TelemetryPacket packet = new TelemetryPacket();
+
+    // vars used in program
+    protected int activeGoal;
+    protected int startingPoseX;
+    protected int startingPoseY;
+    protected int cameraX;
+    protected int cameraY;
+
+    public AutoImport(int startX, int startY, int camX, int camY) {
+        startingPoseX = startX;
+        startingPoseY = startY;
+        cameraX = camX;
+        cameraY = camY;
+    }
+
+    public boolean driverAbort() {
+        return false;
+    }
+
+    public void runOpMode() {
+        // configures hardware
+        m4 = hardwareMap.get(DcMotor.class, "fl");
+        m1 = hardwareMap.get(DcMotor.class, "fr");
+        m3 = hardwareMap.get(DcMotor.class, "rl");
+        m2 = hardwareMap.get(DcMotor.class, "rr");
+        m1.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        m2.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        m3.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        m4.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        m1.setDirection(DcMotor.Direction.REVERSE);
+        m4.setDirection(DcMotor.Direction.REVERSE);
+
+        wobbleAxis1 = hardwareMap.get(DcMotor.class, "wobble_axis_1");
+        wobbleAxis2 = hardwareMap.get(Servo.class, "wobble_axis_2");
+        intake1 = hardwareMap.get(DcMotor.class, "intake_1");
+        intake2 = hardwareMap.get(DcMotor.class, "intake_2");
+        shooter = hardwareMap.get(DcMotorEx.class, "shooter");
+        shooterServo = hardwareMap.get(Servo.class, "shooter_servo");
+        tapeMeasure = hardwareMap.get(CRServo.class, "tape_measure");
+        armTouch = hardwareMap.get(TouchSensor.class, "arm_touch");
+
+        wobbleAxis1.setDirection(DcMotorSimple.Direction.REVERSE);
+        intake2.setDirection(DcMotorSimple.Direction.REVERSE);
+        shooter.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        shooter.setDirection(DcMotorSimple.Direction.REVERSE);
+
+        // initializes imu
+        imu = hardwareMap.get(BNO055IMU.class, "imu");
+        BNO055IMU.Parameters param = new BNO055IMU.Parameters();
+        param.accelUnit = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
+        param.angleUnit = BNO055IMU.AngleUnit.RADIANS;
+        imu.initialize(param);
+
+        telemetry.addLine("IMU Done");
+        telemetry.update();
+
+        // initializes easyopencv
+        camera.init(EasyOpenCVImportable.CameraType.WEBCAM, hardwareMap, cameraX, cameraY, 45, 40);
+
+        // initializes slamra
+        Transform2d cameraToRobot = new Transform2d(new Translation2d(6 * 0.0254, 7 * 0.0254), Rotation2d.fromDegrees(-90));
+        Pose2d startingPose = new Pose2d(new Translation2d(startingPoseX * 0.0254, startingPoseY * 0.0254), Rotation2d.fromDegrees(90));
+        GlobalSlamra.startCamera(hardwareMap, cameraToRobot, startingPose);
+
+        telemetry.addLine("Cameras Done");
+        telemetry.update();
+
+        // adds start telemetry
+        telemetry.addLine("hardware configured");
+        telemetry.update();
+        packet.addLine("hardware configured");
+        dashboard.sendTelemetryPacket(packet);
+
+        // sets servos to starting positions
+        shooterServo.setPosition(1);
+        wobbleAxis2.setPosition(0);
+
+        camera.startDetection();
+        // loops this until start is pressed
+        while (!isStarted()) {
+            // gets the current amount of rings
+            activeGoal = ringCount(0, camera);
+            packet.put("Goal", activeGoal);
+            dashboard.sendTelemetryPacket(packet);
+            telemetry.addData("Goal", activeGoal);
+            telemetry.update();
+        }
+        camera.stopDetection();
+
+        // passes hardware to slamra class
+        DcMotor[] motors = {m1, m2, m3, m4};
+        slauto.setUp(motors, telemetry);
+
+        packet.addLine("program started");
+        dashboard.sendTelemetryPacket(packet);
     }
 
     // Function which is called to shoot a given number of rings, at a given speed, with given delays
@@ -47,9 +145,9 @@ public class AutoImport {
         shooter.setVelocity(tps);
         sleep(rev);
         for (int i = 0; i < amount; i++) {
-            loader.setPosition(0.3);
+            shooterServo.setPosition(0.3);
             sleep(300);
-            loader.setPosition(1);
+            shooterServo.setPosition(1);
             sleep(delay);
         }
         if (doStop) {
@@ -59,7 +157,6 @@ public class AutoImport {
 
     // Function which is calleed to synchronously drive to a wobble goal and deploy the wobble
     public void wobbleSync(double speed, String side, int goal, String motion, SimpleSlamra slauto, TeleAuto callback) {
-        wobbleControl(motion, callback);
         if (side == "red") {
             if (goal == 0) {
                 slauto.drive(20, 69, 180, speed, callback);
@@ -71,52 +168,53 @@ public class AutoImport {
 
         } else if (side == "blue") {
             if (goal == 0) {
-                slauto.drive(20, -69, 180, speed, callback);
+                slauto.drive(20, -56, 180, speed, callback);
             } else if (goal == 1) {
-                slauto.drive(-4, -51, 180, speed, callback);
+                slauto.drive(-4, -38, 180, speed, callback);
             } else if (goal == 2) {
-                slauto.drive(-28, -69, 180, speed, callback);
+                slauto.drive(-28, -56, 180, speed, callback);
             }
         }
+        wobbleControl(motion, callback);
     }
 
     // Function which can be called to drive the wobble grabber to common positions
     public void wobbleControl(String motion, TeleAuto callback) {
         if (motion == "store") {
-            wobbleMotor.setTargetPosition(0);
-            wobbleMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            wobbleMotor.setPower(1);
-            while (callback.opModeIsActive() && wobbleMotor.isBusy()) sleep(10);
+            wobbleAxis1.setTargetPosition(0);
+            wobbleAxis1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            wobbleAxis1.setPower(1);
+            while (callback.opModeIsActive() && wobbleAxis1.isBusy()) sleep(10);
 
-            wobbleMotor.setPower(0);
+            wobbleAxis1.setPower(0);
 
         } else if (motion == "drop") {
-            wobbleMotor.setTargetPosition(6500);
-            wobbleMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            wobbleMotor.setPower(1);
-            while (callback.opModeIsActive() && wobbleMotor.isBusy() && !armTouch.isPressed()) sleep(10);
+            wobbleAxis1.setTargetPosition(6500);
+            wobbleAxis1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            wobbleAxis1.setPower(1);
+            while (callback.opModeIsActive() && wobbleAxis1.isBusy() && !armTouch.isPressed()) sleep(10);
 
-            wobbleMotor.setPower(0);
+            wobbleAxis1.setPower(0);
             sleep(100);
-            wobbleServo.setPosition(0.5);
+            wobbleAxis2.setPosition(0.5);
             sleep(1000);
 
         } else if (motion == "raise") {
-            wobbleMotor.setTargetPosition(3050);
-            wobbleMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            wobbleMotor.setPower(1);
-            while (callback.opModeIsActive() && wobbleMotor.isBusy()) sleep(10);
+            wobbleAxis1.setTargetPosition(3050);
+            wobbleAxis1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            wobbleAxis1.setPower(1);
+            while (callback.opModeIsActive() && wobbleAxis1.isBusy()) sleep(10);
 
-            wobbleMotor.setPower(0);
-            wobbleServo.setPosition(0);
+            wobbleAxis1.setPower(0);
+            wobbleAxis2.setPosition(0);
         }
     }
 
     // Function which asynchronously deploys wobble and drives to the goal
     public void wobbleAsync(int position, double power, double speed, String side, int goal, SimpleSlamra slauto, TeleAuto callback) {
-        wobbleMotor.setTargetPosition(position);
-        wobbleMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        wobbleMotor.setPower(power);
+        wobbleAxis1.setTargetPosition(position);
+        wobbleAxis1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        wobbleAxis1.setPower(power);
 
         if (side == "red") {
             if (goal == 0) {
@@ -129,20 +227,20 @@ public class AutoImport {
 
         } else if (side == "blue") {
             if (goal == 0) {
-                slauto.drive(18, -68, 180, speed, callback);
+                slauto.drive(20, -53, 180, speed, callback);
             } else if (goal == 1) {
-                slauto.drive(-6, -49, 180, speed, callback);
+                slauto.drive(-4, -35, 180, speed, callback);
             } else if (goal == 2) {
-                slauto.drive(-30, -68, 180, speed, callback);
+                slauto.drive(-28, -53, 180, speed, callback);
             }
         }
     }
 
     // Function used for the second wobble, if there is one. It places it slightly away from the first
     public void wobbleAsyncSecond(int position, double power, double speed, int goal, SimpleSlamra slauto, TeleAuto callback) {
-        wobbleMotor.setTargetPosition(position);
-        wobbleMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        wobbleMotor.setPower(power);
+        wobbleAxis1.setTargetPosition(position);
+        wobbleAxis1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        wobbleAxis1.setPower(power);
 
         if (goal == 0) {
             slauto.drive(35, 53, 180, speed, 0, callback, false, true);
@@ -157,26 +255,26 @@ public class AutoImport {
 
     // Function which simply drives the wobble grabber to a set position, asynchronously
     public void wobbleManual(int position, double power) {
-        wobbleMotor.setTargetPosition(position);
-        wobbleMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        wobbleMotor.setPower(power);
+        wobbleAxis1.setTargetPosition(position);
+        wobbleAxis1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        wobbleAxis1.setPower(power);
     }
 
     // Function which simply sets the position of the wobble grabber servo, once the wobble grabber isnt moving.
     public void wobbleMove(boolean down, TeleAuto callback, Telemetry telemetry) {
         ElapsedTime timeout = new ElapsedTime();
-        while (callback.opModeIsActive() && wobbleMotor.isBusy() && timeout.seconds() < 4 && !armTouch.isPressed()) {
+        while (callback.opModeIsActive() && wobbleAxis1.isBusy() && timeout.seconds() < 4 && !armTouch.isPressed()) {
             sleep(10);
-            telemetry.addData("encoder", wobbleMotor.getCurrentPosition());
+            telemetry.addData("encoder", wobbleAxis1.getCurrentPosition());
         }
         if (down) {
-            wobbleMotor.setPower(0);
+            wobbleAxis1.setPower(0);
             sleep(100);
-            wobbleServo.setPosition(0.5);
+            wobbleAxis2.setPosition(0.5);
         } else {
-            wobbleMotor.setPower(0);
+            wobbleAxis1.setPower(0);
             sleep(100);
-            wobbleServo.setPosition(0);
+            wobbleAxis2.setPosition(0);
         }
     }
 
@@ -209,15 +307,6 @@ public class AutoImport {
             System.out.println("Active Rings: NONE");
         }
         return activeGoal;
-    }
-
-    // A class-side sleep function
-    private void sleep(long milliseconds) {
-        try {
-            Thread.sleep(milliseconds);
-        } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
-        }
     }
 }
 

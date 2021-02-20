@@ -1,3 +1,5 @@
+// This was out first attempt at making a camera driving system. It does not work, and is outdated.
+
 package org.firstinspires.ftc.teamcode.vslamcentric;
 
 import com.acmerobotics.dashboard.FtcDashboard;
@@ -13,7 +15,7 @@ import com.spartronics4915.lib.T265Camera;
 import static java.lang.Math.PI;
 
 @Disabled
-@Autonomous(name="BADSCAuto", group="Autonomous")
+@Autonomous(name="OldSCAuto", group="Autonomous")
 public class SlamraDrive extends LinearOpMode implements TeleAuto {
 
     private DcMotor fl = null;

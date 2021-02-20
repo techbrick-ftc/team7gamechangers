@@ -1,60 +1,23 @@
+// Our primary teleop program, utilizing FieldCentric.java
+
 package org.firstinspires.ftc.teamcode.drivercontrol;
 
-import android.text.method.Touch;
-
-import com.acmerobotics.dashboard.FtcDashboard;
-import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
-import com.arcrobotics.ftclib.geometry.Pose2d;
-import com.arcrobotics.ftclib.geometry.Rotation2d;
-import com.arcrobotics.ftclib.geometry.Transform2d;
-import com.arcrobotics.ftclib.geometry.Translation2d;
-import com.qualcomm.hardware.bosch.BNO055IMU;
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.exception.RobotCoreException;
-import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorEx;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Gamepad;
-import com.qualcomm.robotcore.hardware.Servo;
-import com.qualcomm.robotcore.hardware.TouchSensor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
-import com.spartronics4915.lib.T265Camera;
-
-import org.firstinspires.ftc.teamcode.vslamcam.SimpleSlamra;
-import org.firstinspires.ftc.teamcode.zimportants.GlobalVars;
-import org.firstinspires.ftc.teamcode.zimportants.TeleAuto;
-import org.firstinspires.ftc.teamcode.zimportants.GlobalSlamra;
 import org.firstinspires.ftc.teamcode.zimportants.AutoImport;
 
 @TeleOp(name="Main", group="Mechanum")
-public class MainTele extends LinearOpMode implements TeleAuto{
+public class MainTele extends AutoImport{
 
-    FtcDashboard dashboard = FtcDashboard.getInstance();
-    TelemetryPacket packet = new TelemetryPacket();
-
-    SimpleSlamra slauto = new SimpleSlamra();
-    AutoImport auto = new AutoImport();
-
-    private ElapsedTime runtime = new ElapsedTime();
-    private DcMotor fl = null;
-    private DcMotor fr = null;
-    private DcMotor rl = null;
-    private DcMotor rr = null;
-
-    private DcMotor wobbleAxis1 = null;
-    private Servo wobbleAxis2 = null;
-    private DcMotor intake1 = null;
-    private DcMotor intake2 = null;
-    private DcMotorEx shooter = null;
-    private Servo shooterServo = null;
-    private CRServo tapeMeasure = null;
-    private TouchSensor armTouch = null;
+    public MainTele() {
+        super(0, 0, 0, 0);
+    }
 
     FieldCentric drive = new FieldCentric();
-    private BNO055IMU imu = null;
 
     private int shooterTPS = -1540;
 
@@ -63,6 +26,8 @@ public class MainTele extends LinearOpMode implements TeleAuto{
     }
 
     public void runOpMode() {
+        super.runOpMode();
+
         int loops = 0;
         ElapsedTime launchServoTime = null;
 
@@ -70,43 +35,9 @@ public class MainTele extends LinearOpMode implements TeleAuto{
         telemetry.addLine("hardware ready");
         telemetry.update();
 
-        // configures hardware
-        fl = hardwareMap.get(DcMotor.class, "fl");
-        fr = hardwareMap.get(DcMotor.class, "fr");
-        rl = hardwareMap.get(DcMotor.class, "rl");
-        rr = hardwareMap.get(DcMotor.class, "rr");
-
-        wobbleAxis1 = hardwareMap.get(DcMotor.class, "wobble_axis_1");
-        wobbleAxis2 = hardwareMap.get(Servo.class, "wobble_axis_2");
-        intake1 = hardwareMap.get(DcMotor.class, "intake_1");
-        intake2 = hardwareMap.get(DcMotor.class, "intake_2");
-        shooter = hardwareMap.get(DcMotorEx.class, "shooter");
-        shooterServo = hardwareMap.get(Servo.class, "shooter_servo");
-        tapeMeasure = hardwareMap.get(CRServo.class, "tape_measure");
-        armTouch = hardwareMap.get(TouchSensor.class, "arm_touch");
-
-        imu = hardwareMap.get(BNO055IMU.class, "imu");
-        imu.initialize(new BNO055IMU.Parameters());
-
-        intake2.setDirection(DcMotorSimple.Direction.REVERSE);
-
-        wobbleAxis1.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        wobbleAxis1.setDirection(DcMotorSimple.Direction.REVERSE);
-
-        shooter.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        shooter.setDirection(DcMotorSimple.Direction.REVERSE);
-
-        fr.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        fl.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        rl.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        rr.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-
-        fr.setDirection(DcMotorSimple.Direction.REVERSE);
-        fl.setDirection(DcMotorSimple.Direction.REVERSE);
-
         // Defines motor configs
         final double PI = Math.PI;
-        DcMotor[] motors = {fr, rr, rl, fl};
+        DcMotor[] motors = {m1, m2, m3, m4};
         double[] motorAngles = {3*PI/4, 5*PI/4, 7*PI/4, PI/4};
 
         // Sets up motor configs
@@ -127,20 +58,8 @@ public class MainTele extends LinearOpMode implements TeleAuto{
         // Configures Variables
         boolean axis2Switch = false;
         boolean intakeSwitch = false;
-
-        // Anything that moves in init
-        shooterServo.setPosition(1);
-        wobbleAxis2.setPosition(0);
-
-        // initializes slamra
-        Transform2d cameraToRobot = new Transform2d(new Translation2d(6 * 0.0254, 7 * 0.0254), Rotation2d.fromDegrees(-90));
-        Pose2d startingPose = new Pose2d(new Translation2d(31 * 0.0254, -56 * 0.0254), Rotation2d.fromDegrees(90));
-        GlobalSlamra.startCamera(hardwareMap, cameraToRobot, startingPose);
-
+        
         waitForStart();
-
-        slauto.setUp(motors, imu, telemetry);
-        auto.setUp(shooter, shooterServo, wobbleAxis2, wobbleAxis1, tapeMeasure, intake1, intake2, armTouch);
 
         // Robot Control
         while(opModeIsActive()) {
@@ -222,7 +141,7 @@ public class MainTele extends LinearOpMode implements TeleAuto{
             if (cur1.x) {
                 shooter.setVelocity(-1500);
                 slauto.drive(2, 39, 0, 1, this);
-                auto.shoot(-1500, 3, 0, 500, true);
+                shoot(-1500, 3, 0, 500, true);
             }
 
             // Drive to Power Shots
@@ -232,15 +151,15 @@ public class MainTele extends LinearOpMode implements TeleAuto{
 
                 // drives to first power shot and shoots
                 slauto.drive(-4, 23, 0, 1, this);
-                auto.shoot(-1350, 1, 0, 100, false);
+                shoot(-1350, 1, 0, 100, false);
 
                 // drives to second power shot and shoots
                 slauto.drive(-4, 17, 0, 1, this);
-                auto.shoot(-1310, 1, 0, 100, false);
+                shoot(-1310, 1, 0, 100, false);
 
                 // drives to third power shot and shoots
                 slauto.drive(-4, 10, 0, 1, this);
-                auto.shoot(-1310, 1, 0, 100, true);
+                shoot(-1310, 1, 0, 100, true);
             }
 
             // Reset Field Centric button
@@ -270,10 +189,10 @@ public class MainTele extends LinearOpMode implements TeleAuto{
 
             // Send FTC Dashboard Packets
             packet.put("loop count", loops);
-            packet.put("fr power", fr.getPower());
-            packet.put("fl power", fl.getPower());
-            packet.put("rr power", rr.getPower());
-            packet.put("rl power", rl.getPower());
+            packet.put("fr power", m1.getPower());
+            packet.put("fl power", m4.getPower());
+            packet.put("rr power", m2.getPower());
+            packet.put("rl power", m3.getPower());
             dashboard.sendTelemetryPacket(packet);
 
             telemetry.addData("wobble encoder", wobbleAxis1.getCurrentPosition());

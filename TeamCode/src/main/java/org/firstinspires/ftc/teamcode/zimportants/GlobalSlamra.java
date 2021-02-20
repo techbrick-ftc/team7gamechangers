@@ -1,3 +1,6 @@
+// We handle the T265 as a singleton, making it possible to access between op mode runs without a
+// robot reset.
+
 package org.firstinspires.ftc.teamcode.zimportants;
 
 import com.arcrobotics.ftclib.geometry.Pose2d;

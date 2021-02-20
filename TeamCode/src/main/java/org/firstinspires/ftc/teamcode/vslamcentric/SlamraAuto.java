@@ -1,3 +1,5 @@
+// This was out first attempt at making a camera driving system. It does not work, and is outdated.
+
 package org.firstinspires.ftc.teamcode.vslamcentric;
 
 // Setting up importations

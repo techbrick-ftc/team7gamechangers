@@ -1,3 +1,6 @@
+// This is a program from pietroglyph's T265 repo. It shows the robot's believed position on the ftc
+// dashboard field, and is useful for debugging.
+
 package org.firstinspires.ftc.teamcode.vslamcentric;
 
 import com.acmerobotics.dashboard.FtcDashboard;
