@@ -20,8 +20,6 @@ public class FieldCentric {
     private BNO055IMU imu;
     private double offsetAngle = 0;
 
-    private double[] wheelPowers;
-
     public void setUp(DcMotor[] motors, double[] wheelAngles, BNO055IMU imu) throws Exception {
         // Check if we have angles for every motor, and vice versa
         if (motors.length != wheelAngles.length) {
@@ -30,7 +28,6 @@ public class FieldCentric {
 
         this.motors = motors;
         this.wheelAngles = wheelAngles;
-        this.wheelPowers = new double[motors.length];
         this.imu = imu;
 
         getAngle();
@@ -98,10 +95,10 @@ public class FieldCentric {
             Get the angle of the wheel and subtract the newTheta (because newTheta is clockwise and
             math is counter-clockwise)
          */
-        for (int i = 0; i < motors.length; i++) {
-            motors[i].setPower(Math.sin(wheelAngles[i] - newTheta) * r + (turn / 1.2));
-            wheelPowers[i] = motors[i].getPower();
-        }
+        motors[0].setPower(-(Math.sin(wheelAngles[0] - newTheta) * r + (turn / 1.2)));
+        motors[1].setPower(Math.sin(wheelAngles[1] - newTheta) * r + (turn / 1.2));
+        motors[2].setPower(Math.sin(wheelAngles[2] - newTheta) * r + (turn / 1.2));
+        motors[3].setPower(-(Math.sin(wheelAngles[3] - newTheta) * r + (turn / 1.2)));
     }
 
     public void newOffset() {

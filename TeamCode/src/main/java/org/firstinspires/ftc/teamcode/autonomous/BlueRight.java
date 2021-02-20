@@ -52,6 +52,10 @@ public class BlueRight extends LinearOpMode implements TeleAuto {
     // vars used in program
     private int activeGoal;
 
+    public boolean driverAbort() {
+        return false;
+    }
+
     public void runOpMode() {
         // configures hardware
         m4 = hardwareMap.get(DcMotor.class, "fl");
@@ -72,7 +76,7 @@ public class BlueRight extends LinearOpMode implements TeleAuto {
         shooter = hardwareMap.get(DcMotorEx.class, "shooter");
         shooterServo = hardwareMap.get(Servo.class, "shooter_servo");
         //tapeMeasure = hardwareMap.get(CRServo.class, "tape_measure");
-        armTouch = hardwareMap.get(TouchSensor.class, "arm_touch");
+        //armTouch = hardwareMap.get(TouchSensor.class, "arm_touch");
 
         wobbleAxis1.setDirection(DcMotorSimple.Direction.REVERSE);
 

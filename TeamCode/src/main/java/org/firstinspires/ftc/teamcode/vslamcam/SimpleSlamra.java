@@ -53,8 +53,8 @@ public class SimpleSlamra {
 
     // Function which is used to update the angle of the robot, used by the drive function
     private void getAngle() {
-        currentRadian = wrapRadians(imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.RADIANS).firstAngle - startingRadian);
-        currentDegree = wrap(imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle - startingDegree);
+        /*currentRadian = wrapRadians(imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.RADIANS).firstAngle - startingRadian);
+        currentDegree = wrap(imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle - startingDegree);*/
     }
 
     public void drive(double targetX, double targetY, double targetDegree, double speed, TeleAuto callback) {
@@ -194,6 +194,11 @@ public class SimpleSlamra {
         currentY = pose.getX();
         rotation = up.pose.getRotation();
         confidence = up.confidence;
+
+        // Saves the robot's current position
+        currentRadian = rotation.getRadians();
+        currentDegree = rotation.getDegrees();
+
         return true;
     }
 

@@ -101,6 +101,9 @@ public class MainTele extends LinearOpMode implements TeleAuto{
         rl.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         rr.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
+        fr.setDirection(DcMotorSimple.Direction.REVERSE);
+        fl.setDirection(DcMotorSimple.Direction.REVERSE);
+
         // Defines motor configs
         final double PI = Math.PI;
         DcMotor[] motors = {fr, rr, rl, fl};
