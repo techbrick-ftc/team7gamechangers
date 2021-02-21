@@ -13,17 +13,19 @@ public class RedLeft extends AutoImport {
 
         if (opModeIsActive()) {
             // drives to shooting position and shoots 3 rings
-            shooter.setVelocity(-1500);
-            slauto.drive(9, 24, 0, 1, 0, this, false, true);
+            if (activeGoal != 0) { slauto.drive(9, 27, 0, 1, 0, this, false, true); }
             slauto.drive(2, 39, 0, 1, this);
-            shoot(-1500, 3, 0, 500, true);
+            shoot(-1500, 3, 1000, 500, true);
 
             // drives to wobble goal and drops, before raising again
-            wobbleSync(1, "red", activeGoal, "drop", slauto, this);
-            wobbleControl("store", this);
+            wobbleAsync(6500, 1, 1, "red", activeGoal, slauto, this);
+            wobbleMove(true, this, telemetry);
+            sleep(1000);
+            wobbleManual(3050, 1);
+            sleep(200);
 
             // parks at middle of field
-            slauto.drive(-10, 15, -90, 1, this);
+            slauto.drive(-6, 15, -90, 1, this);
         }
     }
 }

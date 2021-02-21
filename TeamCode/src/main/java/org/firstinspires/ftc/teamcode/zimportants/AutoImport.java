@@ -159,11 +159,11 @@ public class AutoImport extends LinearOpMode implements TeleAuto {
     public void wobbleSync(double speed, String side, int goal, String motion, SimpleSlamra slauto, TeleAuto callback) {
         if (side == "red") {
             if (goal == 0) {
-                slauto.drive(20, 69, 180, speed, callback);
+                slauto.drive(20, 64, 180, speed, callback);
             } else if (goal == 1) {
-                slauto.drive(-4, 51, 180, speed, callback);
+                slauto.drive(-4, 46, 180, speed, callback);
             } else if (goal == 2) {
-                slauto.drive(-28, 69, 180, speed, callback);
+                slauto.drive(-28, 64, 180, speed, callback);
             }
 
         } else if (side == "blue") {
@@ -218,20 +218,20 @@ public class AutoImport extends LinearOpMode implements TeleAuto {
 
         if (side == "red") {
             if (goal == 0) {
-                slauto.drive(18, 70, 180, speed, callback);
+                slauto.drive(20, 64, 180, speed, callback);
             } else if (goal == 1) {
-                slauto.drive(-6, 51, 180, speed, callback);
+                slauto.drive(-4, 46, 180, speed, callback);
             } else if (goal == 2) {
-                slauto.drive(-30, 70, 180, speed, callback);
+                slauto.drive(-28, 64, 180, speed, callback);
             }
 
         } else if (side == "blue") {
             if (goal == 0) {
-                slauto.drive(20, -50, 180, speed, callback);
+                slauto.drive(20, -46, 180, speed, callback);
             } else if (goal == 1) {
-                slauto.drive(-4, -32, 180, speed, callback);
+                slauto.drive(-4, -28, 180, speed, callback);
             } else if (goal == 2) {
-                slauto.drive(-28, -50, 180, speed, callback);
+                slauto.drive(-28, -46, 180, speed, callback);
             }
         }
     }
