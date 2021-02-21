@@ -8,8 +8,8 @@ import org.firstinspires.ftc.teamcode.zimportants.AutoImport;
 public class BlueLeft extends AutoImport {
 
     public BlueLeft() {
-        super(-19, -56, 35, 150);
-    } // Needs to be configured
+        super(-42, -56, 240, 150);
+    }
 
     public void runOpMode() {
         super.runOpMode();

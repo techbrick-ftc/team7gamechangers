@@ -6,7 +6,7 @@ import org.firstinspires.ftc.teamcode.zimportants.AutoImport;
 @Autonomous(name="RedRight", group="Red")
 public class RedRight extends AutoImport {
 
-    public RedRight() { super(55, -56, 275, 150); }
+    public RedRight() { super(53, -56, 25, 150); }
 
     public void runOpMode() {
         super.runOpMode();

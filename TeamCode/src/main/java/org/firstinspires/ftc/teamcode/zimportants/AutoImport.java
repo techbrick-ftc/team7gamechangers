@@ -227,11 +227,11 @@ public class AutoImport extends LinearOpMode implements TeleAuto {
 
         } else if (side == "blue") {
             if (goal == 0) {
-                slauto.drive(20, -53, 180, speed, callback);
+                slauto.drive(20, -50, 180, speed, callback);
             } else if (goal == 1) {
-                slauto.drive(-4, -35, 180, speed, callback);
+                slauto.drive(-4, -32, 180, speed, callback);
             } else if (goal == 2) {
-                slauto.drive(-28, -53, 180, speed, callback);
+                slauto.drive(-28, -50, 180, speed, callback);
             }
         }
     }

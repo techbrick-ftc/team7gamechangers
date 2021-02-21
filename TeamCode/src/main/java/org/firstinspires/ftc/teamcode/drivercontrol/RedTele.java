@@ -10,10 +10,10 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 import org.firstinspires.ftc.teamcode.zimportants.AutoImport;
 
-@TeleOp(name="Main", group="Mechanum")
-public class MainTele extends AutoImport{
+@TeleOp(name="RedTele", group="Main")
+public class RedTele extends AutoImport{
 
-    public MainTele() {
+    public RedTele() {
         super(0, 0, 0, 0);
     }
 
@@ -21,6 +21,7 @@ public class MainTele extends AutoImport{
 
     private int shooterTPS = -1540;
 
+    // Tells auto class if the abort button (for automatically shooting rings) had been pressed
     public boolean driverAbort() {
         return gamepad1.y;
     }
@@ -141,7 +142,7 @@ public class MainTele extends AutoImport{
             if (cur1.x) {
                 shooter.setVelocity(-1500);
                 slauto.drive(2, 39, 0, 1, this);
-                shoot(-1500, 3, 0, 500, true);
+                if (!this.driverAbort()) { shoot(-1500, 3, 0, 500, true); }
             }
 
             // Drive to Power Shots
@@ -151,15 +152,17 @@ public class MainTele extends AutoImport{
 
                 // drives to first power shot and shoots
                 slauto.drive(-4, 23, 0, 1, this);
-                shoot(-1350, 1, 0, 100, false);
+                if (!this.driverAbort()) {
+                    shoot(-1350, 1, 0, 100, false);
 
-                // drives to second power shot and shoots
-                slauto.drive(-4, 17, 0, 1, this);
-                shoot(-1310, 1, 0, 100, false);
+                    // drives to second power shot and shoots
+                    slauto.drive(-4, 17, 0, 1, this);
+                    shoot(-1310, 1, 0, 100, false);
 
-                // drives to third power shot and shoots
-                slauto.drive(-4, 10, 0, 1, this);
-                shoot(-1310, 1, 0, 100, true);
+                    // drives to third power shot and shoots
+                    slauto.drive(-4, 9, 0, 1, this);
+                    shoot(-1310, 1, 0, 100, true);
+                }
             }
 
             // Reset Field Centric button
@@ -193,6 +196,7 @@ public class MainTele extends AutoImport{
             packet.put("fl power", m4.getPower());
             packet.put("rr power", m2.getPower());
             packet.put("rl power", m3.getPower());
+            packet.put("arm sensor", armTouch.isPressed());
             dashboard.sendTelemetryPacket(packet);
 
             telemetry.addData("wobble encoder", wobbleAxis1.getCurrentPosition());

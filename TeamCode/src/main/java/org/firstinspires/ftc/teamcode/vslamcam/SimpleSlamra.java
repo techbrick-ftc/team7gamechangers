@@ -34,7 +34,6 @@ public class SimpleSlamra {
     private Telemetry telemetry;
     private double startingRadian;
     private double startingDegree;
-;
 
     private double[] wheelPowers;
 
@@ -68,7 +67,8 @@ public class SimpleSlamra {
             // Updates position variables
             if (!getPosition()) continue;
 
-            // Calculates the current difference between the target and current positions (the distance between them)
+            // Calculates the current difference between the target and current positions (or the
+            // distance between them)
             double diffX = targetX - currentX;
             double diffY = targetY - currentY;
             double diffAngle = wrap(targetDegree - currentDegree);
@@ -124,6 +124,7 @@ public class SimpleSlamra {
             // Lowers wheel powers as it approaches target position
             double newSpeed = speed;
             if (doSlow) {
+                doAccel = false;
                 newSpeed *= clamp(0.3, 1, diffAvg / 10);
             }
 
@@ -243,9 +244,10 @@ public class SimpleSlamra {
         packet.put("diffY", diffY);
         packet.put("angle (degrees)", currentDegree);
         packet.put("angle (radians)", currentRadian);
-        for (int i = 0; i < wheelPowers.length; i++) {
-            packet.put("Motor " + i + " Power", wheelPowers[i]);
-        }
+        packet.put("m1 power", motors[0].getPower());
+        packet.put("m2 power", motors[1].getPower());
+        packet.put("m3 power", motors[2].getPower());
+        packet.put("m4 power", motors[3].getPower());
         dashboard.sendTelemetryPacket(packet);
     }
 
