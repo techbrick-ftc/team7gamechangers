@@ -31,11 +31,11 @@ public class AutoImport extends LinearOpMode implements TeleAuto {
     protected DcMotor wobbleAxis1 = null;
     protected Servo wobbleAxis2 = null;
     protected DcMotor intake1 = null;
-    protected DcMotor intake2 = null;
     protected DcMotorEx shooter = null;
     protected Servo shooterServo = null;
     protected CRServo tapeMeasure = null;
     protected TouchSensor armTouch = null;
+    protected Servo ringLock = null;
 
     protected SimpleSlamra slauto = new SimpleSlamra();
     protected EasyOpenCVImportable camera = new EasyOpenCVImportable();
@@ -78,14 +78,13 @@ public class AutoImport extends LinearOpMode implements TeleAuto {
         wobbleAxis1 = hardwareMap.get(DcMotor.class, "wobble_axis_1");
         wobbleAxis2 = hardwareMap.get(Servo.class, "wobble_axis_2");
         intake1 = hardwareMap.get(DcMotor.class, "intake_1");
-        intake2 = hardwareMap.get(DcMotor.class, "intake_2");
         shooter = hardwareMap.get(DcMotorEx.class, "shooter");
         shooterServo = hardwareMap.get(Servo.class, "shooter_servo");
         tapeMeasure = hardwareMap.get(CRServo.class, "tape_measure");
         armTouch = hardwareMap.get(TouchSensor.class, "arm_touch");
+        ringLock = hardwareMap.get(Servo.class, "ring_lock");
 
         wobbleAxis1.setDirection(DcMotorSimple.Direction.REVERSE);
-        intake2.setDirection(DcMotorSimple.Direction.REVERSE);
         shooter.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         shooter.setDirection(DcMotorSimple.Direction.REVERSE);
 
@@ -145,8 +144,10 @@ public class AutoImport extends LinearOpMode implements TeleAuto {
         shooter.setVelocity(tps);
         sleep(rev);
         for (int i = 0; i < amount; i++) {
+            ringLock.setPosition(0.4);
             shooterServo.setPosition(0.3);
             sleep(300);
+            ringLock.setPosition(0.95);
             shooterServo.setPosition(1);
             sleep(delay);
         }
@@ -279,9 +280,18 @@ public class AutoImport extends LinearOpMode implements TeleAuto {
     }
 
     // Function which can be used to set both of the intake motors' speeds
-    public void intakeControl(double power) {
-        intake1.setPower(power);
-        intake2.setPower(power);
+    public void intakeControl(String direction) {
+        if (direction.equals("in")) {
+            ringLock.setPosition(-1);
+            intake1.setPower(-1);
+        } else if (direction.equals("out")) {
+            ringLock.setPosition(-1);
+            intake1.setPower(1);
+        } else {
+            ringLock.setPosition(1);
+            intake1.setPower(0);
+        }
+
     }
 
     // Function which can be used to extend the tape measure for a specified time

@@ -21,11 +21,11 @@ public class RedSingle extends AutoImport {
             if (activeGoal == 1) {
                 // picks up single ring
                 slauto.drive(0, 43, 0, 1, this);
-                intakeControl(-1);
+                intakeControl("in");
                 slauto.drive(16, 43, 0, 1, this);
                 sleep(1000);
 
-                intakeControl(0); // turns off intake
+                intakeControl("off"); // turns off intake
 
                 // drives to shooting position
                 shooter.setVelocity(-1500);
@@ -40,10 +40,10 @@ public class RedSingle extends AutoImport {
                 slauto.drive(4, 43, 0, 1, this);
                 slauto.drive(10, 43, 0, 1, 0, this, false, false);
                 slauto.drive(7, 43, 0, 1, 0, this, false, false);
-                intakeControl(1);
+                intakeControl("in");
                 slauto.drive(30, 43, 0, 1, 5, this, true, true);
                 sleep(1000);
-                intakeControl(-0);
+                intakeControl("off");
 
                 // drives to shooting position and shoots
                 shooter.setVelocity(-1500);

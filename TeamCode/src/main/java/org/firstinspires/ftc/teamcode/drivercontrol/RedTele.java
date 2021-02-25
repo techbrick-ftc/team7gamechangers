@@ -59,6 +59,9 @@ public class RedTele extends AutoImport{
         // Configures Variables
         boolean axis2Switch = false;
         boolean intakeSwitch = false;
+
+        // Things that move in init
+        ringLock.setPosition(1);
         
         waitForStart();
 
@@ -99,16 +102,16 @@ public class RedTele extends AutoImport{
 
             // Intake Control
             if (cur2.right_bumper && !prev2.right_bumper && !intakeSwitch) {
+                ringLock.setPosition(0.95);
                 intake1.setPower(1);
-                intake2.setPower(1);
                 intakeSwitch = true;
             } else if (cur2.right_bumper && !prev2.right_bumper && intakeSwitch) {
+                ringLock.setPosition(0.95);
                 intake1.setPower(0);
-                intake2.setPower(0);
                 intakeSwitch = false;
             } else if (gamepad2.left_bumper) {
+                ringLock.setPosition(-1);
                 intake1.setPower(-1);
-                intake2.setPower(-1);
                 intakeSwitch = true;
             }
 
@@ -122,10 +125,12 @@ public class RedTele extends AutoImport{
             // Shooter Servo Control
             if (launchServoTime == null && cur2.a && !prev2.a) {
                 launchServoTime = new ElapsedTime();
+                ringLock.setPosition(0.4);
                 shooterServo.setPosition(0.3);
             } else if (launchServoTime != null && launchServoTime.milliseconds() > 600) {
                 launchServoTime = null;
             } else if (launchServoTime != null && launchServoTime.milliseconds() > 300) {
+                ringLock.setPosition(0.95);
                 shooterServo.setPosition(1);
             }
 

@@ -76,7 +76,7 @@ public class SimpleSlamra {
             double diffAvg = (abs(diffX) + abs(diffY) + (abs(diffAngle) / 6)) / 3;
 
             // Stops robot and ends the loop if the target positions and angle had been completed
-            if (doSlow && abs(diffX) < 0.5 && abs(diffY) < 0.5 && abs(diffAngle) < 2) {
+            if (doSlow && abs(diffX) < 1 && abs(diffY) < 1 && abs(diffAngle) < 2) {
                 System.out.println("Breaking out of Loop");
                 halt();
                 break;
