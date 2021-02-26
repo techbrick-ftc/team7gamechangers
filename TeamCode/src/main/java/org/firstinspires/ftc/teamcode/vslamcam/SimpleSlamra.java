@@ -222,7 +222,7 @@ public class SimpleSlamra {
         motor.setPower(targetPower);
     }
 
-    // Function which updates all telemetry
+    // Function which handle all telemetry
     private void telemetryUpdate(double currentX, double currentY, double diffX, double diffY, double newSpeed) {
         telemetry.addData("Current X", currentX);
         telemetry.addData("Current Y", currentY);
@@ -251,6 +251,7 @@ public class SimpleSlamra {
         dashboard.sendTelemetryPacket(packet);
     }
 
+    // Angle wrap functions
     private double wrap(double theta) {
         double newTheta = theta;
         while(abs(newTheta) > 180) {
@@ -273,14 +274,6 @@ public class SimpleSlamra {
             }
         }
         return newTheta;
-    }
-
-    private void sleep(long milliseconds) {
-        try {
-            Thread.sleep(milliseconds);
-        } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
-        }
     }
 }
 

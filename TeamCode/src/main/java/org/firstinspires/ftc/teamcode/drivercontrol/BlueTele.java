@@ -146,26 +146,21 @@ public class BlueTele extends AutoImport{
 
             // Drive to High Shots
             if (cur1.x) {
-                shooter.setVelocity(-1500);
-                slauto.drive(2, -32, 0, 1, this);
-                if (!this.driverAbort()) { shoot(-1500, 3, 0, 500, true); }
+                intake1.setPower(0);
+                shooter.setVelocity(-1550);
+                slauto.drive(-3, -6, 19, 1, this);
+                if (!this.driverAbort()) { shoot(-1550, 3, 0, 500, true); }
             }
 
             // Drive to Power Shots
             if (cur1.b) {
-                // spins up flywheel
-                shooter.setVelocity(-1350); // orig -1350
-
-                // drives to first power shot and shoots
+                intake1.setPower(0);
+                shooter.setVelocity(-1350);
                 slauto.drive(-4, 23, 0, 1, this);
                 if (!this.driverAbort()) {
                     shoot(-1350, 1, 0, 100, false);
-
-                    // drives to second power shot and shoots
                     slauto.drive(-4, 17, 0, 1, this);
                     shoot(-1310, 1, 0, 100, false);
-
-                    // drives to third power shot and shoots
                     slauto.drive(-4, 10, 0, 1, this);
                     shoot(-1310, 1, 0, 100, true);
                 }
