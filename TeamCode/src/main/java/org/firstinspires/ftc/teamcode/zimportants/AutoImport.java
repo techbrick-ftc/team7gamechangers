@@ -145,6 +145,7 @@ public class AutoImport extends LinearOpMode implements TeleAuto {
         sleep(rev);
         for (int i = 0; i < amount; i++) {
             ringLock.setPosition(0.4);
+            sleep(200);
             shooterServo.setPosition(0.3);
             sleep(300);
             ringLock.setPosition(0.95);
@@ -219,11 +220,11 @@ public class AutoImport extends LinearOpMode implements TeleAuto {
 
         if (side == "red") {
             if (goal == 0) {
-                slauto.drive(20, 64, 180, speed, callback);
+                slauto.drive(20, 66, 180, speed, callback);
             } else if (goal == 1) {
                 slauto.drive(-4, 46, 180, speed, callback);
             } else if (goal == 2) {
-                slauto.drive(-28, 64, 180, speed, callback);
+                slauto.drive(-28, 66, 180, speed, callback);
             }
 
         } else if (side == "blue") {
@@ -244,13 +245,13 @@ public class AutoImport extends LinearOpMode implements TeleAuto {
         wobbleAxis1.setPower(power);
 
         if (goal == 0) {
-            slauto.drive(35, 53, 180, speed, 0, callback, false, true);
-            slauto.drive(24, 72, 180, speed, callback);
+            slauto.drive(35, 53, -90, speed, 0, callback, false, true);
+            slauto.drive(24, 68, 180, speed, callback);
         } else if (goal == 1) {
-            slauto.drive(0, 53, 180, speed, callback);
+            slauto.drive(0, 48, 180, speed, callback);
         } else if (goal == 2) {
-            slauto.drive(-10, 53, 180, speed, 0, callback, false, true);
-            slauto.drive(-24, 72, 180, speed, 0, callback, true, false);
+            slauto.drive(-10, 53, -90, speed, 0, callback, false, true);
+            slauto.drive(-24, 68, 180, speed, callback);
         }
     }
 

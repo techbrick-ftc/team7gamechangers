@@ -146,8 +146,8 @@ public class RedTele extends AutoImport{
             // Drive to High Shots
             if (cur1.x) {
                 shooter.setVelocity(-1500);
-                slauto.drive(2, 39, 0, 1, this);
-                if (!this.driverAbort()) { shoot(-1500, 3, 0, 500, true); }
+                slauto.drive(0, 15, -18, 1, this);
+                if (!this.driverAbort()) { shoot(-1550, 3, 0, 500, true); }
             }
 
             // Drive to Power Shots
