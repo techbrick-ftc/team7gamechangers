@@ -14,7 +14,7 @@ import org.firstinspires.ftc.teamcode.zimportants.AutoImport;
 public class RedTele extends AutoImport{
 
     public RedTele() {
-        super(0, 0, 0, 0);
+        super(30, -56, 225, 150);
     }
 
     FieldCentric drive = new FieldCentric();

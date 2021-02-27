@@ -7,7 +7,7 @@ import org.firstinspires.ftc.teamcode.zimportants.AutoImport;
 @Autonomous(name="BlueSingle", group="Blue")
 public class BlueSingle extends AutoImport {
 
-    public BlueSingle() { super(-19, -56, 35, 150); }
+    public BlueSingle() { super(-19, -56, 35, 172); }
 
     public void runOpMode() {
         super.runOpMode();
@@ -25,6 +25,7 @@ public class BlueSingle extends AutoImport {
                 slauto.drive(0, -30, 0, 1, this);
                 intakeControl("in");
                 slauto.drive(17, -30, 0, 0.3, 5, this, false, true);
+                sleep(500);
                 intakeControl("off");
 
                 // drives to shooting position
@@ -42,6 +43,7 @@ public class BlueSingle extends AutoImport {
                 slauto.drive(7, -29, 0, 1, 0, this, false, false);
                 intakeControl("in");
                 slauto.drive(24, -29, 0, 0.3, 5, this, false, true);
+                sleep(500);
                 intakeControl("off");
 
                 // drives to shooting position and shoots

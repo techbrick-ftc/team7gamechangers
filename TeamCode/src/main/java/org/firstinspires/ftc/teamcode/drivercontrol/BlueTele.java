@@ -15,7 +15,7 @@ import org.firstinspires.ftc.teamcode.zimportants.AutoImport;
 public class BlueTele extends AutoImport{
 
     public BlueTele() {
-        super(0, 0, 0, 0);
+        super(-19, -56, 35, 150);
     }
 
     FieldCentric drive = new FieldCentric();
@@ -148,7 +148,7 @@ public class BlueTele extends AutoImport{
             if (cur1.x) {
                 intake1.setPower(0);
                 shooter.setVelocity(-1550);
-                slauto.drive(-3, -6, 19, 1, this);
+                slauto.drive(-1, -7, 20, 1, this);
                 if (!this.driverAbort()) { shoot(-1550, 3, 0, 500, true); }
             }
 
@@ -156,12 +156,12 @@ public class BlueTele extends AutoImport{
             if (cur1.b) {
                 intake1.setPower(0);
                 shooter.setVelocity(-1350);
-                slauto.drive(-4, 23, 0, 1, this);
+                slauto.drive(-4, -16, 0, 1, this);
                 if (!this.driverAbort()) {
                     shoot(-1350, 1, 0, 100, false);
-                    slauto.drive(-4, 17, 0, 1, this);
+                    slauto.drive(-4, -10, 0, 1, this);
                     shoot(-1310, 1, 0, 100, false);
-                    slauto.drive(-4, 10, 0, 1, this);
+                    slauto.drive(-4, -2, 0, 1, this);
                     shoot(-1310, 1, 0, 100, true);
                 }
             }

@@ -99,7 +99,7 @@ public class AutoImport extends LinearOpMode implements TeleAuto {
         telemetry.update();
 
         // initializes easyopencv
-        camera.init(EasyOpenCVImportable.CameraType.WEBCAM, hardwareMap, cameraX, cameraY, 45, 40);
+        camera.init(EasyOpenCVImportable.CameraType.WEBCAM, hardwareMap, cameraX, cameraY, 45, 18);
 
         // initializes slamra
         Transform2d cameraToRobot = new Transform2d(new Translation2d(6 * 0.0254, 7 * 0.0254), Rotation2d.fromDegrees(-90));
@@ -234,6 +234,7 @@ public class AutoImport extends LinearOpMode implements TeleAuto {
             } else if (goal == 1) {
                 slauto.drive(-4, -29, 180, speed, callback);
             } else if (goal == 2) {
+                slauto.drive(-10, -30, 90, speed, 0, callback, false, true);
                 slauto.drive(-28, -50, 180, speed, callback);
             }
         }
@@ -258,12 +259,12 @@ public class AutoImport extends LinearOpMode implements TeleAuto {
         } else if (side == "blue") {
             if (goal == 0) {
                 slauto.drive(35, -30, 90, speed, 0, callback, false, true);
-                slauto.drive(24, -50, 180, speed, callback);
+                slauto.drive(24, -53, 180, speed, callback);
             } else if (goal == 1) {
                 slauto.drive(-4, -27, 180, speed, callback);
             } else if (goal == 2) {
                 slauto.drive(-10, -30, 90, speed, 0, callback, false, true);
-                slauto.drive(-24, -50, 180, speed, callback);
+                slauto.drive(-24, -53, 180, speed, callback);
             }
         }
     }

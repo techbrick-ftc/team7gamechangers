@@ -6,7 +6,7 @@ import org.firstinspires.ftc.teamcode.zimportants.AutoImport;
 @Autonomous(name="RedSingle", group="Red")
 public class RedSingle extends AutoImport {
     
-    public RedSingle() { super(30, -56, 225, 150); }
+    public RedSingle() { super(30, -56, 225, 172); }
 
     public void runOpMode() {
         super.runOpMode();
@@ -21,9 +21,10 @@ public class RedSingle extends AutoImport {
             // does the following if there are rings on field
             if (activeGoal == 1) {
                 // picks up single ring
-                slauto.drive(0, 41, 0, 1, this);
+                slauto.drive(0, 40, 0, 1, this);
                 intakeControl("in");
-                slauto.drive(17, 41, 0, 0.3, 5, this, false, true);
+                slauto.drive(17, 40, 0, 0.3, 5, this, false, true);
+                sleep(500);
                 intakeControl("off");
 
                 // drives to shooting position
@@ -36,11 +37,12 @@ public class RedSingle extends AutoImport {
 
             } else if (activeGoal == 2) {
                 // knocks down stack of rings, and picks 3 up
-                slauto.drive(4, 41, 0, 1, this);
-                slauto.drive(10, 41, 0, 1, 0, this, false, false);
-                slauto.drive(7, 41, 0, 1, 0, this, false, false);
+                slauto.drive(4, 40, 0, 1, this);
+                slauto.drive(10, 40, 0, 1, 0, this, false, false);
+                slauto.drive(7, 40, 0, 1, 0, this, false, false);
                 intakeControl("in");
-                slauto.drive(24, 41, 0, 0.3, 5, this, false, true);
+                slauto.drive(24, 40, 0, 0.3, 5, this, false, true);
+                sleep(500);
                 intakeControl("off");
 
                 // drives to shooting position and shoots
