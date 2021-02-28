@@ -149,7 +149,7 @@ public class BlueTele extends AutoImport{
                 ElapsedTime rev = new ElapsedTime();
                 intake1.setPower(0);
                 shooter.setVelocity(-1550);
-                slauto.drive(-1, -4, 20, 1, this);
+                slauto.drive(-1, 0, 20, 1, this);
                 if (!this.driverAbort()) {
                     while (rev.milliseconds() < 1000) { sleep(10); }
                     shoot(-1550, 3, 0, 500, true);

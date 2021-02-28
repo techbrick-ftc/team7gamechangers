@@ -160,7 +160,7 @@ public class RedTele extends AutoImport{
                 ElapsedTime rev = new ElapsedTime();
                 intake1.setPower(0);
                 shooter.setVelocity(-1350);
-                slauto.drive(-4, 23, 0, 1, this);
+                slauto.drive(-4, 20, 0, 1, this);
                 if (!this.driverAbort()) {
                     while (rev.milliseconds() < 1000) { sleep(10); }
                     shoot(-1350, 1, 0, 100, false);
