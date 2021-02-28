@@ -39,7 +39,7 @@ public class BlueSingle extends AutoImport {
             } else if (activeGoal == 2) {
                 // knocks down stack of rings, and picks 3 up
                 slauto.drive(4, -29, 0, 1, this);
-                slauto.drive(10, -29, 0, 1, 0, this, false, false);
+                slauto.drive(10, -29, 0, 1, 0, this, false, false); // Knocks Stack
                 slauto.drive(7, -29, 0, 1, 0, this, false, false);
                 intakeControl("in");
                 slauto.drive(24, -29, 0, 0.3, 5, this, false, true);
@@ -47,7 +47,7 @@ public class BlueSingle extends AutoImport {
                 intakeControl("off");
 
                 // drives to shooting position and shoots
-                shooter.setVelocity(-1500);
+                shooter.setVelocity(-1600);
                 slauto.drive(2, -28, 0, 1, this);
                 shoot(-1500, 3, 0, 500, true);
                 shooter.setVelocity(0);

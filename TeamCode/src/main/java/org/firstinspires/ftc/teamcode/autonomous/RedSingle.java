@@ -38,7 +38,7 @@ public class RedSingle extends AutoImport {
             } else if (activeGoal == 2) {
                 // knocks down stack of rings, and picks 3 up
                 slauto.drive(4, 40, 0, 1, this);
-                slauto.drive(10, 40, 0, 1, 0, this, false, false);
+                slauto.drive(10, 40, 0, 1, 0, this, false, false); // Knocks Stack
                 slauto.drive(7, 40, 0, 1, 0, this, false, false);
                 intakeControl("in");
                 slauto.drive(24, 40, 0, 0.3, 5, this, false, true);
@@ -46,7 +46,7 @@ public class RedSingle extends AutoImport {
                 intakeControl("off");
 
                 // drives to shooting position and shoots
-                shooter.setVelocity(-1500);
+                shooter.setVelocity(-1600);
                 slauto.drive(2, 39, 0, 1, this);
                 shoot(-1500, 3, 0, 500, true);
                 shooter.setVelocity(0);
@@ -60,7 +60,7 @@ public class RedSingle extends AutoImport {
             sleep(200);
 
             // grabs second wobble
-            slauto.drive(27, 55, 0, 1, this);
+            slauto.drive(27, 56, 0, 1, this);
             wobbleManual(7600, 1);
             wobbleMove(false, this, telemetry);
             sleep(200);

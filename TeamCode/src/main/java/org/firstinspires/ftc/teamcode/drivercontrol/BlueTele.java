@@ -146,18 +146,24 @@ public class BlueTele extends AutoImport{
 
             // Drive to High Shots
             if (cur1.x) {
+                ElapsedTime rev = new ElapsedTime();
                 intake1.setPower(0);
                 shooter.setVelocity(-1550);
-                slauto.drive(-1, -7, 20, 1, this);
-                if (!this.driverAbort()) { shoot(-1550, 3, 0, 500, true); }
+                slauto.drive(-1, -4, 20, 1, this);
+                if (!this.driverAbort()) {
+                    while (rev.milliseconds() < 1000) { sleep(10); }
+                    shoot(-1550, 3, 0, 500, true);
+                }
             }
 
             // Drive to Power Shots
             if (cur1.b) {
+                ElapsedTime rev = new ElapsedTime();
                 intake1.setPower(0);
                 shooter.setVelocity(-1350);
                 slauto.drive(-4, -16, 0, 1, this);
                 if (!this.driverAbort()) {
+                    while (rev.milliseconds() < 1000) { sleep(10); }
                     shoot(-1350, 1, 0, 100, false);
                     slauto.drive(-4, -10, 0, 1, this);
                     shoot(-1310, 1, 0, 100, false);

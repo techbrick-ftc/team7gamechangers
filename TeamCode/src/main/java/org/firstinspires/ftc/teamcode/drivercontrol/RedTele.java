@@ -145,18 +145,24 @@ public class RedTele extends AutoImport{
 
             // Drive to High Shots
             if (cur1.x) {
+                ElapsedTime rev = new ElapsedTime();
                 intake1.setPower(0);
                 shooter.setVelocity(-1550);
                 slauto.drive(0, 15, -18, 1, this);
-                if (!this.driverAbort()) { shoot(-1550, 3, 0, 500, true); }
+                if (!this.driverAbort()) {
+                    while (rev.milliseconds() < 1000) { sleep(10); }
+                    shoot(-1550, 3, 0, 500, true);
+                }
             }
 
             // Drive to Power Shots
             if (cur1.b) {
+                ElapsedTime rev = new ElapsedTime();
                 intake1.setPower(0);
                 shooter.setVelocity(-1350);
                 slauto.drive(-4, 23, 0, 1, this);
                 if (!this.driverAbort()) {
+                    while (rev.milliseconds() < 1000) { sleep(10); }
                     shoot(-1350, 1, 0, 100, false);
                     slauto.drive(-4, 17, 0, 1, this);
                     shoot(-1310, 1, 0, 100, false);
