@@ -116,8 +116,8 @@ public class EasyOpenCVImportable {
         static final int REGION_WIDTH = width;
         static final int REGION_HEIGHT = height;
 
-        final int FOUR_RING_THRESHOLD = 140;
-        final int ONE_RING_THRESHOLD = 130;
+        final int FOUR_RING_THRESHOLD = 160;
+        final int ONE_RING_THRESHOLD = 135;
 
         Point region1_pointA = new Point(
                 REGION1_TOPLEFT_ANCHOR_POINT.x,

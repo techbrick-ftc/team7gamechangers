@@ -148,7 +148,7 @@ public class AutoImport extends LinearOpMode implements TeleAuto {
             sleep(200);
             shooterServo.setPosition(0.3);
             sleep(300);
-            ringLock.setPosition(0.95);
+            ringLock.setPosition(1);
             shooterServo.setPosition(1);
             sleep(delay);
         }
@@ -222,7 +222,7 @@ public class AutoImport extends LinearOpMode implements TeleAuto {
             if (goal == 0) {
                 slauto.drive(20, 66, 180, speed, callback);
             } else if (goal == 1) {
-                slauto.drive(-4, 46, 180, speed, callback);
+                slauto.drive(-4, 45, 180, speed, callback);
             } else if (goal == 2) {
                 slauto.drive(-28, 66, 180, speed, callback);
             }
@@ -251,7 +251,7 @@ public class AutoImport extends LinearOpMode implements TeleAuto {
                 slauto.drive(35, 53, -90, speed, 0, callback, false, true);
                 slauto.drive(24, 68, 180, speed, callback);
             } else if (goal == 1) {
-                slauto.drive(0, 48, 180, speed, callback);
+                slauto.drive(0, 50, 180, speed, callback);
             } else if (goal == 2) {
                 slauto.drive(-10, 53, -90, speed, 0, callback, false, true);
                 slauto.drive(-24, 68, 180, speed, callback);
@@ -332,6 +332,15 @@ public class AutoImport extends LinearOpMode implements TeleAuto {
             System.out.println("Active Rings: NONE");
         }
         return activeGoal;
+    }
+
+    // Function which sets encoder values to 0, and waits until they have reset
+    public void resetEnc(DcMotor motor) {
+        motor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        motor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        while (motor.getCurrentPosition() != 0) {
+            sleep(10);
+        }
     }
 }
 

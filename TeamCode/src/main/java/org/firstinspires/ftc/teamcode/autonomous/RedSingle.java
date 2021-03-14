@@ -12,6 +12,8 @@ public class RedSingle extends AutoImport {
         super.runOpMode();
 
         if (opModeIsActive()) {
+            resetEnc(wobbleAxis1);
+
             // drives to shooting position and shoots 3 rings
             shooter.setVelocity(-1600);
             if (activeGoal != 0) { slauto.drive(9, 27, 0, 1, 0, this, false, true); }
@@ -39,15 +41,14 @@ public class RedSingle extends AutoImport {
                 // knocks down stack of rings, and picks 3 up
                 slauto.drive(4, 40, 0, 1, this);
                 slauto.drive(10, 40, 0, 1, 0, this, false, false); // Knocks Stack
-                slauto.drive(7, 40, 0, 1, 0, this, false, false);
+                slauto.drive(6, 40, 0, 1, 0, this, false, false);
                 intakeControl("in");
                 slauto.drive(24, 40, 0, 0.3, 5, this, false, true);
-                sleep(500);
-                intakeControl("off");
 
                 // drives to shooting position and shoots
                 shooter.setVelocity(-1600);
                 slauto.drive(2, 39, 0, 1, this);
+                intakeControl("off");
                 shoot(-1500, 3, 0, 500, true);
                 shooter.setVelocity(0);
             }
@@ -58,9 +59,10 @@ public class RedSingle extends AutoImport {
             sleep(500);
             wobbleManual(3050, 1);
             sleep(200);
+            if (activeGoal == 0) { slauto.drive(30, 66, 180, 1, 0, this, false, true); }
 
             // grabs second wobble
-            slauto.drive(27, 56, 0, 1, this);
+            slauto.drive(28, 56, 0, 1, this);
             wobbleManual(7600, 1);
             wobbleMove(false, this, telemetry);
             sleep(200);
@@ -81,9 +83,9 @@ public class RedSingle extends AutoImport {
             // parks
             if (activeGoal == 0) {
                 slauto.drive(35, 53, 180, 1, 0, this, false, true);
-                slauto.drive(6, 51, 180, 1, this);
+                slauto.drive(6, 45, 180, 1, this);
             } else if (activeGoal == 1) {
-                slauto.drive(6, 51, 180, 1, this);
+                slauto.drive(6, 45, 180, 1, this);
             }
         }
     }

@@ -97,6 +97,7 @@ public class SimpleSlamra {
                 halt();
                 prevX = currentX; // sets prev positions
                 prevY = currentY;
+                System.out.println("Camera stopped sending data, reiterating loop");
                 continue;
             }
 

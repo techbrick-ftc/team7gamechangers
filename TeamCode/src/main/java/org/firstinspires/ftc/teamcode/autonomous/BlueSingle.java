@@ -13,6 +13,8 @@ public class BlueSingle extends AutoImport {
         super.runOpMode();
 
         if (opModeIsActive()) {
+            resetEnc(wobbleAxis1);
+
             // drives to shooting position and shoots 3 rings
             shooter.setVelocity(-1600);
             if (activeGoal != 0) { slauto.drive(9, -13, 0, 1, 0, this, false, true); }

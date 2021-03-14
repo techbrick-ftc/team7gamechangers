@@ -103,11 +103,11 @@ public class BlueTele extends AutoImport{
 
             // Intake Control
             if (cur2.right_bumper && !prev2.right_bumper && !intakeSwitch) {
-                ringLock.setPosition(0.95);
+                ringLock.setPosition(1);
                 intake1.setPower(1);
                 intakeSwitch = true;
             } else if (cur2.right_bumper && !prev2.right_bumper && intakeSwitch) {
-                ringLock.setPosition(0.95);
+                ringLock.setPosition(1);
                 intake1.setPower(0);
                 intakeSwitch = false;
             } else if (gamepad2.left_bumper) {
